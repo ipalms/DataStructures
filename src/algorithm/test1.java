@@ -2,7 +2,6 @@ package algorithm;
 
 import org.junit.Test;
 
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class test1 {
@@ -23,9 +22,7 @@ public class test1 {
 
 
     public int nthSuperUglyNumber(int n, int[] primes) {
-
-        System.out.println("         ");
-        int []dp=new int[n+1];
+        int []dp=new int[n+2];
         dp[1]=1;
         int k=primes.length;
         int []size=new int[k];
