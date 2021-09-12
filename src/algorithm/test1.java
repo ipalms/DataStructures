@@ -8,7 +8,7 @@ public class test1 {
 
     @Test
     public void test(){
-        int []a=new int[5];
+        int []a=new int[100];
         int []b=new int[]{5,1,3,2,4};
         System.arraycopy(b,0,a,1,4);
         System.out.println(Arrays.toString(a));
