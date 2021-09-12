@@ -15,7 +15,7 @@ public class test1 {
         
         
         
-        boolean is=!is;
+        boolean is=false;
     }
 
 
