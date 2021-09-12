@@ -13,8 +13,6 @@ public class test1 {
         System.arraycopy(b,0,a,1,4);
         System.out.println(Arrays.toString(a));
         boolean is=false;
-        is=!is;
-        System.out.println(is);
     }
 
 
