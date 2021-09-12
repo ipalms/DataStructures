@@ -22,7 +22,7 @@ public class test {
         all.add(c);
         all.add(e);
         all.add(f);
-        Solution solution1=new Solution();
+        Solutions solution1=new Solutions();
         System.out.println(solution1.getImportance(all,1));
     }
 }

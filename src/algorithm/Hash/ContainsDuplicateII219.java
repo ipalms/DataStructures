@@ -1,6 +1,7 @@
 package algorithm.Hash;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -18,10 +19,31 @@ import java.util.Map;
  * 输出: false
  */
 public class ContainsDuplicateII219 {
+
+    /**
+     * 类似窗口的思想--维护K个长度的非重复的set集合
+     */
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        HashSet<Integer> set = new HashSet<>();
+        for(int i = 0; i < nums.length; i++) {
+            //这个k大小范围内有重复元素
+            if(set.contains(nums[i])) {
+                return true;
+            }
+            set.add(nums[i]);
+            //移除超过k个大小范围的元素
+            if(set.size() > k) {
+                set.remove(nums[i - k]);
+            }
+        }
+        return false;
+    }
+
+
     /**
      * 返回索引不能排序，但同样可以使用哈希表
      */
-    public boolean containsNearbyDuplicate(int[] nums, int k) {
+    public boolean containsNearbyDuplicate1(int[] nums, int k) {
         Map<Integer,Integer> map=new HashMap<Integer,Integer>();
         for(int i=0;i<nums.length;i++){
             if(map.containsKey(nums[i])&&i-map.get(nums[i])<=k){
@@ -31,4 +53,6 @@ public class ContainsDuplicateII219 {
         }
         return false;
     }
+
+
 }

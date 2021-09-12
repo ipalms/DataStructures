@@ -1,10 +1,10 @@
 package algorithm.LinkedList;
 
 /**
+ * leetcode 2
  * 给出两个 非空 的链表用来表示两个非负的整数。其中,它们各自的位数是按照逆序的方式存储的，
  * 并且它们的每个节点只能存储一位数字。
  * 如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
- *
  * 您可以假设除了数字 0 之外，这两个数都不会以 0 开头。
  *
  * 示例：
@@ -26,12 +26,21 @@ public class AddTwoNumbers2 {
     }
 
     /**
+     * 链表题的两个经验
+     * 1.舍得用辅助变量，千万别想着节省变量，否则容易被逻辑绕晕
+     * 2.head有可能需要改动时，先增加一个假head（哑结点dummyHead，指向head）
+     *   返回的时候直接取假head.next，这样就不需要为修改 head 增加一大堆逻辑了。
+     */
+
+    /**
      *整合了重复操作  注意这里的链表已经逆序存储了，不需要你再次进行链表反转操作
      */
     public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         ListNode head = null, tail = null;
         int carry = 0;
         //采用并结构循环
+        //while分支使用并语句---对于已经遍历到结尾的数据进行三元运算符判断后（或特判）当作0一并处理
+        //类似两个字符串的处理或者两个链表处理会用到，如2、43、67、165（双指针分区）、455
         while (l1 != null || l2 != null) {
             //  = 的符号优先级小于三位运算符
             int n1 = l1 != null ? l1.val : 0;

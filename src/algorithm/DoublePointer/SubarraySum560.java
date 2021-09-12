@@ -25,6 +25,8 @@ public class SubarraySum560{
     /**
      * 注意题目的意思是连续的数组元素和为目标k值的情况--所以可以使用前缀和
      * 左右指针枚举--双指针解法
+     * 时间复杂度：O（N^2）
+     * 空间：O（1）
      */
     public int subarraySum(int[] nums, int k) {
         int count=0;
@@ -45,12 +47,14 @@ public class SubarraySum560{
 
     /**
      * 数组前缀和解法
+     * 时间复杂度：O（N^2）
+     * 空间：O（N）
      */
     public int subarraySum2(int[] nums, int k) {
         int count=0;
         int n=nums.length;
         int []arrayPre=new int[n+1];
-        //前0个元素和为0
+        //前0个元素和为0--这一点很重要
         arrayPre[0]=0;
         //计算数组的前缀和
         for(int i=0;i<n;i++){
@@ -68,9 +72,11 @@ public class SubarraySum560{
     }
 
     /**
-     *前缀和 + 哈希表   类似第一题的哈希解法
-     *由于只关心次数，不关心具体的解，我们可以使用哈希表加速运算
-     *对于一开始的情况，下标 0 之前没有元素，可以认为前缀和为 0，个数为 1 个
+     * 前缀和 + 哈希表   类似leetcode第一题的哈希解法
+     * 由于只关心次数，不关心具体的解，我们可以使用哈希表加速运算
+     * 对于一开始的情况，下标 0 之前没有元素，可以认为前缀和为 0，个数为 1 个
+     * 时间复杂度：O（N）
+     * 空间：O（N）
      */
     public int subarraySum3(int[] nums, int k) {
         // key：前缀和，value：key 对应的前缀和的个数

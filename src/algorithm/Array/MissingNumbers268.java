@@ -1,5 +1,7 @@
 package algorithm.Array;
 
+import org.junit.Test;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,12 +28,37 @@ import java.util.Set;
  * 解释：n = 1，因为有 1 个数字，所以所有的数字都在范围 [0,1] 内。1 是丢失的数字，因为它没有出现在 nums 中。
  */
 public class MissingNumbers268 {
-    public static void main(String[] args) {
+    @Test
+    public void test() {
        int nums[]={0,1,3,4,7,6,5};
         System.out.println(missingNumber3(nums));
     }
+
     /**
-     * 将数组视为哈希表（将数组设计成哈希表）
+     * 如果值是n，我们不做处理
+     * 哈希函数的规则特别简单，那就是数值为i的数映射到下标为i的位置。
+     */
+    public int missingNumberMy(int[] nums) {
+        int n=nums.length;
+        for(int i=0;i<n;++i){
+            int x=nums[i];
+            while(x!=n&&x!=nums[x]){
+                nums[i]=nums[x];
+                nums[x]=x;
+                x=nums[i];
+            }
+        }
+        for(int i=0;i<n;++i){
+            if(i!=nums[i]){
+                return i;
+            }
+        }
+        return n;
+    }
+
+    /**
+     * 如果值是0，我们不做处理
+     * 哈希函数的规则特别简单，那就是数值为i的数映射到下标为i-1的位置。
      */
     public static int missingNumber(int[] nums) {
         for (int i = 0; i <nums.length ; i++) {
@@ -51,8 +78,6 @@ public class MissingNumbers268 {
 
     /**
      * 使用集合set
-     * @param nums
-     * @return
      */
     public static int missingNumber2(int[] nums) {
         Set<Integer> code=new HashSet<>();
@@ -90,14 +115,29 @@ public class MissingNumbers268 {
      *    （2） 快速判断两个值是否相等
      * 　　举例1： 判断两个整数a，b是否相等，则可通过下列语句实现：
      * 　　return （（a ^ b） == 0）
-     * @param nums
-     * @return
      */
-    public static int missingNumber3(int[] nums) {
+    public int missingNumber3(int[] nums) {
          int res = nums.length;
          for(int i = 0; i < nums.length; i++){
              res ^= nums[i] ^ i;
          }
          return res;
+    }
+
+    /**
+     * 求和公式--可看作等差数列(d=1) 又可称为高斯定理
+     * 前n和：n*(n+1)/2
+     * 求出数组实际总和sum
+     * 缺失数就为前n和减去sum
+     * 需要小心数据溢出（int），可以在一个循环内加减防止数据溢出
+     */
+    public int missingNumber4(int[] nums) {
+        int n=nums.length;
+        int total=n*(n+1)/2;
+        int sum=0;
+        for(int i:nums){
+            sum+=i;
+        }
+        return total-sum;
     }
 }

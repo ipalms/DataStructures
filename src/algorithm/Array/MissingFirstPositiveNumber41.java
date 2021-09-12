@@ -1,5 +1,7 @@
 package algorithm.Array;
 
+import org.junit.Test;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -8,6 +10,7 @@ import java.util.Set;
  * 41. 缺失的第一个正数
  * 题目描述
  * 给你一个未排序的整数数组，请你找出其中没有出现的最小的正整数。
+ * 请你实现时间复杂度为 O(n) 并且只使用常数级别额外空间的解决方案
  * 示例 1:
  * 输入: [1,2,0]
  * 输出: 3
@@ -17,53 +20,34 @@ import java.util.Set;
  * 示例 3:
  * 输入: [7,8,9,11,12]
  * 输出: 1
+ * 提示：
+ * 1 <= nums.length <= 5 * 105
+ * -231 <= nums[i] <= 231 - 1
  */
 public class MissingFirstPositiveNumber41 {
-    public static void main(String[] args) {
-
-        int nums[]={-1,-2,-60,40,43};
+    @Test
+    public void test(){
+        int []nums={-1,-2,-60,40,43};
         System.out.println(firstMissingPositive(nums));
     }
 
-    /**
-     * 自己方法
-     * 采用了排序+一次遍历   时间复杂度O（N*logN）
-     * 还可以使用排序+ 二分查找算法
-     * @param nums
-     * @return
-     */
-    public static int firstMissingPositive(int[] nums) {
-         if(nums.length==0||nums==null){
-            return 1;
-        }
-        Arrays.sort(nums);
-        if(nums[0]>1||nums[nums.length-1]<0||(nums.length==1&&nums[0]<1)){
-            return 1;
-        }
-        for (int i = 1; i <nums.length ; i++) {
-            if(nums[i]<=1){
-                continue;
-            }
-            if(nums[i-1]<=0){
-                return 1;
-            }
-            if(nums[i]-nums[i-1]>1){
-                return nums[i-1]+1;
-            }
-        }
-        return nums[nums.length-1]+1;
-    }
+
     /**
      * 中心思想：
      * 实际上，对于一个长度为 N 的数组，其中没有出现的最小正整数只能在 [1, N+1]中。
      * 这是因为如果 [1, N]都出现了，那么答案是 N+1，
      * 否则答案是 [1, N]中没有出现的最小正整数。
+     * 操作核心：
+     * 如果是非正数或者大于数组的长度的值，我们不做处理
+     * 哈希函数的规则特别简单，那就是数值为i的数映射到下标为 i - 1 的位置。
      */
+
     /**
-     * 将数组视为哈希表（将数组设计成哈希表）
+     * 将数组视为哈希表（将数组设计成哈希表--原地哈希），要修改原数组
      * 类似做法题型还有  268. 丢失的数字（此题简单版）  442. 数组中重复的数据  448. 找到所有数组中消失的数字
      * 原地哈希就相当于，让数组中每个数字n都回到下标为n-1的家里。
      * 我们还可以把每个元素存放到对应的位置，比如1存放到数组的第一个位置，3存放到数组的第3个位置，
+     * 所以哈希函数的规则特别简单，那就是数值为 i 的数映射到下标为 i - 1 的位置。
      * 如果是非正数或者大于数组的长度的值，我们不做处理
      * 最后在遍历一遍数组，如果位置不正确，说明这个位置没有这个数
      */
@@ -92,7 +76,6 @@ public class MissingFirstPositiveNumber41 {
 
     /**
      * 带有详细注释的版本
-     * @param nums
      */
     public int firstMissingPositive3(int[] nums) {
         int len = nums.length;
@@ -102,7 +85,7 @@ public class MissingFirstPositiveNumber41 {
             // 1.第一次将4与3交换，形成[3,1,2,4]，明显3是"值不配位"的，也满足条件，进入新的交换
             // 2.第二次将3与2交换，形成[2,1,3,4]，明显2也是"值不配位"的，且满足条件，进入新的交换
             // 3.第三次将2与1交换，形成[1,2,3,4]，值全都配位了，后面的while也就都不会进了
-            // (此处也说明while循环不会每一次都把数组里面的所有元素都看一遍。如果有一些元素在这一次的循环中
+            // 此处也说明while循环不会每一次都把数组里面的所有元素都看一遍。如果有一些元素在这一次的循环中
             // 被交换到了它们应该在的位置，那么在后续的遍历中，由于它们已经在正确的位置上了，代码再执行到它们
             // 的时候，就会被跳过。
             while (nums[i] > 0 && nums[i] <= len && nums[nums[i] - 1] != nums[i]) {
@@ -130,8 +113,30 @@ public class MissingFirstPositiveNumber41 {
     }
 
     /**
+     * 仿写的版本
+     */
+    public int firstMissingPositive(int[] nums) {
+        int len=nums.length;
+        for(int i=0;i<len;++i){
+            int x=nums[i];
+            while(x>0&&x<=len&&nums[x-1]!=x){
+                nums[i]=nums[x-1];
+                nums[x-1]=x;
+                x=nums[i];
+            }
+        }
+        for(int i=0;i<len;++i){
+            if(i+1!=nums[i]){
+                return i+1;
+            }
+        }
+        return len+1;
+    }
+
+    /**
      * 使用集合set（哈希表结构）   使用了额外的空间
-     * 把原数组的值全部存放到集合set中，然后再从1开始循环，判断这个数是否存在集合中，如果不存在直接返回
+     * 把原数组的值全部存放到集合set中，然后再从1开始循环，判断这个数是否存在集合中
+     * 如果不存在直接返回
     */
     public int firstMissingPositive4(int[] nums) {
         int len = nums.length;
@@ -165,5 +170,32 @@ public class MissingFirstPositiveNumber41 {
             }
         }
         return nums.length + 1;
+    }
+
+    /**
+     * 自己方法
+     * 采用了排序+一次遍历   时间复杂度O（N*logN）
+     * 还可以使用排序+ 二分查找算法
+     */
+    public static int firstMissingPositive8(int[] nums) {
+        if(nums.length == 0){
+            return 1;
+        }
+        Arrays.sort(nums);
+        if(nums[0]>1||nums[nums.length-1]<0||(nums.length==1&&nums[0]<1)){
+            return 1;
+        }
+        for (int i = 1; i <nums.length ; i++) {
+            if(nums[i]<=1){
+                continue;
+            }
+            if(nums[i-1]<=0){
+                return 1;
+            }
+            if(nums[i]-nums[i-1]>1){
+                return nums[i-1]+1;
+            }
+        }
+        return nums[nums.length-1]+1;
     }
 }

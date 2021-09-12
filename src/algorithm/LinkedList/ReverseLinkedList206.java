@@ -20,11 +20,10 @@ public class ReverseLinkedList206 {
     
     /**
      * 使用递归 时间复杂度和空间复杂度都为O（n）
-     * @param head 当前遍历的结点
      */
     public static ListNode reverseList(ListNode head) {
         //已经到了最后一个元素  或者刚开始就只有一个结点 递归结束
-        if (head.next==null||head==null){
+        if (head==null||head.next == null){
             return head;
         }
         //获得递归的最后一个元素（即反转后队列的第一个元素）
@@ -45,12 +44,11 @@ public class ReverseLinkedList206 {
      */
     public static ListNode reverseList2(ListNode head) {
         ListNode prev = null;
-        ListNode curr = head;
-        while (curr != null) {
-            ListNode nextTemp = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = nextTemp;
+        while (head != null) {
+            ListNode nextTemp = head.next;
+            head.next = prev;
+            prev = head;
+            head = nextTemp;
         }
         return prev;
     }

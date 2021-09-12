@@ -31,7 +31,6 @@ public class BinarySearch {
      * @return 如果找到就返回下标，如果没有找到，就返回 -1
      */
     public static int binarySearch(int[] arr, int left, int right, int findVal) {
-
         // 当 left > right 时，说明递归整个数组，但是没有找到。没有这个条件会造成无线递归，栈溢出
         if (left > right|| findVal < arr[0] || findVal > arr[arr.length - 1]) {
             return -1;
@@ -44,10 +43,8 @@ public class BinarySearch {
         } else if (findVal < midVal) { // 向左递归
             return binarySearch(arr, left, mid - 1, findVal);
         } else {
-
             return mid;
         }
-
     }
 
     //有多个相同的数值时，将所有的数值都查找到
@@ -81,7 +78,6 @@ public class BinarySearch {
                 resIndexlist.add(temp);
                 temp -= 1; //temp左移
             }
-
             //向mid 索引值的右边扫描，将所有满足 1000， 的元素的下标，加入到集合ArrayList
             temp = mid + 1;
             while (true) {

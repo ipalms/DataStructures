@@ -21,7 +21,7 @@ import java.util.Set;
 public class LongestContinuousSubArray128 {
     /**
      * 注意题目是要求O(N)时间复杂度 所以不能使用排序
-     * 哈希表
+     * 哈希表  -- 此题还可以使用并查集的做法（详见并查集目录）
      */
 
     /**
@@ -38,6 +38,7 @@ public class LongestContinuousSubArray128 {
         //第二遍循环使用Set会快很多  可能是Set是去重集合快了些
         for (int num : set) {
             //判断前一个数是否在哈希表中
+            //技巧：如果有比自己小一点的，那自己不查，让小的去查（降低了复杂度）
             if (!set.contains(num - 1)) {
                 int currentNum = num;
                 int currentStreak = 1;

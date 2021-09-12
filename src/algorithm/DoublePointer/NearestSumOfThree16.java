@@ -14,15 +14,32 @@ import java.util.Arrays;
  */
 public class NearestSumOfThree16 {
     public static void main(String[] args) {
-        int nums[] = {1,1,1,0};
-        System.out.println(threeSumClosest(nums, -100));
+        int nums[] = {-1,2,1,-4};
+        System.out.println(threeSumClosestMy(nums, 1));
     }
 
+    public static int threeSumClosestMy(int[] nums, int target) {
+        int n=nums.length;
+        Arrays.sort(nums);
+        int min=nums[0]+nums[1]+nums[n-1];
+        for(int i=0;i<n-2;i++){
+            for(int j=i+1,k=n-1;j<k;){
+                int con=nums[i]+nums[j]+nums[k];
+                if(con==target){
+                    return target;
+                }else if(con>target){
+                    k--;
+                }else {
+                    j++;
+                }
+                min=Math.abs(con-target)<Math.abs(min-target)?con:min;
+            }
+        }
+        return  min;
+    }
+    
     /**
      * 排序+双指针
-     * @param nums
-     * @param target
-     * @return
      */
     public static int threeSumClosest(int[] nums, int target) {
         Arrays.sort(nums);  //对原数组进行了改动

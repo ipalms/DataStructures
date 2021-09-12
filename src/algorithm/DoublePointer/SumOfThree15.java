@@ -68,8 +68,6 @@ public class SumOfThree15 {
     /**
      * 第二层使用的while循环 此类型要点先排序
      * 先判断能输出的情况和后判断输出情况的执行时间有差别
-     * @param nums
-     * @return
      */
     public static List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> list = new ArrayList<>();

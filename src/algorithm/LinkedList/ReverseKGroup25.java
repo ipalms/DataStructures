@@ -25,11 +25,49 @@ public class ReverseKGroup25 {
     }
 
     /**
+     * 每k个节点一次性的反转
+     */
+    public ListNode reverseKGroupMy(ListNode head, int k) {
+        ListNode dummy=new ListNode(0,head);
+        ListNode curr=dummy,nextNode=dummy;
+        int count=0;
+        while(nextNode.next!=null){
+            //换成for循环
+            //for(int i=0;i<k&&nextNode!=null;i++) nextNode=nextNode.next;
+            while(nextNode!=null&&count<k){
+                nextNode=nextNode.next;
+                count++;
+            }
+            if(nextNode==null){
+                return dummy.next;
+            }
+            ListNode next=nextNode.next;
+            ListNode pre=reverseLinkedList(curr.next,next);
+            ListNode front=curr.next;
+            front.next=next;
+            curr.next=pre;
+            curr=front;
+            nextNode=front;
+            count=0;
+        }
+        return dummy.next;
+    }
+
+    public ListNode reverseLinkedList(ListNode head,ListNode end){
+        ListNode pre=null;
+        ListNode next;
+        while(head!=end){
+            next=head.next;
+            head.next=pre;
+            pre=head;
+            head=next;
+        }
+        return pre;
+    }
+
+    /**
      * 迭代实现  使用递归会使得空间复杂度变高不满足常数级别时间复杂度
      * 链表反转操作考虑到通用性会给头结点设置一个前置结点
-     * @param head
-     * @param k
-     * @return
      */
     public static ListNode reverseKGroup(ListNode head, int k) {
         //为头结点构造一个前结点（hair结点不动）
@@ -64,9 +102,6 @@ public class ReverseKGroup25 {
 
     /**
      * 迭代的方式反转当前这K个结点
-     * @param head
-     * @param tail
-     * @return
      */
     public static ListNode[] myReverse(ListNode head, ListNode tail) {
         //将prev初始化为尾结点的后一个结点（让反转后的这一段结点的尾结点也能连接到后面的结点）
@@ -85,9 +120,6 @@ public class ReverseKGroup25 {
 
     /**
      * 方法2 通过计算链表长度（长度可以确定迭代次数，即可以使用for循环）
-     * @param head
-     * @param k
-     * @return
      */
     public static ListNode reverseKGroup2(ListNode head, int k) {
         ListNode dummy = new ListNode(0), prev = dummy, curr = head, next;
@@ -114,9 +146,6 @@ public class ReverseKGroup25 {
 
     /**
      * 递归版本
-     * @param head
-     * @param k
-     * @return
      */
     public ListNode reverseKGroup3(ListNode head, int k) {
         ListNode prev = null;

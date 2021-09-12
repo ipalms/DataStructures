@@ -31,6 +31,7 @@ public class IsPowerOfTwo231 {
     public static boolean isPowerOfTwo(int n) {
        return (n > 0) && (n & -n) == n;
     }
+
     public static boolean isPowerOfTwo2(int n) {
         return (n>0)&&((n&n-1)==0);
     }

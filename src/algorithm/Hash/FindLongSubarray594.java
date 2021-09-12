@@ -33,7 +33,7 @@ public class FindLongSubarray594 {
      * 两遍循环  第一遍计数第二遍各个出现值及相邻值并统计和最大
      */
     public int findLHS(int[] nums) {
-        HashMap< Integer, Integer > map = new HashMap < > ();
+        HashMap< Integer, Integer > map = new HashMap <> ();
         int res = 0;
         for (int num: nums) {
             map.put(num, map.getOrDefault(num, 0) + 1);

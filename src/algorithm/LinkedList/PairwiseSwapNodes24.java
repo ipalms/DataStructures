@@ -1,5 +1,7 @@
 package algorithm.LinkedList;
 
+import org.junit.Test;
+
 import javax.swing.tree.TreeNode;
 import java.util.LinkedList;
 
@@ -16,7 +18,9 @@ import java.util.LinkedList;
  * 输出：[1]
  */
 public class PairwiseSwapNodes24 {
-    public static void main(String[] args) {
+
+    @Test
+    public void main() {
         ListNode node4=new ListNode(4);
         ListNode node3=new ListNode(3,node4);
         ListNode node2=new ListNode(2,node3);
@@ -29,23 +33,56 @@ public class PairwiseSwapNodes24 {
     }
 
     /**
-     * 使用递归 交换两两相邻的结点
-     * @param head
-     * @return
+     * 迭代  --25题 一次反转k个指针的简单版
      */
-    public static ListNode swapPairs(ListNode head) {
-        //确定递归结束条件
-        if(head==null||head.next==null){
-            return head;
+    public ListNode swapPairsMy(ListNode head) {
+        ListNode dummy=new ListNode(0,head);
+        ListNode curr=dummy,tail=head;
+        while(tail!=null){
+            tail=tail.next;
+            if(tail==null){
+                return dummy.next;
+            }
+            ListNode next=tail.next;
+            ListNode pre=curr.next;
+            pre.next=next;
+            curr.next=tail;
+            tail.next=pre;
+            curr=pre;
+            tail=next;
         }
-        ListNode nodeChild=head.next.next;
-        ListNode nodePassBy=head.next;
-        nodePassBy.next=head;
-        ListNode ss=swapPairs(nodeChild);
-        head.next=ss;
-        //递归的返回值
-        return nodePassBy;
+        return dummy.next;
     }
+
+    public ListNode swapPairs1(ListNode head) {
+        ListNode dummyHead = new ListNode(0);
+        dummyHead.next = head;
+        ListNode temp = dummyHead;
+        while (temp.next != null && temp.next.next != null) {
+            ListNode node1 = temp.next;
+            ListNode node2 = temp.next.next;
+            temp.next = node2;
+            node1.next = node2.next;
+            node2.next = node1;
+            temp = node1;
+        }
+        return dummyHead.next;
+    }
+
+    /**
+     * 使用递归 交换两两相邻的结点
+     */
+    public ListNode swapPairs(ListNode head) {
+        //确定递归结束条件
+        if(head==null||head.next==null) return head;
+        ListNode next=head.next;
+        ListNode tail=head.next.next;
+        next.next=head;
+        head.next=swapPairs(tail);
+        //递归的返回值
+        return next;
+    }
+
     //打印链表的结点
     public static void nodeForEach(ListNode head){
         if(head!=null){

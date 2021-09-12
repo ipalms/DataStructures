@@ -21,10 +21,12 @@ public class QuickSort2 {
     private static int partition(int[] array, int begin, int end) {
         int pivot = end, counter = begin;
         for (int i = begin; i < end; i++) {
-            if (array[i] > array[pivot]) {
-                int temp = array[counter];
-                array[counter] = array[i];
-                array[i] = temp;
+            if (array[i] < array[pivot]) {
+                if(counter<i){
+                    int temp = array[counter];
+                    array[counter] = array[i];
+                    array[i] = temp;
+                }
                 counter++;
             }
         }

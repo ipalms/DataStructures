@@ -22,18 +22,21 @@ import java.util.TreeSet;
 public class ContainsDuplicateIII220 {
 
     /**
-     * 有滑动窗口和桶排序两种思路
+     * 有滑动窗口和桶排序两种思路  其变形题为217、219
      */
+
     /**
-     *  滑动窗口 + 有序集合
+     *  滑动窗口 (或固定窗口--窗口大小是固定的，219也可看作固定窗口)+ 有序集合（TreeMap）
      *  根据题意，对于任意一个位置 i（假设其值为 u），
      *  我们其实是希望在下标范围为 [max(0,i-k),i)内找到值范围在[u−t,u+t]的数。
      *  为什么使用TreeMap
      *  我们希望使用一个「有序集合」去维护长度为 k 的滑动窗口内的数，
      *  该数据结构最好支持高效「查询」与「插入/删除」操作-->所以选择红黑树
-     * 查询：能够在「有序集合」中应用「二分查找」，快速找到「小于等于u的最大值」和「大于等于 u 的最小值」
+     *  查询：能够在「有序集合」中应用「二分查找」，快速找到「小于等于u的最大值」和「大于等于 u 的最小值」
      * （即「有序集合」中的最接近 u 的数）。
-     * 插入/删除：在往「有序集合」添加或删除元素时，能够在低于线性的复杂度内完成（维持有序特性）。
+     *  插入/删除：在往「有序集合」添加或删除元素时，能够在低于线性的复杂度内完成（维持有序特性）。
+     *  时间复杂度：TreeSet基于红黑树，查找和插入都是O(logk)复杂度。整体复杂度为 O(nlogk)
+     *  空间复杂度：O(k)
      */
     public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
         int n = nums.length;
@@ -48,6 +51,7 @@ public class ContainsDuplicateIII220 {
             if(r != null && r - u <= t) return true;
             // 将当前数加到 ts 中，并移除下标范围不在 [max(0, i - k), i) 的数（维持滑动窗口大小为 k）
             ts.add(u);
+            //维护固定长度的窗口大小
             if (i >= k) ts.remove((long) nums[i - k]);
         }
         return false;
@@ -76,6 +80,7 @@ public class ContainsDuplicateIII220 {
     /**
      * 桶排法变形--以x轴上每t个整数映射到一个桶位
      * 可以使用哈希表来存储映射关系--每个槽位最多只会存储一个数据
+     * 题220、347、692可以用到桶排的思想
      */
     public boolean containsNearbyAlmostDuplicate3(int[] nums, int k, int t) {
         int n = nums.length;

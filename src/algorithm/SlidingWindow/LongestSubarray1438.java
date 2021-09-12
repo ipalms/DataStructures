@@ -44,9 +44,9 @@ public class LongestSubarray1438 {
 
     /**
      * 滑动窗口 + 有序集合
-     * 或者 滑动窗口 + 两个优先队列（或者两个单向链表） 目的是分别维护窗口内最大值最小值
+     * 或者 滑动窗口 + 两个优先队列（或者两个单调队列--239也是单调队列） 目的是分别维护窗口内最大值最小值
      */
-    public int longestSubarray(int[] nums, int limit) {
+    public int longestSubarrayMy(int[] nums, int limit) {
         TreeMap<Integer,Integer> tm=new TreeMap<>();
         int len=0;
         for(int left=0,right=0;right<nums.length&&left<=right;){
@@ -67,7 +67,7 @@ public class LongestSubarray1438 {
         return len;
     }
 
-    public int longestSubarray2(int[] nums, int limit) {
+    public int longestSubarray(int[] nums, int limit) {
         TreeMap<Integer, Integer> map = new TreeMap<Integer, Integer>();
         int n = nums.length;
         int left = 0, right = 0;
@@ -96,7 +96,6 @@ public class LongestSubarray1438 {
     public int longestSubarray3(int[] nums, int limit) {
         PriorityQueue<Integer> minQueue = new PriorityQueue<>(Comparator.naturalOrder());
         PriorityQueue<Integer> maxQueue = new PriorityQueue<>(Comparator.reverseOrder());
-
         int left = 0;
         int right = 0;
         int ans = 0;
@@ -109,7 +108,7 @@ public class LongestSubarray1438 {
                 right++;
                 continue;
             }
-            //删除优先队列中的指定元素
+            //删除优先队列中的指定元素（删除操作为O（N）复杂度）
             maxQueue.remove((Integer) nums[left]);
             minQueue.remove((Integer) nums[left]);
             left++;
@@ -119,7 +118,9 @@ public class LongestSubarray1438 {
     }
 
     /**
-     *  滑动窗口 + 者两个单向链表 目的是分别维护窗口内最大值最小值
+     * 滑动窗口 + 者两个单向队列 目的是分别维护窗口内最大值最小值
+     * 时间复杂度：O(n)，其中n是数组长度。我们最多遍历该数组两次，两个单调队列入队出队次数也均为 O(n)。
+     * 空间复杂度：O(n)，其中n是数组长度。最坏情况下单调队列将和原数组等大。
      */
     public int longestSubarray4(int[] nums, int limit) {
         Deque<Integer> queMax = new LinkedList<Integer>();
@@ -128,25 +129,31 @@ public class LongestSubarray1438 {
         int left = 0, right = 0;
         int ret = 0;
         while (right < n) {
-            //手动维护链表最大最小值
+            //维护递增队列（从左到右）
             while (!queMax.isEmpty() && queMax.peekLast() < nums[right]) {
                 queMax.pollLast();
             }
+            //维护递减队列（从左到右）
             while (!queMin.isEmpty() && queMin.peekLast() > nums[right]) {
                 queMin.pollLast();
             }
             queMax.offerLast(nums[right]);
             queMin.offerLast(nums[right]);
+            //比较这个窗口内的最大值与最小值之差
             while (!queMax.isEmpty() && !queMin.isEmpty() && queMax.peekFirst() - queMin.peekFirst() > limit) {
+                //大于给定limit，左边界要前移，需要删除两个队列中的可能保存了的左边界的值
                 if (nums[left] == queMin.peekFirst()) {
                     queMin.pollFirst();
                 }
                 if (nums[left] == queMax.peekFirst()) {
                     queMax.pollFirst();
                 }
+                //窗口左移
                 left++;
             }
+            //不断计算结果值
             ret = Math.max(ret, right - left + 1);
+            //窗口右移
             right++;
         }
         return ret;

@@ -3,38 +3,34 @@ package algorithm.KMP;
 import java.util.Arrays;
 
 public class KMPAlgorithm {
+
+    //以前学习数据结构时版本
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
         String str1 = "BBC ABCDAB ABCDABCDABDE";
         String str2 = "ABCDABD";
-        //String str2 = "BBC";
 
-        int[] next = kmpNext("ABCDABD"); //[0, 1, 2, 0]
+        int[] next = kmpNext("ABCDABD");
         System.out.println("next=" + Arrays.toString(next));
 
         int index = kmpSearch(str1, str2, next);
-        System.out.println("index=" + index); // 15了
+        int index1=violenceMatch(str1, str2);
+        System.out.println("index=" + index+"  index1=" + index1);
     }
 
-    //写出我们的kmp搜索算法
     /**
-     *
      * @param str1 源字符串
      * @param str2 子串
      * @param next 部分匹配表, 是子串对应的部分匹配表
      * @return 如果是-1就是没有匹配到，否则返回第一个匹配的位置
      */
     public static int kmpSearch(String str1, String str2, int[] next) {
-
         //遍历
         for(int i = 0, j = 0; i < str1.length(); i++) {
-
             //需要处理 str1.charAt(i) ！= str2.charAt(j), 去调整j的大小
             //KMP算法核心点, 可以验证(迷)
             while( j > 0 && str1.charAt(i) != str2.charAt(j)) {
                 j = next[j-1];
             }
-
             if(str1.charAt(i) == str2.charAt(j)) {
                 j++;
             }
@@ -65,5 +61,35 @@ public class KMPAlgorithm {
             next[i] = j;
         }
         return next;
+    }
+
+    // 暴力匹配算法实现
+    public static int violenceMatch(String str1, String str2) {
+        char[] s1 = str1.toCharArray();
+        char[] s2 = str2.toCharArray();
+
+        int s1Len = s1.length;
+        int s2Len = s2.length;
+
+        int i = 0; // i索引指向s1
+        int j = 0; // j索引指向s2
+        while (i < s1Len && j < s2Len) {// 保证匹配时，不越界
+
+            if(s1[i] == s2[j]) {//匹配ok
+                i++;
+                j++;
+            } else { //没有匹配成功 i回溯到原先i的前一位，j被置为0。
+                //如果失配（即str1[i]! = str2[j]），令i = i - (j - 1)，j = 0。
+                i = i - (j - 1);
+                j = 0;
+            }
+        }
+
+        //判断是否匹配成功
+        if(j == s2Len) {
+            return i - j;
+        } else {
+            return -1;
+        }
     }
 }
