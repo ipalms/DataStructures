@@ -22,7 +22,7 @@ public class test1 {
 
 
     public int nthSuperUglyNumber(int n, int[] primes) {
-        int []dp=new int[n+1];
+        int []dp=new int[n+2];
         dp[1]=1;
         int k=primes.length;
         int []size=new int[k];
