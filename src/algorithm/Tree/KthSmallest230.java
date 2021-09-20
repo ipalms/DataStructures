@@ -21,8 +21,6 @@ import java.util.LinkedList;
  */
 public class KthSmallest230 {
 
-
-
     int res=-1;
     int k;
 
@@ -54,6 +52,30 @@ public class KthSmallest230 {
         }
         reverse(root.right);
     }
+
+
+    /**
+     * 剑指 Offer 54. 二叉搜索树的第k大节点
+     * 同类题，求二叉搜索树中第K大的元素
+     * 递归的顺序改变一下就好了，先右节点后左节点
+     */
+    int val;
+    public int kthLargest(TreeNode root, int k) {
+        this.k=k;
+        dfs(root);
+        return val;
+    }
+
+    public void dfs(TreeNode root){
+        if(root==null) return;
+        dfs(root.right);
+        if(k==0) return;
+        if(--k==0){
+            this.val=root.val;
+        }
+        dfs(root.left);
+    }
+
 
     /**
      * 迭代版本（辅助栈）

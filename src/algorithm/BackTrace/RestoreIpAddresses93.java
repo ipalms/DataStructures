@@ -43,6 +43,7 @@ public class RestoreIpAddresses93 {
 
     /**
      * 此题虽然是考察回溯做法，但是实际上很考验对字符串的操作
+     * 和对边界的处理
      */
     int len;
     List<String> res = new ArrayList<>();
@@ -105,5 +106,47 @@ public class RestoreIpAddresses93 {
         }
         //判断这段ip是否合法
         return res >= 0 && res <= 255;
+    }
+
+    //仿写的版本
+    class imitate{
+        int len;
+        String word;
+        List<String> res = new ArrayList<>();
+        public List<String> restoreIpAddresses(String s) {
+            len=s.length();
+            word=s;
+            if(len<4||len>12) return res;
+            backtrace(0,4,new ArrayList<String>());
+            return res;
+        }
+
+        public void backtrace(int start, int need, ArrayList<String> path){
+            if(start==len){
+                if(need==0){
+                    res.add(String.join(".",path));
+                }
+                return;
+            }
+            for(int i=1;i<=3;++i){
+                if(start+i>len) break;
+                if(len-start<need||len-start>3*need){
+                    continue;
+                }
+                if(check(start,i)){
+                    path.add(word.substring(start,start+i));
+                    backtrace(start+i,need-1,path);
+                    path.remove(path.size()-1);
+                }
+            }
+        }
+
+        public boolean check(int start,int i){
+            if(i!=1&&word.charAt(start)-'0'==0){
+                return false;
+            }
+            int res=Integer.parseInt(word.substring(start,start+i));
+            return res>=0&&res<=255;
+        }
     }
 }

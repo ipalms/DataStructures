@@ -25,7 +25,7 @@ package algorithm.KMP;
 public class IndexOf28 {
 
     /**
-     * 字符串匹配
+     * 字符串匹配--另一道字符串匹配可以做的题459.重复的子字符串（没做）
      * KMP算法实现
      * 链接：https://leetcode-cn.com/problems/implement-strstr/solution/shua-chuan-lc-shuang-bai-po-su-jie-fa-km-tb86/
      */

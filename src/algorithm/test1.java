@@ -8,14 +8,10 @@ public class test1 {
 
     @Test
     public void test(){
-        int []a=new int[100];
-        int []b=new int[]{5,1,3,2,4};
-        System.arraycopy(b,0,a,1,4);
-        System.out.println(Arrays.toString(a));
-        
-        
-        
-        boolean is=false;
+        int a[][]={{ 1, 2, 3 },
+                { 4, 5, 6 },
+                { 7, 8, 9 }};
+        System.out.println(19888%(10*10));
     }
 
 

@@ -51,7 +51,7 @@ public class VerifyPalindrome125 {
                 --p2;
                 continue;
             }
-            //这里可以使用toLower来代理判断
+            //这里可以使用toLowerCase来代理判断
             if (l == r || (r >= 'A' && l >= 'A' && Math.abs(r - l) == 32)) {
                 ++p1;
                 --p2;
