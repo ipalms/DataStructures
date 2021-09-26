@@ -11,12 +11,17 @@ package algorithm.DynamicProgramming;
  */
 public class ClimbStairs70 {
     public static void main(String[] args) {
-        /**
-         * 思路：
-         * 爬第n（n>2）阶楼梯的方法 dp[n]=dp[n-1]+dp[n-2];
-         */
         System.out.println(climb(4));
     }
+
+    /**
+     * 思路：
+     * 第n个台阶只能从第n-1或者n-2个上来。
+     * 到第n-1个台阶的走法 + 第n-2个台阶的走法 = 到第n个台阶的走法
+     * 已经知道了第1个和第2个台阶的走法，一路加上去。
+     * 爬第n（n>2）阶楼梯的方法 dp[n]=dp[n-1]+dp[n-2];
+     * 这个公式也是斐波那契数列的通项公式---剑指 Offer 10- I. 斐波那契数列
+     */
     public static int climb(int n){
         if(n<=2){
             return n;
@@ -25,8 +30,21 @@ public class ClimbStairs70 {
         dp[0]=1;
         dp[1]=2;
         for (int i = 2; i <n ; i++) {
-          dp[i]=dp[i-1]+dp[i-2];
+            dp[i]=dp[i-1]+dp[i-2];
         }
         return dp[n-1];
+    }
+
+    /**
+     * 优化空间复杂度
+     */
+    public int climbStairs(int n) {
+        if(n<3) return n;
+        int i1=1,i2=2;
+        for(int i=3;i<=n;++i){
+            i2=i1+i2;
+            i1=i2-i1;
+        }
+        return i2;
     }
 }

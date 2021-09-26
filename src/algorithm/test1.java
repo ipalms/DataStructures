@@ -8,14 +8,43 @@ public class test1 {
 
     @Test
     public void test(){
-        int a[][]={{ 1, 2, 3 },
-                { 4, 5, 6 },
-                { 7, 8, 9 }};
-        System.out.println(19888%(10*10));
+        char [][]a={{ '1', '1', '1','1','0' },
+                { '1', '1', '1','1','0' },
+                { '1', '1', '1','1','1' },
+                { '1', '1', '1','1','1' },
+                { '0', '0', '1','1','1' }};
+//        System.out.println(19888%(10*10));
+//        System.out.println("55".compareTo("54"));
+        System.out.println(maximalSquare(a));
     }
 
 
-
+    public int maximalSquare(char[][] matrix) {
+        int n=matrix.length,m=matrix[0].length;
+        int max=0;
+        for(int i=0;i<m;++i){
+            if(matrix[0][i]=='1'){
+                max=1;
+                break;
+            }
+        }
+        if(max==0){
+            for(int i=1;i<n;++i){
+                if(matrix[i][0]=='1'){
+                    max=1;
+                    break;
+                }
+            }
+        }
+        for(int i=1;i<n;++i){
+            for(int j=1;j<m;++j){
+                if(matrix[i][j]=='0') continue;
+                matrix[i][j]=(char)(Math.min(matrix[i-1][j-1],Math.min(matrix[i][j-1],matrix[i-1][j]))+1);
+                max=Math.max(max,(matrix[i][j]-'0')*(matrix[i][j]-'0'));
+            }
+        }
+        return max;
+    }
 
     public int nthSuperUglyNumber(int n, int[] primes) {
         int []dp=new int[n+2];
