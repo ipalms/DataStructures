@@ -68,4 +68,26 @@ public class LongestSubStringLength1143 {
         }
         return dp[n][m];
     }
+
+    /**
+     * 空间优化版本--要保存左上角的dp(dp[i-1][j-1])的值
+     * 因为在滚动数组过程中该值会被下一行（遍历到第i行第j-1列时覆盖），所以要提前保存下来
+     */
+    public int longestCommonSubsequence1(String text1, String text2) {
+        int len1=text1.length(),len2=text2.length();
+        int []dp=new int[len2+1];
+        for(int i=1;i<=len1;++i){
+            int northWest=0;
+            for(int j=1;j<=len2;++j){
+                int curr=dp[j];
+                if(text1.charAt(i-1)==text2.charAt(j-1)){
+                    dp[j]=northWest+1;
+                }else{
+                    dp[j]=Math.max(dp[j],dp[j-1]);
+                }
+                northWest=curr;
+            }
+        }
+        return dp[len2];
+    }
 }

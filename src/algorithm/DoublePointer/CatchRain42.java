@@ -22,6 +22,7 @@ import java.util.LinkedList;
 public class CatchRain42 {
 
     /**
+     * 该题要能够想到怎样才是求接雨水最大值的即暴力法如何进行的，其他优化都是优化查询当前节点左右max值的过程
      * 该题最优解法是双指针--其次可以使用单调栈--再然后是动态规划--最后是暴力题解
      * https://leetcode-cn.com/problems/trapping-rain-water/solution/jie-yu-shui-by-leetcode-solution-tuvc/
      */

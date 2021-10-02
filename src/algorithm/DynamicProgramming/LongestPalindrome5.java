@@ -94,6 +94,36 @@ public class LongestPalindrome5 {
 
 
     /**
+     * 自己后面仿写的中心扩散法
+     */
+    int len;
+    public String longestPalindromeMy(String s) {
+        len=s.length();
+        int max=1,left=0;
+        char []tmp=s.toCharArray();
+        for(int i=0;i<len-1;++i){
+            int []a=findMax(tmp,i,i);
+            int []b=findMax(tmp,i,i+1);
+            int []res=a[1]>b[1]?a:b;
+            if(res[1]>max){
+                max=res[1];
+                left=res[0];
+            }
+        }
+        return s.substring(left,left+max);
+    }
+
+
+    public int[] findMax(char []tmp,int left,int right){
+        while(left>=0&&right<len&&tmp[left]==tmp[right]){
+            --left;
+            ++right;
+        }
+        return new int[]{left+1,right-left-1};
+    }
+
+
+    /**
      * 暴力解法
      * 根据回文子串的定义，枚举所有长度大于等于2的子串，依次判断它们是否是回文；
      * 可以只针对大于「当前得到的最长回文子串长度」的子串进行回文验证

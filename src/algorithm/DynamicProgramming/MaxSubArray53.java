@@ -2,6 +2,8 @@ package algorithm.DynamicProgramming;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
 /**
  * 53. 最大子序和
  * 给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
@@ -25,8 +27,9 @@ import org.junit.Test;
 public class MaxSubArray53 {
     @Test
     public void test() {
-        int nums[]={-2,1,-3,4,-1,2,1,-5,4};
-        System.out.println(maxSubArray1(nums));
+        //int nums[]={-2,1,-3,4,-1,2,1,-5,4};
+        int []nums={1,5,9};
+        System.out.println(Arrays.toString(maxSubArray4(nums)));
     }
 
     /**
@@ -51,6 +54,29 @@ public class MaxSubArray53 {
         }
         return maxAns;
     }
+
+    /**
+     * 变种题-求和最大的子序列（这时要记录左右边界）
+     */
+    public int[] maxSubArray4(int[] nums) {
+        //maxAns 首先要取一个第一元素（不能取零防止后面元素全是负数而结果错误情况）
+        int sum = 0, maxAns = nums[0],left=0,right=0,start=0;
+        for (int i=0;i<nums.length;++i) {
+            if(sum>0){
+                sum=sum+nums[i];
+            }else{
+                sum=nums[i];
+                start=i;
+            }
+            if(sum>maxAns){
+                maxAns=sum;
+                right=i;
+                left=start;
+            }
+        }
+        return Arrays.copyOfRange(nums,left,right+1);
+    }
+
 
     /**
      * 有动态规划 和 分治算法两种思路

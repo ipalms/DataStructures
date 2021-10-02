@@ -17,7 +17,7 @@ package algorithm.DynamicProgramming;
 public class FindRepeatLength718 {
 
     /**
-     * 动态规划：
+     * 动态规划：（从后往前遍历方向）
      * 令 dp[i][j]表示 A[i:]和 B[j:]的最长公共前缀，那么答案即为所有dp[i][j]中的最大值。
      * 如果 A[i] == B[j]，那么dp[i][j] = dp[i + 1][j + 1] + 1，否则 dp[i][j] = 0。
      * 这里借用了 Python 表示数组的方法，A[i:] 表示数组 A 中索引 i 到数组末尾的范围对应的子数组。
@@ -37,6 +37,8 @@ public class FindRepeatLength718 {
         return ans;
     }
 
+
+
     /**
      * 动态规划二
      * 从前往后的状态转移方程：dp[i][j] = dp[i - 1][j - 1] + 1
@@ -55,6 +57,26 @@ public class FindRepeatLength718 {
             }
         }
         return ans;
+    }
+
+    /**
+     * 优化内存版，第二层循环倒序遍历（在背包的空间优化中也用到了该技巧）
+     */
+    public int findLength4(int[] nums1, int[] nums2) {
+        int len1=nums1.length,len2=nums2.length;
+        int []dp=new int[len2+1];
+        int max=0;
+        for(int i=1;i<=len1;++i){
+            for(int j=len2;j>=1;--j){
+                if(nums1[i-1]==nums2[j-1]){
+                    dp[j]=dp[j-1]+1;
+                    max=Math.max(max,dp[j]);
+                }else{
+                    dp[j]=0;
+                }
+            }
+        }
+        return max;
     }
 
 

@@ -32,7 +32,7 @@ public class LengthOfLIS300 {
      * 我们从小到大计算dp数组的值，在计算dp[i]之前，我们已经计算出dp[0…i−1]的值，则状态转移方程为：
      * dp[i]=max(dp[j])+1,其中0≤j<i且num[j]<num[i]
      * 即考虑往dp[0…i−1] 中最长的上升子序列后面再加一个nums[i]
-     * 。由于dp[j]代表nums[0…j]中以nums[j]结尾的最长上升子序列，所以如果能从dp[j]这个状态转移过来，
+     * 由于dp[j]代表nums[0…j]中以nums[j]结尾的最长上升子序列，所以如果能从dp[j]这个状态转移过来，
      * 那么nums[i]必然要大于nums[j]，才能将nums[i]放在nums[j]后面以形成更长的上升子序列。
      * 最后，整个数组的最长上升子序列即所有dp[i]中的最大值。
      * LIS-length=max(dp[i]),其中0≤i<n

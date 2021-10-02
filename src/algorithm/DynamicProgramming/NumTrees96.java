@@ -50,6 +50,4 @@ public class NumTrees96 {
         }
         return G[n];
     }
-
-
 }

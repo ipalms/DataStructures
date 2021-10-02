@@ -31,7 +31,7 @@ package algorithm.DynamicProgramming;
 public class MinDistance72 {
 
     /**
-     * 这一题其实也算是1143 最长公共子序列的思想类似题
+     * 这一题其实也算是1143 最长公共子序列的思想类似题--可以使用1143去理解此题（空间优化思路也一致）
      * dp[i][j]中保存的是修改成一样的最小操作数至于字符串具体改成什么样子了不用费心（要求具体改成什么样子的是不涉及的算法）
      * https://leetcode-cn.com/problems/longest-common-subsequence/solution/1143-zui-chang-gong-gong-zi-xu-lie-dong-zde2v/
      * https://leetcode-cn.com/problems/edit-distance/solution/dong-tai-gui-hua-java-by-liweiwei1419/
@@ -40,6 +40,9 @@ public class MinDistance72 {
     public int minDistance(String word1, String word2) {
         int len1 = word1.length();
         int len2 = word2.length();
+        //dp含义我们有word1和word2，我们定义dp[i][j]的含义为：
+        // word1的前i个字符和word2的前j个字符的编辑距离。
+        // 意思就是word1的前i个字符，变成word2的前j个字符，最少需要这么多步。
         // 多开一行一列是为了保存边界条件，即字符长度为 0 的情况，这一点在字符串的动态规划问题中比较常见
         int[][] dp = new int[len1 + 1][len2 + 1];
         // 初始化：当 word2 长度为 0 时，将 word1 的全部删除即可
@@ -79,6 +82,10 @@ public class MinDistance72 {
         }
         return dp[len1][len2];
     }
+
+    /**
+     * 可以进行空间优化---用变量保存左上角的变化次数
+     */
 
     /**
      * 仿写的
