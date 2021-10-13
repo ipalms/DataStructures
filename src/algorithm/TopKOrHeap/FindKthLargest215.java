@@ -29,6 +29,61 @@ public class FindKthLargest215 {
 
 
     /**
+     * 后面尝试用快速选择写该题
+     */
+    class MyQuickSelect{
+        Random r=new Random();
+        int len;
+        public int findKthLargest(int[] nums, int k) {
+            len=nums.length;
+            return findKth(nums,0,nums.length-1,k);
+        }
+
+        /**
+         * 一次只进入一支分支
+         * 遍历次数为 n+n/2+n/4...+1-->最坏情况只需大概2*n循环次数，时间复杂度为O（N）
+         */
+        public int findKth(int[] nums,int left,int right,int k){
+            //如果left==right就说明left下标的该数正好是第k大的数
+            if (left == right) return nums[right];
+            int pivot=findPivot(nums,left,right);
+            //如果尾节点标杆到标杆之间的元素大于k个说明第k大元素在后半部分
+            if(len-pivot>k){
+                return findKth(nums,pivot+1,right,k);
+                //如果尾节点标杆到标杆之间的元素等于k个说明第k大元素正好在标杆处
+            }else if(len-pivot==k){
+                return nums[pivot];
+            }else{//反之第k大元素在前半部分
+                return findKth(nums,left,pivot-1,k);
+            }
+        }
+
+        /**
+         * 快排找pivot点一样的代码+随机化标杆处理
+         */
+        public int findPivot(int[] nums,int left,int right){
+            int index=left+r.nextInt(right-left);
+            swap(nums,index,right);
+            int p=nums[right],curr=left;
+            for(int i=left;i<right;++i){
+                if(nums[i]<p){
+                    swap(nums,curr,i);
+                    ++curr;
+                }
+            }
+            swap(nums,curr,right);
+            return curr;
+        }
+
+        public void swap(int[] nums,int i,int j){
+            int tmp=nums[i];
+            nums[i]=nums[j];
+            nums[j]=tmp;
+        }
+    }
+
+
+    /**
      * 一次加载所有元素进队列
      * java的优先队列  优先队列不传排序器则默认使用小顶堆--从小到大排序
      */
@@ -45,10 +100,6 @@ public class FindKthLargest215 {
         PriorityQueue<Integer> queue = new PriorityQueue<>((a, b) -> b-a);  //队列顶部从大到小排列  a-b代表从小到大
         for(int num : nums) {
             queue.add(num);
-        }
-        while (!queue.isEmpty()) {
-            Integer cur = queue.poll();
-            System.out.println(cur + " ");
         }
         for(int i=0; i<k-1; i++) {
             queue.poll();

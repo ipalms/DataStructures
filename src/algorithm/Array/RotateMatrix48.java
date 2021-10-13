@@ -30,32 +30,12 @@ public class RotateMatrix48 {
      * 旋转矩阵90度，189是旋转数组
      * 本质的思想都是环状替代（当前数替代下一个数，循环到环首尾相连时，这时可只用一个tmp变量保存环头节点的值）
      * 还有一种通用的思路就是多次反转（翻折）数组或矩阵
-     * 重要的是找到反转后的坐标对应规律
+     * 重要的是找到反转后的坐标对应规律：(i,j)->(j,n-i)
      *
      * 扩展--顺时针转 180 度:先上下镜像，再左右镜像（先左右再上下也可）
+     * 顺时针270度：(i,j)->(n-j,i)  先左右镜像再沿着对角线交换
      */
 
-
-    /**
-     * 一次性旋转四个节点（正好首尾相连）
-     * 重要规律：对于矩阵中第i行的第j个元素，在旋转后，它出现在倒数第j行的第i个位置。
-     * 因此对于矩阵中的元素matrix[row][col]，在旋转后它的新位置为matrix[col][n−row−1]。
-     * 旋转起始点是矩阵的左上方，这样正好旋转后覆盖整个矩阵（如果矩阵长度为奇数，那么中心节点也不需要旋转）
-     */
-    public void rotate(int[][] matrix) {
-        int n = matrix.length;
-        //i , j代表行和列
-        for (int i = 0; i < n / 2; ++i) {
-            for (int j = 0; j < (n + 1) / 2; ++j) {
-                //一次性旋转四个节点
-                int temp = matrix[i][j];
-                matrix[i][j] = matrix[n - j - 1][i];
-                matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1];
-                matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1];
-                matrix[j][n - i - 1] = temp;
-            }
-        }
-    }
 
     /**
      * 矩阵先上下反转，再对角反转---这种比较容易写
@@ -84,6 +64,29 @@ public class RotateMatrix48 {
     }
 
     /**
+     * 一次性旋转四个节点（正好首尾相连）
+     * 重要规律：对于矩阵中第i行的第j个元素，在旋转后，它出现在倒数第j行的第i个位置。
+     * 因此对于矩阵中的元素matrix[row][col]，在旋转后它的新位置为matrix[col][n−row−1]。
+     * 旋转起始点是矩阵的左上方，这样正好旋转后覆盖整个矩阵（如果矩阵长度为奇数，那么中心节点也不需要旋转）
+     */
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        //i , j代表行和列
+        for (int i = 0; i < n / 2; ++i) {
+            for (int j = 0; j < (n + 1) / 2; ++j) {
+                //一次性旋转四个节点
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[n - j - 1][i];
+                matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1];
+                matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1];
+                matrix[j][n - i - 1] = temp;
+            }
+        }
+    }
+
+
+
+    /**
      * 自己做的-- 一次旋转一个点
      * 重要规律：对于矩阵中第i行的第j个元素，在旋转后，它出现在倒数第i列的第j个位置。
      * 即由于矩阵中的行列从0开始计数，因此对于矩阵中的元素matrix[row][col]，
@@ -100,19 +103,6 @@ public class RotateMatrix48 {
                     //规律的体现
                     xk=y;
                     yk=n-x-1;
-//                    if(k==0){
-//                        xk=y;
-//                        yk=n-1-i;
-//                    }else if(k==1){
-//                        xk=n-1-i;
-//                        yk=n-1-x;
-//                    }else if(k==2){
-//                        xk=y;
-//                        yk=i;
-//                    }else{
-//                        xk=i;
-//                        yk=n-1-x;
-//                    }
                     int tmp=matrix[xk][yk];
                     matrix[xk][yk]=pre;
                     pre=tmp;

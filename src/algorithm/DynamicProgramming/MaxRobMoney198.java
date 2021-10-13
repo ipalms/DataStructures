@@ -27,7 +27,7 @@ public class MaxRobMoney198 {
 
     @Test
     public void test(){
-        rob(new int[]{2,7,9,3,1});
+        System.out.println(rob4(new int[]{1,9,6,4}));
     }
 
 
@@ -51,6 +51,30 @@ public class MaxRobMoney198 {
             dp[i]=Math.max(dp[i-1],dp[i-2]+nums[i]);
         }
         return dp[nums.length-1];
+    }
+
+
+    /**
+     * 拓展---输出抢劫路径
+     */
+    public String rob4(int[] nums) {
+        int len=nums.length;
+        if(len==1) return  "第一次抢劫第1家获得 "+nums[0]+" 元";
+        int []dp=new int[len];
+        dp[0]=nums[0];
+        dp[1]=Math.max(nums[0],nums[1]);
+        for(int i=2;i<len;++i){
+            dp[i]=Math.max(dp[i-1],dp[i-2]+nums[i]);
+        }
+        String path="";
+        for(int i=len-1;i>=0;){
+            while(i>0&&dp[i-1]==dp[i]){
+                --i;
+            }
+            path="抢劫第"+ (i + 1) +"家获得 "+nums[i]+" 元"+"\n"+path;
+            i-=2;
+        }
+        return path;
     }
 
     /**

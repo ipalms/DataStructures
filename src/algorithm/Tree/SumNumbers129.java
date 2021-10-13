@@ -1,5 +1,8 @@
 package algorithm.Tree;
 
+import java.util.Deque;
+import java.util.LinkedList;
+
 /**
  * 129. 求根节点到叶节点数字之和
  * 给你一个二叉树的根节点 root ，树中每个节点都存放有一个 0 到 9 之间的数字。
@@ -43,6 +46,35 @@ public class SumNumbers129 {
             return sum;
         }
         return traverse(root.left,sum)+traverse(root.right,sum);
+    }
+
+
+    /**
+     * bfs 双队列
+     */
+    public int sumNumbers1(TreeNode root) {
+        if(root==null) return 0;
+        Deque<TreeNode> nodeQueue=new LinkedList<>();
+        Deque<Integer> numQueue=new LinkedList<>();
+        nodeQueue.add(root);
+        numQueue.add(root.val);
+        int sum=0;
+        while(!nodeQueue.isEmpty()){
+            TreeNode curr=nodeQueue.poll();
+            int num=numQueue.poll();
+            if(curr.left==null&&curr.right==null){
+                sum+=num;
+            }
+            if(curr.left!=null){
+                nodeQueue.add(curr.left);
+                numQueue.add(curr.left.val+num*10);
+            }
+            if(curr.right!=null){
+                nodeQueue.add(curr.right);
+                numQueue.add(curr.right.val+num*10);
+            }
+        }
+        return sum;
     }
 
 

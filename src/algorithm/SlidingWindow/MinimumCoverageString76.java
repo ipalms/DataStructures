@@ -43,6 +43,35 @@ public class MinimumCoverageString76 {
         System.out.println(minWindow(s,"ABC"));
     }
 
+    public String minWindow4(String s, String t) {
+        int len1=s.length(),len2=t.length();
+        if(len1<len2) return "";
+        int []need=new int[128];
+        int []have=new int[128];
+        for(int i=0;i<len2;++i){
+            ++need[t.charAt(i)];
+        }
+        int left=0,right=0,flag=0,min=Integer.MAX_VALUE,all=len2;
+        while(right<len1){
+            char r=s.charAt(right);
+            if(++have[r]<=need[r]){
+                --all;
+            }
+            while(all==0){
+                if(right-left+1<min){
+                    min=right-left+1;
+                    flag=left;
+                }
+                if(--have[s.charAt(left)]<need[s.charAt(left)]){
+                    ++all;
+                }
+                ++left;
+            }
+            ++right;
+        }
+        return min==Integer.MAX_VALUE?"":s.substring(flag,flag+min);
+    }
+
     //存储已有的元素使用数组的提交时间会大幅提高（int []have）--最优版本
     public String minWindow(String s, String t) {
         if(t.length()>s.length()) return "";

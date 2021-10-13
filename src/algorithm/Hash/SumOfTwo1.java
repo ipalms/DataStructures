@@ -48,30 +48,6 @@ public class SumOfTwo1 {
     }
 
     /**
-     * 这里对数组排序了，只能返回凑好的两个数(不符合题目要求)
-     * 排序+首尾交并推进
-     */
-    public static int[] twoSum2(int[] copy, int target) {
-        int[] result=new int[2];
-        Arrays.sort(copy);
-        int end=copy.length-1;
-        for (int i = 0; i <copy.length ; i++) {
-            if(i>=end){
-                return null;
-            }
-            while (copy[i]+copy[end]>target){
-                end--;
-            }
-            if(copy[i]+copy[end]==target){
-                result[0]=i;
-                result[1]=end;
-                return result;
-            }
-        }
-        return null;
-    }
-
-    /**
      * 暴力解法
      * @param nums
      * @param target

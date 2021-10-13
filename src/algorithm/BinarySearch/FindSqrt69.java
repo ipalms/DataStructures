@@ -1,5 +1,7 @@
 package algorithm.BinarySearch;
 
+import org.junit.Test;
+
 /**
  * 69. x 的平方根
  * 实现 int sqrt(int x) 函数。
@@ -16,7 +18,12 @@ package algorithm.BinarySearch;
  */
 public class FindSqrt69 {
 
-    //值二分--起始right位于x
+    @Test
+    public void test(){
+        System.out.println(mySqrtx(8));
+    }
+
+    //值二分--起始right位于x/2
     public int mySqrt(int x) {
         // 特殊值判断
         if (x == 0) {
@@ -86,5 +93,31 @@ public class FindSqrt69 {
             x0 = xi;
         }
         return (int) x0;
+    }
+
+    /**
+     * 使用二分保留两位小数---保留小数最好使用牛顿迭代法
+     */
+    public float mySqrtx(int x) {
+        if(x==0) return 0;
+        int l=1,r=x/2;
+        while(l<r){
+            int mid=l+(r-l+1)/2;
+            if(x/mid>=mid){
+                l=mid;
+            }else{
+                r=mid-1;
+            }
+        }
+        double left=l,right=l+1;
+        while(left+0.01<right){
+            double mid=left+(right-left+0.01)/2.0;
+            if(x/mid>=mid){
+                left=mid;
+            } else{
+                right=mid-0.01;
+            }
+        }
+        return (float)((int)(left*100)/100.0);
     }
 }

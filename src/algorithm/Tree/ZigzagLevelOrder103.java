@@ -1,6 +1,7 @@
 package algorithm.Tree;
 
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,6 +29,12 @@ public class ZigzagLevelOrder103 {
      * 这题是102--层序遍历的变形（bfs遍历二叉树）
      * 用到层序遍历解题的：102层序遍历、103二叉树的锯齿形层序遍历、637二叉树的层平均值
      * 104二叉树的最大深度也可以使用层遍历、111二叉树的最小深度
+     */
+
+
+    /**
+     * 这题不应该考虑如何将节点按照奇偶层顺序插入到队列当中，这样会导致代码繁琐
+     * 而是遍历任为层序遍历但是将根据奇偶层将结果（节点值）头插或尾插如tmp链表当中
      */
 
 
@@ -87,7 +94,7 @@ public class ZigzagLevelOrder103 {
         if (res.size() == level) {
             res.add(new ArrayList<Integer>());
         }
-        //相较中序遍历只有这里的不同
+        //相较层序遍历dfs版只有这里的不同
         if ((level & 1) == 1){
             //奇数层头插
             res.get(level).add(0, root.val);
@@ -96,6 +103,46 @@ public class ZigzagLevelOrder103 {
         }
         traversal(root.left, res, level + 1);
         traversal(root.right, res, level + 1);
+    }
+
+
+    /**
+     * 但队列---但是是按奇偶层模拟了节点如何插入到队列中
+     */
+    public List<List<Integer>> zigzagLevelOrder1(TreeNode root) {
+        List<List<Integer>> res=new ArrayList<>();
+        if(root==null) return res;
+        Deque<TreeNode> queue=new LinkedList<>();
+        queue.add(root);
+        boolean isEven=true;
+        while(!queue.isEmpty()){
+            int size=queue.size();
+            List<Integer> tmp=new ArrayList<>();
+            for(int i=0;i<size;++i){
+                TreeNode curr;
+                if(isEven){
+                    curr=queue.pollLast();
+                    if(curr.left!=null){
+                        queue.addFirst(curr.left);
+                    }
+                    if(curr.right!=null){
+                        queue.addFirst(curr.right);
+                    }
+                }else{
+                    curr=queue.pollFirst();
+                    if(curr.right!=null){
+                        queue.addLast(curr.right);
+                    }
+                    if(curr.left!=null){
+                        queue.addLast(curr.left);
+                    }
+                }
+                tmp.add(curr.val);
+            }
+            res.add(tmp);
+            isEven=!isEven;
+        }
+        return res;
     }
 
     /**

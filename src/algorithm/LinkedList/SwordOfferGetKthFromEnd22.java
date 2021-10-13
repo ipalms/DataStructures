@@ -27,6 +27,28 @@ public class SwordOfferGetKthFromEnd22 {
         return pre;
     }
 
+
+    /**
+     * 递归   返回递归调用栈第k层的结果
+     */
+    int k;
+    public ListNode getKthFromEnd1(ListNode head, int k) {
+        this.k=k;
+        return traverse(head);
+    }
+
+    public ListNode traverse(ListNode head){
+        if(head==null) return null;
+        ListNode r=traverse(head.next);
+        if(r==null){
+            if(--k==0){
+                return head;
+            }
+            return null;
+        }
+        return r;
+    }
+
     static class ListNode {
         int val;
         ListNode next;

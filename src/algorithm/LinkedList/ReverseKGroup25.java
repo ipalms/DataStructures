@@ -24,6 +24,40 @@ public class ReverseKGroup25 {
         System.out.println(head);
     }
 
+
+    /**
+     * 后面自己写的
+     */
+    public ListNode reverseKGroup4(ListNode head, int k) {
+        ListNode dummy=new ListNode(0,head);
+        ListNode pre=dummy,curr=head;
+        int count=0;
+        while(curr!=null){
+            if(++count==k){
+                ListNode after=curr.next;
+                ListNode before=pre.next;
+                reverse(before,after);
+                pre.next.next=after;
+                pre.next=curr;
+                pre=before;
+                curr=before;
+                count=0;
+            }
+            curr=curr.next;
+        }
+        return dummy.next;
+    }
+
+    public void reverse(ListNode head,ListNode tail){
+        ListNode pre=null,next;
+        while(head!=tail){
+            next=head.next;
+            head.next=pre;
+            pre=head;
+            head=next;
+        }
+    }
+
     /**
      * 每k个节点一次性的反转
      */
@@ -170,7 +204,7 @@ public class ReverseKGroup25 {
             }
             if (next != null) {
                 // head 为链表翻转后的尾节点
-                head.next = reverseKGroup(next, k);
+                head.next = reverseKGroup3(next, k);
             }
             // prev 为链表翻转后的头结点
             return prev;

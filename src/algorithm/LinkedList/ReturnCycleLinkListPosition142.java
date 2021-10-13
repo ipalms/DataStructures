@@ -9,14 +9,13 @@ import java.util.Map;
  * 为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。
  * 如果 pos 是 -1，则在该链表中没有环。注意，pos 仅仅是用于标识环的情况，并不会作为参数传递到函数中。
  * 说明：不允许修改给定的链表。
- *
  */
 public class ReturnCycleLinkListPosition142 {
     public static void main(String[] args) {
         ListNode node1 = new ListNode(3);
         ListNode node2 = new ListNode(5, node1);
         ListNode node3 = new ListNode(2, node2);
-        node1.next=node3;
+        node1.next = node3;
         System.out.println(detectCycle(node3));
     }
     /**
@@ -68,34 +67,38 @@ public class ReturnCycleLinkListPosition142 {
      * 快慢指针2
      */
     public ListNode detectCycle2(ListNode head) {
-        ListNode slow=head,fast=head;
-        while(fast!=null&&fast.next!=null){
-            fast=fast.next.next;
-            slow=slow.next;
-            if(fast==slow) break;
-        }
-        if(fast==null||fast.next==null) return null;
-        ListNode pre=head;
-        while(pre!=fast){
-            fast=fast.next;
-            pre=pre.next;
+        ListNode slow = head, fast = head;
+        do {
+            fast = fast.next.next;
+            slow = slow.next;
+        } while (fast != null && fast.next != null && fast != slow);
+//        while (fast != null && fast.next != null) {
+//            fast = fast.next.next;
+//            slow = slow.next;
+//            if (fast == slow) break;
+//        }
+        if (fast == null || fast.next == null) return null;
+        ListNode pre = head;
+        while (pre != fast) {
+            fast = fast.next;
+            pre = pre.next;
         }
         return fast;
     }
 
     /**
-     *使用额外的内存空间
+     * 使用额外的内存空间
      */
     public static ListNode detectCycle(ListNode head) {
-        Map<Integer,ListNode> trace=new HashMap<>();
-        int i=0;
-        while (head!=null){
-        //在Map中添加元素使用put方法，在返回值问题上.
-        //因为Map中是以键值对存在，因此当一个键值是第一次被添加时返回值为null，否则返回为上一次添加的value
-           if(trace.put(head.val,head)!=null){
-               return head;
-           }
-           head=head.next;
+        Map<Integer, ListNode> trace = new HashMap<>();
+        int i = 0;
+        while (head != null) {
+            //在Map中添加元素使用put方法，在返回值问题上.
+            //因为Map中是以键值对存在，因此当一个键值是第一次被添加时返回值为null，否则返回为上一次添加的value
+            if (trace.put(head.val, head) != null) {
+                return head;
+            }
+            head = head.next;
         }
         return null;
     }
@@ -104,20 +107,23 @@ public class ReturnCycleLinkListPosition142 {
     public static class ListNode {
         int val;
         ListNode next;
+
         ListNode() {
         }
+
         ListNode(int val) {
             this.val = val;
         }
+
         ListNode(int val, ListNode next) {
             this.val = val;
-            this.next=next;
+            this.next = next;
         }
 
         @Override
         public String toString() {
             return "ListNode{" +
-                    "val=" + val+"}";
+                    "val=" + val + "}";
         }
     }
 }

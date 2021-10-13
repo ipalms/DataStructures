@@ -133,7 +133,7 @@ public class SearchRotatedArray33 {
             if (nums[mid] == target) {
                 return mid;
             }
-            //前半部分有序
+            //前半部分有序---这里要取等号nums[start] <= nums[mid]
             if (nums[start] <= nums[mid]) {
                 //target在前半部分
                 if (target >= nums[start] && target < nums[mid]) {

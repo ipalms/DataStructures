@@ -58,7 +58,7 @@ public class LargestNumber179 {
         int n=nums.length;
         String []tmp=new String[nums.length];
         for(int i=0;i<n;++i){
-            tmp[i]=""+nums[i];
+            tmp[i]=String.valueOf(nums[i]);
         }
         //唯一有变于最大数的就是字符串数组按照升序排序
         Arrays.sort(tmp,(a,b)->(a+b).compareTo(b+a));

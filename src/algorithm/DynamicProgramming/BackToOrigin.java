@@ -13,7 +13,21 @@ public class BackToOrigin {
 
     @Test
     public void test(){
-        System.out.println(backToOrigin1(10,4));
+        System.out.println(backToOrigin2(10,4));
+    }
+
+    /**
+     * 仿写
+     */
+    public int backToOrigin2(int size,int n){
+        int [][]dp=new int[n+1][size];
+        dp[0][0]=1;
+        for(int i=1;i<=n;++i){
+            for(int j=0;j<size;++j){
+                dp[i][j]=dp[i-1][(j+size-1)%size]+dp[i-1][(j+1)%size];
+            }
+        }
+        return dp[n][0];
     }
 
     /**

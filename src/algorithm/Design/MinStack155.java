@@ -155,4 +155,29 @@ public class MinStack155 {
             return (int) min;
         }
     }
+
+    //只使用一个栈，栈内存放int[]数组（当前值和栈中最小值）
+    class MinStack3{
+        Deque<int[]> numStack;
+        public MinStack3() {
+            numStack=new LinkedList<>();
+            numStack.addFirst(new int[]{Integer.MAX_VALUE,Integer.MAX_VALUE});
+        }
+
+        public void push(int val) {
+            numStack.addFirst(new int[]{val,Math.min(numStack.peekFirst()[1],val)});
+        }
+
+        public void pop() {
+            numStack.pollFirst();
+        }
+
+        public int top() {
+            return numStack.peekFirst()[0];
+        }
+
+        public int getMin() {
+            return numStack.peekFirst()[1];
+        }
+    }
 }

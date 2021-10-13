@@ -117,6 +117,7 @@ public class MaximalSquare221 {
             pre = 0;
             for (int j = 1; j <= cols; j++) {
                 int temp = dp[j];
+                //matrix[i - 1][j - 1] == '0'时要对dp[j]进行赋值
                 if (matrix[i - 1][j - 1] == '0') {
                     dp[j] = 0;
                 } else {

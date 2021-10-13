@@ -1,5 +1,8 @@
 package algorithm.DynamicProgramming;
 
+import org.junit.Test;
+
+import java.sql.SQLOutput;
 import java.util.Arrays;
 
 /**
@@ -21,6 +24,11 @@ import java.util.Arrays;
  * 0 <= grid[i][j] <= 100
  */
 public class MinPathSum64 {
+    @Test
+    public void test(){
+        int [][]a=new int[][]{{1,3,1},{1,5,1},{4,2,1}};
+        System.out.println(minPathSum4(a));
+    }
 
     /**
      * dp含义，走到第i列第j行的最小步数
@@ -39,22 +47,63 @@ public class MinPathSum64 {
         return grid[grid.length - 1][grid[0].length - 1];
     }
 
+    /**
+     * 扩展，找到最短路径所在----以二维dp数组右下角最后一个数倒推
+     * 比较其左上角两个数的大小，较小的就是下个路径位置（dp数组必须是二维的才能进行倒推）
+     */
+    public String minPathSum4(int[][] grid) {
+        int m=grid.length,n=grid[0].length;
+        int [][]dp=new int[m][n];
+        dp[0][0]=grid[0][0];
+        for(int i=1;i<m;++i){
+            dp[i][0]=dp[i-1][0]+grid[i][0];
+        }
+        for(int i=1;i<n;++i){
+            dp[0][i]=dp[0][i-1]+grid[0][i];
+        }
+        for(int i=1;i<m;++i){
+            for(int j=1;j<n;++j){
+                dp[i][j]=Math.min(dp[i-1][j],dp[i][j-1])+grid[i][j];
+            }
+        }
+        String path="";
+        for(int i=m-1,j=n-1;i>=0&&j>=0;){
+            path=" 这一步横坐标:"+i+" 纵坐标:"+j+" "+"\n"+path;
+            if(i==0){
+                --j;
+            }else if(j==0){
+                --i;
+            }else if(dp[i-1][j]<dp[i][j-1]){
+                --i;
+            }else{
+                --j;
+            }
+        }
+        return path;
+    }
+
 
     /**
      * 两版状态知只是dp数组初始化不同而已，dp转移方程仍然一致
      * 状态压缩版1--滚动数组
      */
     public int minPathSum(int[][] grid) {
-        int [] dp = new int[grid[0].length];
-        Arrays.fill(dp,Integer.MAX_VALUE);
-        dp[0] = 0;
-        for(int i = 0; i < grid.length; i++){
-            dp[0]=dp[0]+grid[i][0];
-            for(int j = 1; j < grid[i].length; j++){
-                dp[j]=Math.min(dp[j-1],dp[j])+grid[i][j];
+        int m=grid.length,n=grid[0].length;
+        int []dp=new int[n];
+        dp[0]=0;
+        for(int i=1;i<n;++i){
+            dp[i]=Integer.MAX_VALUE;
+        }
+        for(int i=0;i<m;++i){
+            for(int j=0;j<n;++j){
+                if(j==0){
+                    dp[j]+=grid[i][j];
+                }else{
+                    dp[j]=Math.min(dp[j],dp[j-1])+grid[i][j];
+                }
             }
         }
-        return dp[grid[0].length-1];
+        return dp[n-1];
     }
 
     /**

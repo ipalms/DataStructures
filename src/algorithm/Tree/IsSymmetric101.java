@@ -56,7 +56,7 @@ public class IsSymmetric101 {
     }
 
     /**
-     * bfs写法--类似层序遍历
+     * bfs写法--类似层序遍历，队列可以加入null元素
      */
     public boolean isSymmetric1(TreeNode root) {
         if (root == null) {

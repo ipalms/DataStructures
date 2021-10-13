@@ -28,7 +28,7 @@ public class LowestCommonAncestor235 {
      */
 
     /**
-     * 利用到了二叉搜索树的特性
+     * 利用到了二叉搜索树的特性--能进行剪枝
      */
     TreeNode res1;
     public TreeNode lowestCommonAncestor1(TreeNode root, TreeNode p, TreeNode q) {
@@ -80,7 +80,7 @@ public class LowestCommonAncestor235 {
      */
 
     /**
-     * 优解--代码段但是不能进行剪枝（要几乎遍历了这一整颗树才能找到）
+     * 优解--代码段但是不能进行剪枝（要遍历了这一整颗树才能找到）
      * 1.终止条件:
      *   当越过叶节点，则直接返回null
      *   当root等于p,q,则直接返回root

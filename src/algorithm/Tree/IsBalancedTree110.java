@@ -21,7 +21,7 @@ package algorithm.Tree;
 public class IsBalancedTree110 {
 
     /**
-     * 此题与计算二叉树高度等问题有相似之处
+     * 此题与计算二叉树高度等问题有相似之处--如何设计递归函数
      * 具体就是递归过程时判断每个结点是否平衡
      * 时间空间均为O（N）
      */
