@@ -13,7 +13,7 @@ package algorithm.DoublePointer;
 public class MoveZeroes283 {
 
     /**
-     * 维护双指针
+     * 维护双指针---相似题：剑指 Offer 21. 调整数组顺序使奇数位于偶数前面
      */
     public void moveZeroesMy(int[] nums) {
         int i=0,j=0;

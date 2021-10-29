@@ -62,7 +62,7 @@ public class MinSubArrayLen209 {
         for(int i=0;i<nums.length;i++){
             //只有前缀和长度已经大于target时才可能出现
             if(prefix[i+1]>=target) {
-                int left = binarySearch(prefix, prefix[i+1] - target);
+                int left = binarySearch(prefix, prefix[i+1] - target,i+1);
                 //更新最小长度  min 上一个最小长度  i+1（右边界）-left(左边界)
                 min = Math.min(min, i+1-left);
             }
@@ -72,8 +72,8 @@ public class MinSubArrayLen209 {
 
     //这里的二分查找是为了找到前缀和数组中小于等于target的索引
     //即第一个小于等于target的索引
-    public int binarySearch(int[] prefix,int target){
-        int left=0,right=prefix.length;
+    public int binarySearch(int[] prefix,int target,int right){
+        int left=0;
         while(left<right){
             int mid=left+(right-left+1)/2;
             //mid数大于target，说明包含mid的右侧都不可能出现目标索引
@@ -84,5 +84,25 @@ public class MinSubArrayLen209 {
             }
         }
         return left;
+    }
+
+    /**
+     * 后面再写的二进制版本
+     */
+    public int minSubArrayLen3(int target, int[] nums) {
+        int n=nums.length;
+        int []preSum=new int[n+1];
+        for(int i=1;i<=n;++i){
+            preSum[i]=preSum[i-1]+nums[i-1];
+        }
+        if(preSum[n]<target) return 0;
+        int min=n+1;
+        for(int i=1;i<=n;++i){
+            if(preSum[i]>=target){
+                int left=binarySearch(preSum,preSum[i]-target,i);
+                min=Math.min(min,i-left);
+            }
+        }
+        return min==n+1?0:min;
     }
 }

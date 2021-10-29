@@ -46,12 +46,27 @@ public class CopyRandomList138 {
             return null;
         }
         Node newCurr=new Node(head.val);
+        //注意添加到hash表的时机一定是创建出来后就加入hash表当中
         have.put(head,newCurr);
         Node r=head.random;
         newCurr.random=have.containsKey(r)?have.get(r):copyRandomList(r);
         Node n=head.next;
         newCurr.next=have.containsKey(n)?have.get(n):copyRandomList(n);
         return newCurr;
+    }
+
+    /**
+     * 递归2+哈希表
+     */
+    Map<Node,Node> map=new HashMap<>();
+    public Node copyRandomList4(Node head) {
+        if(head==null) return null;
+        if(map.get(head)!=null) return map.get(head);
+        Node curr=new Node(head.val);
+        map.put(head,curr);
+        curr.next=copyRandomList4(head.next);
+        curr.random=copyRandomList4(head.random);
+        return curr;
     }
 
     /**

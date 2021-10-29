@@ -22,6 +22,35 @@ public class SubarraySum560{
         System.out.println(subarraySum2(nums,6));
     }
 
+
+    /**
+     * 前缀和 + 哈希表   类似leetcode第一题的哈希解法
+     * 由于只关心次数，不关心具体的解，我们可以使用哈希表加速运算
+     * 对于一开始的情况，下标 0 之前没有元素，可以认为前缀和为 0，个数为 1 个
+     * 时间复杂度：O（N）
+     * 空间：O（N）
+     */
+    public int subarraySum3(int[] nums, int k) {
+        // key：前缀和，value：key 对应的前缀和的个数
+        Map<Integer, Integer> preSumFreq = new HashMap<>();
+        // 对于下标为 0 的元素，前缀和为 0，个数为 1
+        preSumFreq.put(0, 1);
+        int preSum = 0;
+        int count = 0;
+        for (int num : nums) {
+            preSum += num;
+            // 先获得前缀和为 preSum - k 的个数，加到计数变量里
+            // preSum[i]-preSum[j]==k  --> preSum[i]-k==preSum[j]
+            if (preSumFreq.containsKey(preSum - k)) {
+                count += preSumFreq.get(preSum - k);
+            }
+            //然后维护preSumFreq的定义,前缀和可能出现多次
+            //这行要写在if判断行之后，不然在k为0会误导结果值
+            preSumFreq.put(preSum, preSumFreq.getOrDefault(preSum, 0) + 1);
+        }
+        return count;
+    }
+
     /**
      * 注意题目的意思是连续的数组元素和为目标k值的情况--所以可以使用前缀和
      * 左右指针枚举--双指针解法
@@ -71,31 +100,4 @@ public class SubarraySum560{
         return count;
     }
 
-    /**
-     * 前缀和 + 哈希表   类似leetcode第一题的哈希解法
-     * 由于只关心次数，不关心具体的解，我们可以使用哈希表加速运算
-     * 对于一开始的情况，下标 0 之前没有元素，可以认为前缀和为 0，个数为 1 个
-     * 时间复杂度：O（N）
-     * 空间：O（N）
-     */
-    public int subarraySum3(int[] nums, int k) {
-        // key：前缀和，value：key 对应的前缀和的个数
-        Map<Integer, Integer> preSumFreq = new HashMap<>();
-        // 对于下标为 0 的元素，前缀和为 0，个数为 1
-        preSumFreq.put(0, 1);
-        int preSum = 0;
-        int count = 0;
-        for (int num : nums) {
-            preSum += num;
-            // 先获得前缀和为 preSum - k 的个数，加到计数变量里
-            // preSum[i]-preSum[j]==k  --> preSum[i]-k==preSum[j]
-            if (preSumFreq.containsKey(preSum - k)) {
-                count += preSumFreq.get(preSum - k);
-            }
-            //然后维护preSumFreq的定义,前缀和可能出现多次
-            //这行要写在if判断行之后，不然在k为0会误导结果值
-            preSumFreq.put(preSum, preSumFreq.getOrDefault(preSum, 0) + 1);
-        }
-        return count;
-    }
 }

@@ -30,41 +30,6 @@ public class FindDiagonalOrder498 {
         System.out.println(Arrays.toString(findDiagonalOrder(a)));
     }
 
-    /**
-     * 模拟路径，在遇到右上或左下的边界时候会掉转遍历方向
-     * 类似第6题--Z字形变换也可以直接按照题意模拟路径进行遍历--但还是有更巧妙的规律能描述出路径
-     */
-    public int[] findDiagonalOrder(int[][] mat) {
-        boolean up = true;
-        int m = mat.length, n = mat[0].length;
-        int size = m * n, count = 0, sum = 0;
-        int[] res = new int[size];
-        //row 行  col列
-        int row = 0, col = 0;
-        //一共只会变化m+n-1次遍历方向  写成sum<m+n也没问题
-        while(sum < m + n-1){
-            //为true时要变化遍历方向，斜向上（遍历原点可看作向上遍历方向的）
-            if(up){
-                //靠sum重新定位边界坐标
-                row = Math.min(m - 1, sum);
-                col = sum - row;
-                while(row >= 0 && col <= n - 1){
-                    res[count++] = mat[row--][col++];
-                }
-            } else {
-                col = Math.min(n - 1, sum);
-                row = sum - col;
-                while(col >= 0 && row <= m - 1){
-                    res[count++] = mat[row++][col--];
-                }
-            }
-            sum++;
-            //遍历方向改变
-            up = !up;
-        }
-        return res;
-    }
-
 
     /**
      * 更好解法
@@ -110,5 +75,64 @@ public class FindDiagonalOrder498 {
         }
         return res;
     }
+
+
+    /**
+     * 模拟路径，在遇到右上或左下的边界时候会掉转遍历方向
+     * 类似第6题--Z字形变换也可以直接按照题意模拟路径进行遍历--但还是有更巧妙的规律能描述出路径
+     */
+    public int[] findDiagonalOrder(int[][] mat) {
+        boolean up = true;
+        int m = mat.length, n = mat[0].length;
+        int size = m * n, count = 0, sum = 0;
+        int[] res = new int[size];
+        //row 行  col列
+        int row = 0, col = 0;
+        //一共只会变化m+n-1次遍历方向  写成sum<m+n也没问题
+        while(sum < m + n-1){
+            //为true时要变化遍历方向，斜向上（遍历原点可看作向上遍历方向的）
+            if(up){
+                //靠sum重新定位边界坐标
+                row = Math.min(m - 1, sum);
+                col = sum - row;
+                while(row >= 0 && col <= n - 1){
+                    res[count++] = mat[row--][col++];
+                }
+            } else {
+                col = Math.min(n - 1, sum);
+                row = sum - col;
+                while(col >= 0 && row <= m - 1){
+                    res[count++] = mat[row++][col--];
+                }
+            }
+            sum++;
+            //遍历方向改变
+            up = !up;
+        }
+        return res;
+    }
+
+    /**
+     * 变形题：斜45度打印，即方向都是从左下往右上，不需要交替方向
+     */
+    public int[] findDiagonalOrder3(int[][] mat) {
+        int m = mat.length, n = mat[0].length;
+        int size = m * n, count = 0, sum = 0;
+        int[] res = new int[size];
+        //row 行  col列
+        int row = 0, col = 0;
+        //一共只会变化m+n-1次遍历方向  写成sum<m+n也没问题
+        while(sum < m + n-1){
+            //靠sum重新定位边界坐标
+            row = Math.min(m - 1, sum);
+            col = sum - row;
+            while(row >= 0 && col <= n - 1){
+                res[count++] = mat[row--][col++];
+            }
+            sum++;
+        }
+        return res;
+    }
+
 }
 

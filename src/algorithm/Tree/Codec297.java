@@ -1,6 +1,7 @@
 package algorithm.Tree;
 
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -96,12 +97,12 @@ public class Codec297 {
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize2(String data) {
-        Queue<String> queue = new LinkedList<>(Arrays.asList(data.split(",")));
+        Deque<String> queue = new LinkedList<>(Arrays.asList(data.split(",")));
         return dfs(queue);
     }
 
-    private TreeNode dfs(Queue<String> queue) {
-        String val = queue.poll();
+    private TreeNode dfs(Deque<String> queue) {
+        String val = queue.pollFirst();
         if("null".equals(val)){
             return null;
         }
@@ -111,6 +112,42 @@ public class Codec297 {
         return root;
     }
 
+
+    /**
+     * 仿写dfs版本
+     */
+    public String serialize3(TreeNode root) {
+        StringBuilder sb=new StringBuilder();
+        encode(root,sb);
+        return sb.toString();
+    }
+
+    private void encode(TreeNode root,StringBuilder sb){
+        if(root==null){
+            sb.append("N,");
+            return;
+        }
+        sb.append(root.val+",");
+        encode(root.left,sb);
+        encode(root.right,sb);
+    }
+
+    public TreeNode deserialize3(String data) {
+        //注意要使用split方法获得解码
+        Deque<String> queue=new LinkedList<>(Arrays.asList(data.split(",")));
+        return decode(queue);
+    }
+
+    private TreeNode decode(Deque<String> queue){
+        String curr=queue.pollFirst();
+        if("N".equals(curr)){
+            return null;
+        }
+        TreeNode root=new TreeNode(Integer.parseInt(curr));
+        root.left=decode(queue);
+        root.right=decode(queue);
+        return root;
+    }
 
     /**
      * 仿写一遍

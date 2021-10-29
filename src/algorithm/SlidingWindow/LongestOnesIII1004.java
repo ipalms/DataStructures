@@ -105,6 +105,9 @@ public class LongestOnesIII1004 {
         return low;
     }
 
+    /**
+     * 暴力求解
+     */
     public int longestOnes4(int[] nums, int k) {
         int n = nums.length;
         int left = 0, lsum = 0, rsum = 0;

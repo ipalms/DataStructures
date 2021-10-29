@@ -134,6 +134,7 @@ public class SearchRotatedArray33 {
                 return mid;
             }
             //前半部分有序---这里要取等号nums[start] <= nums[mid]
+            //取等号即start==mid(因为题目要求不能有重复元素，那么一定在 [start+1,end]范围内找下一个数)
             if (nums[start] <= nums[mid]) {
                 //target在前半部分
                 if (target >= nums[start] && target < nums[mid]) {

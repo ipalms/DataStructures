@@ -32,6 +32,7 @@ public class SearchRotatedArrayII81 {
             if(nums[mid]==target){
                 return true;
             }
+            //这里不能取等号   取等号的地方要特殊操作（也是与33题不同的地方之一）
             if(nums[mid]>nums[left]){
                 if(target>=nums[left]&&target<=nums[mid]){
                     right=mid-1;

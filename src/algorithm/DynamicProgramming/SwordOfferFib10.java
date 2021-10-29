@@ -1,5 +1,9 @@
 package algorithm.DynamicProgramming;
 
+import org.junit.Test;
+
+import javax.sound.midi.Soundbank;
+
 /**
  * 剑指 Offer 10- I. 斐波那契数列
  * 写一个函数，输入 n ，求斐波那契（Fibonacci）数列的第 n 项（即 F(N)）。斐波那契数列的定义如下：
@@ -18,10 +22,16 @@ package algorithm.DynamicProgramming;
  */
 public class SwordOfferFib10 {
 
+    @Test
+    public void test(){
+        System.out.println(mod);
+        System.out.println(fib(100));
+    }
+
     /**
      * 要考虑到数据溢出
      */
-    int mod=1000000007;
+    int mod= (int)1e9+7;
     public int fib(int n) {
         if(n<2) return n;
         int x=0,y=1;

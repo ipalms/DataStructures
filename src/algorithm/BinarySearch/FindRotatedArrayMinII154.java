@@ -41,12 +41,15 @@ public class FindRotatedArrayMinII154 {
         int left=0,right=nums.length-1;
         while(left<right){
             int mid=left+(right-left)/2;
+            // nums[mid]一定在左排序数组，则旋转点（最小数字）一定在[mid + 1, right]
             if(nums[mid]>nums[right]){
                 left=mid+1;
+                // nums[mid]一定在右排序数组，则旋转点（最小数字）一定在[left, mid]
             }else if(nums[mid]<nums[right]){
                 right=mid;
             }else{
                 //10111和11101这种。此种情况下nums[mid]==nums[right]
+                //无法判断nums[mid]在哪个排序数组，无法判断旋转点（最小数字）在哪个区间
                 //分不清到底是前面有序还是后面有序，此时right--即可。相当于去掉一个重复的干扰项。
                 right--;
             }

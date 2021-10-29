@@ -27,6 +27,12 @@ package algorithm.DoublePointer;
  */
 public class SortColors75 {
 
+
+    /**
+     * 75. 颜色分类
+     * 十分像剑指 Offer 21. 调整数组顺序使奇数位于偶数前面、283. 移动零的升级版问题
+     */
+
     /**
      * 两遍扫描
      * 先交换0到前面在交换1到前面

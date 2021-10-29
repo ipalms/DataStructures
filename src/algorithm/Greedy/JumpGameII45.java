@@ -29,6 +29,23 @@ public class JumpGameII45 {
      * 时间复杂度：O(n)
      * 空间复杂度：O(1)。
      */
+
+    public int jump3(int[] nums) {
+        int step=0,start=0,maxReach=nums[0],len=nums.length;
+        if(len==1) return 0;
+        //i<len --较代码1不同的点
+        for(int i=0;i<len;++i){
+            maxReach=Math.max(i+nums[i],maxReach);
+            //较代码1不同的点
+            if(maxReach>=len-1) return step+1;
+            if(i==start){
+                ++step;
+                start=maxReach;
+            }
+        }
+        return step;
+    }
+
     public int jump(int[] nums) {
         int length = nums.length;
         //上次跳跃可达范围右边界（下次的最右起跳点）
@@ -43,6 +60,8 @@ public class JumpGameII45 {
             //维护当前这一跳范围内下一跳可到达的最大位置
             maxPosition = Math.max(maxPosition, i + nums[i]);
             //到达这次跳跃能到达的右边界了
+            //如果i==n-2时能进入这个分支，说明前面n-3步最大只能跳至n-2这个位置，那么自然结果还需要+1
+            //如果进入不了这个分支（即i已经等于n-1外循环停下），说明step步能跳至最后n-1这个位置
             if (i == end) {
                 //目前能跳到的最远位置变成了下次起跳位置的有边界
                 end = maxPosition;

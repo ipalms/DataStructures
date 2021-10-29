@@ -20,26 +20,23 @@ import java.util.Set;
 public class ArrayIntersection349 {
 
     /**
-     * 使用两个set集合
+     * 使用一个set集合
      * 时间、空间均为 O（N+M）
      */
     public int[] intersection(int[] nums1, int[] nums2) {
-        Set<Integer> set=new HashSet<>();
+        Set<Integer>set=new HashSet<>();
         for(int num:nums1){
             set.add(num);
         }
-        Set<Integer> res=new HashSet<>();
-        for(int num2:nums2){
-            if(set.contains(num2)){
-                res.add(num2);
+        int []res=new int[nums1.length];
+        int t=0;
+        for(int num:nums2){
+            if(set.contains(num)){
+                res[t++]=num;
+                set.remove(num);
             }
         }
-        int []out=new int[res.size()];
-        int j=0;
-        for(int x:res){
-            out[j++]=x;
-        }
-        return out;
+        return Arrays.copyOf(res,t);
     }
 
     /**

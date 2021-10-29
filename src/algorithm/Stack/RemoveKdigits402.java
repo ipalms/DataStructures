@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.LinkedList;
 
 /**
  * 402. 移掉 K 位数字
@@ -64,6 +65,34 @@ public class RemoveKdigits402 {
             stack.pollLast();
         }
         if(stack.size()==0) return "0";
+        StringBuilder sb=new StringBuilder();
+        while(!stack.isEmpty()){
+            sb.append(stack.pollFirst());
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 后面自己写的
+     */
+    public String removeKdigits1(String num, int k) {
+        int len=num.length();
+        Deque<Integer> stack=new LinkedList<>();
+        for(int i=0;i<len;++i){
+            int c=num.charAt(i)-'0';
+            while(k>0&&!stack.isEmpty()&&stack.peekLast()>c){
+                --k;
+                stack.pollLast();
+            }
+            if(!stack.isEmpty()||c!=0){
+                stack.addLast(c);
+            }
+        }
+        while(k>0&&!stack.isEmpty()){
+            --k;
+            stack.pollLast();
+        }
+        if(stack.isEmpty()) return "0";
         StringBuilder sb=new StringBuilder();
         while(!stack.isEmpty()){
             sb.append(stack.pollFirst());

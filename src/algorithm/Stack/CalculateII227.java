@@ -218,6 +218,7 @@ public class CalculateII227 {
         else if (op == '%') ans = a % b;
         nums.addLast(ans);
     }
+
     boolean isNumber(char c) {
         return Character.isDigit(c);
     }

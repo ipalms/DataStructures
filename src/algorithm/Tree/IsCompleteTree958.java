@@ -32,9 +32,6 @@ public class IsCompleteTree958 {
     int size = 0;
     int maxCode = 0;
     public boolean isCompleteTree(TreeNode root) {
-        if(root == null){
-            return true;
-        }
         //假设根节点索引为1开始递归
         recursive(root,1);
         return size == maxCode;

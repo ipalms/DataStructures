@@ -77,7 +77,7 @@ public class RotateArray189 {
      *  当n和k的最大公约数不等 1的时候：1次遍历是无法完成的所有元素归位，需要m(最大公约数)次
      *  那么如何判断所有的分组都执行归位了呢？ 可以有两种方法来控制
      *  第一种：我们就用最大公约数m来控制外循环，代表总共有m轮循环
-     *  第二种：由于nn个元素归位需要n次交换，所以我们定义一个count代表交换次数，当 count = n 时完成
+     *  第二种：由于n个元素归位需要n次交换，所以我们定义一个count代表交换次数，当 count = n 时完成
      */
     public void rotate3(int[] nums, int k) {
         int len  = nums.length;

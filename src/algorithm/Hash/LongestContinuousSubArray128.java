@@ -35,7 +35,7 @@ public class LongestContinuousSubArray128 {
             set.add(num);
         }
         int longestStreak = 0;
-        //第二遍循环使用Set会快很多  可能是Set是去重集合快了些
+        //第二遍循环使用Set会快很多  因为是Set是去重集合快了些
         for (int num : set) {
             //判断前一个数是否在哈希表中
             //技巧：如果有比自己小一点的，那自己不查，让小的去查（降低了复杂度）
@@ -59,7 +59,7 @@ public class LongestContinuousSubArray128 {
             set.add(num);
         }
         int max=0;
-        for(int num:nums){
+        for(int num:set){
             if(!set.contains(num-1)){
                 int currentNext=num+1;
                 while(set.contains(currentNext)){

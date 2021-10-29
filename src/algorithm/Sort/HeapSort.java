@@ -2,6 +2,37 @@ package algorithm.Sort;
 
 public class HeapSort {
 
+    /**
+     * my堆排
+     */
+    public int[] heapSort(int[] nums) {
+        int len=nums.length;
+        for(int i=len/2-1;i>=0;--i){
+            adjustHeap(nums,i,len);
+        }
+        for(int i=len-1;i>=1;--i){
+            swap(nums,0,i);
+            adjustHeap(nums,0,i);
+        }
+        return nums;
+    }
+
+    private void adjustHeap(int []nums,int j,int end){
+        int tmp=nums[j];
+        for(int k=2*j+1;k<end;k=2*k+1){
+            if(k+1<end&&nums[k]<nums[k+1]){
+                ++k;
+            }
+            if(nums[k]>tmp){
+                nums[j]=nums[k];
+                j=k;
+            }else{
+                break;
+            }
+        }
+        nums[j]=tmp;
+    }
+
 
     public int[] sortArray(int[] nums) {
         int len = nums.length;

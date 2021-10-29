@@ -33,6 +33,20 @@ public class JumpGame55 {
      * 如果可以一直跳到最后，就成功了
      */
 
+    /**
+     * 将上一部的判断条件取反
+     */
+    public boolean canJump1(int[] nums) {
+        int n = nums.length;
+        int rightmost = 0;
+        for (int i = 0; i < n; ++i) {
+            //如果当前节点大于左侧所有节点最大能跳至的地方，那么就说明这个节点是个断点
+            if(i>rightmost) return false;
+            rightmost=Math.max(rightmost,nums[i]+i);
+        }
+        return true;
+    }
+
     public boolean canJump(int[] nums) {
         int n = nums.length;
         int rightmost = 0;
@@ -50,19 +64,6 @@ public class JumpGame55 {
         return false;
     }
 
-    /**
-     * 将上一部的判断条件取反
-     */
-    public boolean canJump1(int[] nums) {
-        int n = nums.length;
-        int rightmost = 0;
-        for (int i = 0; i < n; ++i) {
-            //如果当前节点大于左侧所有节点最大能跳至的地方，那么就说明这个节点是个断点
-           if(i>rightmost) return false;
-           rightmost=Math.max(rightmost,nums[i]+i);
-        }
-        return true;
-    }
 
     /**
      * 我的思路是从倒数第二个节点开始判断这个节点是否能到达最后一个节点，如果可以到达更新节点位置

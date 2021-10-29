@@ -56,8 +56,7 @@ public class LongestCommonPrefix14 {
         for (int i = 0; i < a.length; i++) {
             if (i < b.length && a[i] == b[i]) {
                 res.append(a[i]);
-            }
-            else{
+            }else{
                 break;
             }
         }
