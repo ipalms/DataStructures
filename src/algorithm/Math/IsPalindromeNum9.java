@@ -26,7 +26,6 @@ public class IsPalindromeNum9 {
 
     /**
      * 反转整个数字，判断反转前后两是否相等
-     *
      * 还可以只反转一半，判断前后部分是否相等（要判断奇偶）
      */
     public boolean isPalindrome(int x) {

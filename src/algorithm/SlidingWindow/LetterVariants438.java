@@ -82,8 +82,8 @@ public class LetterVariants438 {
         if(s.length()==0||p.length()==0||s.length()<p.length()){
             return results;
         }
-        int need[]=new int[26];
-        int have[]=new int[26];
+        int[] need =new int[26];
+        int[] have =new int[26];
         for (int i = 0; i <p.length() ; i++) {
             need[p.charAt(i)-'a']++;
         }

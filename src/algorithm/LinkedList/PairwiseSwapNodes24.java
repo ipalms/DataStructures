@@ -35,23 +35,32 @@ public class PairwiseSwapNodes24 {
     /**
      * 迭代  --25题 一次反转k个指针的简单版
      */
-    public ListNode swapPairsMy(ListNode head) {
+    public ListNode swapPairs2(ListNode head) {
+        if(head==null) return null;
         ListNode dummy=new ListNode(0,head);
-        ListNode curr=dummy,tail=head;
-        while(tail!=null){
-            tail=tail.next;
-            if(tail==null){
-                return dummy.next;
-            }
-            ListNode next=tail.next;
-            ListNode pre=curr.next;
-            pre.next=next;
-            curr.next=tail;
-            tail.next=pre;
-            curr=pre;
-            tail=next;
+        ListNode pre=dummy,curr=head;
+        while(curr!=null&&curr.next!=null){
+            ListNode next=curr.next.next;
+            curr.next.next=curr;
+            pre.next=curr.next;
+            curr.next=next;
+            pre=curr;
+            curr=next;
         }
         return dummy.next;
+    }
+
+    /**
+     * 使用递归 交换两两相邻的结点
+     */
+    public ListNode swapPairs(ListNode head) {
+        //确定递归结束条件
+        if(head==null||head.next==null) return head;
+        ListNode next=head.next;
+        head.next=swapPairs(next.next);
+        next.next=head;
+        //递归的返回值
+        return next;
     }
 
     public ListNode swapPairs1(ListNode head) {
@@ -69,19 +78,6 @@ public class PairwiseSwapNodes24 {
         return dummyHead.next;
     }
 
-    /**
-     * 使用递归 交换两两相邻的结点
-     */
-    public ListNode swapPairs(ListNode head) {
-        //确定递归结束条件
-        if(head==null||head.next==null) return head;
-        ListNode next=head.next;
-        ListNode tail=head.next.next;
-        next.next=head;
-        head.next=swapPairs(tail);
-        //递归的返回值
-        return next;
-    }
 
     //打印链表的结点
     public static void nodeForEach(ListNode head){

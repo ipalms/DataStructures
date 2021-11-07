@@ -1,5 +1,6 @@
 package algorithm.DynamicProgramming;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,6 +29,31 @@ public class WordBreak139 {
 
     /**
      * dp[i]表示字符串s的前i-1个字符能否拆分成
+     * 两层循环--状态规划：完全背包问题 + 哈希表保存字典
+     */
+    public boolean wordBreak1(String s, List<String> wordDict) {
+        // 将词典保存到哈希表中
+        int strLen = s.length();
+        Set<String> dict = new HashSet<>(wordDict);
+        // dp[i] 表示以i - 1为末尾的前缀字符串是否可以由字典中的单词组成
+        boolean[] dp = new boolean[strLen + 1];
+        dp[0] = true;
+        // 外层遍历字符串，内层遍历字典
+        for (int i = 1; i <= strLen; i++) {
+            //遍历数组比遍历hash表快
+            for (String word : wordDict) {
+                int pre = i - word.length();
+                if (pre >= 0 && dp[pre] && dict.contains(s.substring(pre, i))) {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        return dp[strLen];
+    }
+
+    /**
+     * dp[i]表示字符串s的前i-1个字符能否拆分成
      * 两层循环
      */
     public boolean wordBreak(String s, List<String> wordDict) {
@@ -45,24 +71,4 @@ public class WordBreak139 {
         return dp[s.length()];
     }
 
-    // 状态规划：完全背包问题 + 哈希表保存字典
-    public boolean wordBreak1(String s, List<String> wordDict) {
-        // 将词典保存到哈希表中
-        int strLen = s.length();
-        Set<String> dict = new HashSet<>(wordDict);
-        // dp[i] 表示以i - 1为末尾的前缀字符串是否可以由字典中的单词组成
-        boolean[] dp = new boolean[strLen + 1];
-        dp[0] = true;
-        // 外层遍历字符串，内层遍历字典
-        for (int i = 1; i <= strLen; i++) {
-            for (String word : dict) {
-                int pre = i - word.length();
-                if (pre >= 0 && dp[pre] && dict.contains(s.substring(pre, i))) {
-                    dp[i] = true;
-                    break;
-                }
-            }
-        }
-        return dp[strLen];
-    }
 }

@@ -57,6 +57,9 @@ public class LongestOnesIII1004 {
         while (right < N) {
             if (A[right] == 0)
                 zeros ++;
+            //可以把更新字串的操作放在外面
+            //res = Math.max(res,right-left);
+
             //窗口区内0的数量超过了k个，左指针缩小到窗口内0的数量为k
             while (zeros > k) {
                 //更新最长连续为一字串长度

@@ -59,7 +59,18 @@ public class RemoveDuplicates26 {
      * 拓展到最多保留数组中保留k位相同数
      * 所以可以变形到第80题
      */
-    public int removeKDuplicatesMy(int[] nums,int k) {
+    public int removeKDuplicatesK(int[] nums,int k) {
+        if(nums.length<k) return nums.length;
+        int slow = k;
+        for (int fast=k;fast<nums.length;fast++) {
+            //slow指针还没大于等于k 或者fast指针所指数字在slow指针往前k个所指没有出现过
+            if (nums[slow - k] != nums[fast])
+                nums[slow++] = nums[fast];
+        }
+        return slow;
+    }
+
+    public int removeKDuplicatesK1(int[] nums,int k) {
         int slow = 0;
         for (int fast=0;fast<nums.length;fast++) {
             //slow指针还没大于等于k 或者fast指针所指数字在slow指针往前k个所指没有出现过
@@ -67,6 +78,21 @@ public class RemoveDuplicates26 {
                 nums[slow++] = nums[fast];
         }
         return slow;
+    }
+
+    //自己write的
+    public int removeDuplicatesMy1(int[] nums) {
+        int i=1;
+        for(int k=1;k<nums.length;++k){
+            while(k<nums.length&&nums[k]==nums[k-1]){
+                ++k;
+            }
+            if(k<nums.length){
+                nums[i]=nums[k];
+                ++i;
+            }
+        }
+        return i;
     }
 
     //自己写的冗余的判断

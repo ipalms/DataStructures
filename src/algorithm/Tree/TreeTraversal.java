@@ -200,11 +200,13 @@ public class TreeTraversal {
                     root = root.left;
                 }
                 root = stack.pop();
+                //判断右侧节点均已访问过了
                 if (root.right == null || root.right == prev) {
                     res.add(root.val);
                     prev = root;
                     root = null;
                 } else {
+                    //重新加入stack
                     stack.push(root);
                     root = root.right;
                 }
@@ -212,7 +214,7 @@ public class TreeTraversal {
             return res;
         }
 
-        //前序遍历相反操作思路
+        //前序遍历相反操作思路，结果链表头插法
         public List<Integer> postorderTraversal3(TreeNode root) {
             LinkedList<Integer> result = new LinkedList<>();
             Stack<TreeNode> stack = new Stack<>();
