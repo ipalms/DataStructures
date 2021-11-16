@@ -48,15 +48,15 @@ public class MinTriangleSum120 {
     int n;
     public int minimumTotal(List<List<Integer>> triangle) {
         n=triangle.size();
-        return findMax(triangle,0,0);
+        return findMin(triangle,0,0);
     }
 
-    public int findMax(List<List<Integer>> triangle,int level,int index){
+    public int findMin(List<List<Integer>> triangle,int level,int index){
         if(level==n){
             return 0;
         }
-        int left=findMax(triangle,level+1,index);
-        int right=findMax(triangle,level+1,index+1);
+        int left=findMin(triangle,level+1,index);
+        int right=findMin(triangle,level+1,index+1);
         return Math.min(left,right)+triangle.get(level).get(index);
     }
 
@@ -73,9 +73,11 @@ public class MinTriangleSum120 {
         if (i == triangle.size()) {
             return 0;
         }
+        //判断缓存中是否存在
         if (memo[i][j] != null) {
             return memo[i][j];
         }
+        //更新缓存的同时返回结果
         return memo[i][j] = Math.min(dfs(triangle, i + 1, j), dfs(triangle, i + 1, j + 1)) + triangle.get(i).get(j);
     }
 

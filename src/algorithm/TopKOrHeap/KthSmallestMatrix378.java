@@ -18,26 +18,11 @@ import java.util.PriorityQueue;
  * 输出：-5
  */
 public class KthSmallestMatrix378 {
+
     /**
-     * 自己写的：使用优先队列--类似题373的写法
-     * 复杂度较高--但由于剪枝了可能比用归并的好
+     * 对于矩阵寻找第k小可以采用23合并两个有序链表中的PriorityQueue的同样的思路
+     * 维护每个数组的头结点，移除k-1个节点
      */
-    public int kthSmallest(int[][] matrix, int k) {
-        PriorityQueue<Integer> queue=new PriorityQueue<Integer>(k,(a, b)->b-a);
-        for(int i=0;i<matrix.length;i++){
-            for(int j=0;j<matrix[0].length;j++){
-                //剪枝
-                if(queue.size()==k&&matrix[i][j]>queue.peek()){
-                    break;
-                }
-                if(queue.size()==k){
-                    queue.poll();
-                }
-                queue.offer(matrix[i][j]);
-            }
-        }
-        return queue.peek();
-    }
 
     /**
      * 值域二分查找：时间复杂度 O(N*log(right-left))
@@ -49,7 +34,7 @@ public class KthSmallestMatrix378 {
      *      初始位置在 matrix[n - 1][0]matrix[n−1][0]（即左下角）；
      *      设当前位置为 matrix[i][j]，若matrix[i][j]≤mid，
      *      则将当前所在列的不大于mid的数的数量（即i+1）累加到答案中并向右移动，否则向上移动；不断移动直到走出格子为止。
-     * 恰好可以使用二分查找规则（这里是二分答案而非二分不标）：
+     * 恰好可以使用二分查找规则（这里是二分答案而非二分下标）：
      * 不妨假设答案为x，那么可以知道l≤x≤r，这样就确定了二分查找的上下界。
      * 每次对于「猜测」的答案 mid，计算矩阵中有多少数不大于 mid ：
      * 如果数量不少于k，那么说明最终答案x不大于 mid；
@@ -124,5 +109,27 @@ public class KthSmallestMatrix378 {
         }
         //优先队列顶就是第k小的数
         return pq.poll()[0];
+    }
+
+
+    /**
+     * 自己写的：使用优先队列--类似题373的写法
+     * 复杂度较高--但由于剪枝了可能比用归并的好
+     */
+    public int kthSmallestMy(int[][] matrix, int k) {
+        PriorityQueue<Integer> queue=new PriorityQueue<Integer>(k,(a, b)->b-a);
+        for(int i=0;i<matrix.length;i++){
+            for(int j=0;j<matrix[0].length;j++){
+                //剪枝
+                if(queue.size()==k&&matrix[i][j]>queue.peek()){
+                    break;
+                }
+                if(queue.size()==k){
+                    queue.poll();
+                }
+                queue.offer(matrix[i][j]);
+            }
+        }
+        return queue.peek();
     }
 }

@@ -22,7 +22,8 @@ public class TreeTraversal {
         TreeNode c=new TreeNode(20,a,b);
         TreeNode d=new TreeNode(9);
         TreeNode e=new TreeNode(3,d,c);
-        new LevelOrder().levelOrderMy(e);
+        List<Integer> res=new InOrderTraversal().inorderTraversal2(e);
+        System.out.println(res);
     }
 
 

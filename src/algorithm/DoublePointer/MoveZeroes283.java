@@ -15,6 +15,27 @@ public class MoveZeroes283 {
     /**
      * 维护双指针---相似题：剑指 Offer 21. 调整数组顺序使奇数位于偶数前面
      */
+
+    /**
+     * 优化寻找0位置过程
+     */
+    public void moveZeroes(int[] nums) {
+        int i=0,j=0;
+        while(j<nums.length){
+            if(nums[j]!=0){
+                //执行替换操作,如果i==j没有必要，因为这证明前面的数均为非0数
+                if(i!=j){
+                    nums[i]=nums[j];
+                    nums[j]=0;
+                }
+                //nums[j]!=0时，寻0指针可以前移
+                i++;
+            }
+            j++;
+        }
+    }
+
+
     public void moveZeroesMy(int[] nums) {
         int i=0,j=0;
         while(j<nums.length){
@@ -34,24 +55,5 @@ public class MoveZeroes283 {
         int tmp=nums[i];
         nums[i]=nums[j];
         nums[j]=tmp;
-    }
-
-    /**
-     * 优化寻找0位置过程
-     */
-    public void moveZeroes(int[] nums) {
-        int i=0,j=0;
-        while(j<nums.length){
-            if(nums[j]!=0){
-                //执行替换操作,如果i==j没有必要，因为这证明前面的数均为非0数
-                if(i!=j){
-                    nums[i]=nums[j];
-                    nums[j]=0;
-                }
-                //nums[j]!=0时，寻0指针可以前移
-                i++;
-            }
-            j++;
-        }
     }
 }
