@@ -43,6 +43,48 @@ public class LongestSubarray1438 {
     }
 
     /**
+     * 滑动窗口 + 者两个单向队列 目的是分别维护窗口内最大值最小值
+     * 时间复杂度：O(n)，其中n是数组长度。我们最多遍历该数组两次，两个单调队列入队出队次数也均为 O(n)。
+     * 空间复杂度：O(n)，其中n是数组长度。最坏情况下单调队列将和原数组等大。
+     */
+    public int longestSubarray4(int[] nums, int limit) {
+        Deque<Integer> queMax = new LinkedList<Integer>();
+        Deque<Integer> queMin = new LinkedList<Integer>();
+        int n = nums.length;
+        int left = 0, right = 0;
+        int ret = 0;
+        while (right < n) {
+            //维护递增队列（从左到右）
+            while (!queMax.isEmpty() && queMax.peekLast() < nums[right]) {
+                queMax.pollLast();
+            }
+            //维护递减队列（从左到右）
+            while (!queMin.isEmpty() && queMin.peekLast() > nums[right]) {
+                queMin.pollLast();
+            }
+            queMax.offerLast(nums[right]);
+            queMin.offerLast(nums[right]);
+            //比较这个窗口内的最大值与最小值之差
+            while (!queMax.isEmpty() && !queMin.isEmpty() && queMax.peekFirst() - queMin.peekFirst() > limit) {
+                //大于给定limit，左边界要前移，需要删除两个队列中的可能保存了的左边界的值
+                if (nums[left] == queMin.peekFirst()) {
+                    queMin.pollFirst();
+                }
+                if (nums[left] == queMax.peekFirst()) {
+                    queMax.pollFirst();
+                }
+                //窗口左移
+                left++;
+            }
+            //不断计算结果值
+            ret = Math.max(ret, right - left + 1);
+            //窗口右移
+            right++;
+        }
+        return ret;
+    }
+
+    /**
      * 滑动窗口 + 有序集合
      * 或者 滑动窗口 + 两个优先队列（或者两个单调队列--239也是单调队列） 目的是分别维护窗口内最大值最小值
      */
@@ -117,45 +159,4 @@ public class LongestSubarray1438 {
         return ans;
     }
 
-    /**
-     * 滑动窗口 + 者两个单向队列 目的是分别维护窗口内最大值最小值
-     * 时间复杂度：O(n)，其中n是数组长度。我们最多遍历该数组两次，两个单调队列入队出队次数也均为 O(n)。
-     * 空间复杂度：O(n)，其中n是数组长度。最坏情况下单调队列将和原数组等大。
-     */
-    public int longestSubarray4(int[] nums, int limit) {
-        Deque<Integer> queMax = new LinkedList<Integer>();
-        Deque<Integer> queMin = new LinkedList<Integer>();
-        int n = nums.length;
-        int left = 0, right = 0;
-        int ret = 0;
-        while (right < n) {
-            //维护递增队列（从左到右）
-            while (!queMax.isEmpty() && queMax.peekLast() < nums[right]) {
-                queMax.pollLast();
-            }
-            //维护递减队列（从左到右）
-            while (!queMin.isEmpty() && queMin.peekLast() > nums[right]) {
-                queMin.pollLast();
-            }
-            queMax.offerLast(nums[right]);
-            queMin.offerLast(nums[right]);
-            //比较这个窗口内的最大值与最小值之差
-            while (!queMax.isEmpty() && !queMin.isEmpty() && queMax.peekFirst() - queMin.peekFirst() > limit) {
-                //大于给定limit，左边界要前移，需要删除两个队列中的可能保存了的左边界的值
-                if (nums[left] == queMin.peekFirst()) {
-                    queMin.pollFirst();
-                }
-                if (nums[left] == queMax.peekFirst()) {
-                    queMax.pollFirst();
-                }
-                //窗口左移
-                left++;
-            }
-            //不断计算结果值
-            ret = Math.max(ret, right - left + 1);
-            //窗口右移
-            right++;
-        }
-        return ret;
-    }
 }

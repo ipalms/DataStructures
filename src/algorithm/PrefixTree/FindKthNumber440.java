@@ -1,5 +1,7 @@
 package algorithm.PrefixTree;
 
+import org.junit.Test;
+
 /**
  * 440. 字典序的第K小数字
  * 给定整数 n 和 k，找到 1 到 n 中字典序第 k 小的数字。
@@ -13,6 +15,10 @@ package algorithm.PrefixTree;
  * 字典序的排列是 [1, 10, 11, 12, 13, 2, 3, 4, 5, 6, 7, 8, 9]，所以第二小的数字是 10。
  */
 public class FindKthNumber440 {
+    @Test
+    public  void test(){
+        findKthNumber(13,4);
+    }
 
 
     /**

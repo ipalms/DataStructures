@@ -43,23 +43,14 @@ public class MedianFinder295 {
         minHeap=new PriorityQueue<Integer>((a,b)->a-b);
     }
 
-    public void addNumMy(int num) {
-        total++;
-        //主动判断在那个队列插入元素，因为自己判断了所以平均移动次数要小于后两种，更快一点
-        if(maxHeap.size()<(total+1)/2){
-            if(maxHeap.size()==0||num<=minHeap.peek()){
-                maxHeap.offer(num);
-            }else{
-                maxHeap.offer(minHeap.poll());
-                minHeap.offer(num);
-            }
-        }else{
-            if(num<maxHeap.peek()){
-                minHeap.offer(maxHeap.poll());
-                maxHeap.offer(num);
-            }else{
-                minHeap.offer(num);
-            }
+    public void addNum3(int num) {
+        maxHeap.offer(num);
+        ++total;
+        if(total%2==0){
+            minHeap.offer(maxHeap.poll());
+        }else if(!minHeap.isEmpty()&&maxHeap.peek()>minHeap.peek()){
+            maxHeap.offer(minHeap.poll());
+            minHeap.offer(maxHeap.poll());
         }
     }
 
@@ -84,6 +75,26 @@ public class MedianFinder295 {
         } else {  //相等说明此次应该向大顶堆输入一个数
             minHeap.add(num);
             maxHeap.add(minHeap.poll());
+        }
+    }
+
+    public void addNumMy(int num) {
+        total++;
+        //主动判断在那个队列插入元素，因为自己判断了所以平均移动次数要小于后两种，更快一点
+        if(maxHeap.size()<(total+1)/2){
+            if(maxHeap.size()==0||num<=minHeap.peek()){
+                maxHeap.offer(num);
+            }else{
+                maxHeap.offer(minHeap.poll());
+                minHeap.offer(num);
+            }
+        }else{
+            if(num<maxHeap.peek()){
+                minHeap.offer(maxHeap.poll());
+                maxHeap.offer(num);
+            }else{
+                minHeap.offer(num);
+            }
         }
     }
 

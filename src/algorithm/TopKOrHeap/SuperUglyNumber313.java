@@ -72,6 +72,7 @@ public class SuperUglyNumber313 {
         for (int j = 1; j < n; ) {
             int[] poll = q.poll();
             int val = poll[0], i = poll[1], idx = poll[2];
+            // j++只有在此处才触发
             if (val != ans[j - 1]) ans[j++] = val;
             q.add(new int[]{ans[idx + 1] * primes[i], i, idx + 1});
         }

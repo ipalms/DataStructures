@@ -13,6 +13,8 @@ public class test {
 
     public static void main(String []args){
         List<Integer> one=new ArrayList<>(){{add(1);}};
+        List<Integer> two=new LinkedList<>(){{add(1);}};
+        two.get(2);
         System.out.println("1 0 1 0".replace(" ",""));
         /*Scanner sc=new Scanner(System.in);
         int num=sc.nextInt();

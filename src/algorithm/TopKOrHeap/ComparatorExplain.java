@@ -14,6 +14,8 @@ public class ComparatorExplain {
      * 但是直接返回o1-o2可能会遇到问题，如果T类型为Integer，那么意味着只有四个字节大小
      * 那么如果o1一个为正数，一个为负数相差大于4字节就会造成数据溢出，那么就会排序不准。
      * 对于一些题目而言结果不同 例如480题
+     *
+     * 注意PriorityQueue的声明的前后都要打上范型的方括号，不然内部使用Comparator比较的数据类型需要自己去指定
      */
     @Test
     public void testComparator(){
@@ -28,7 +30,9 @@ public class ComparatorExplain {
         PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> Integer.compare(b, a));
         //申明大顶堆 使用b-a 可能会造成数据溢出
         PriorityQueue<Integer> maxHeap1 = new PriorityQueue<>((a, b) -> b-a);
-
+        PriorityQueue<Integer> maxHeap2 = new PriorityQueue<>((a, b) ->{
+            return (b < a) ? -1 : ((b == a) ? 0 : 1);
+        });
         int c=-2147483648-2147483646;
         System.out.println(c);  //c打印结果为2
         int []num={-2147483648,-2147483647,2147483646,-2147483648,-2147483648,-2147483648,2147483647,2147483647,2147483647,2147483647,-2147483648,2147483647,-2147483648};

@@ -21,6 +21,8 @@ public class FindKthLargest215 {
      * 解题角度
      * 最坏是使用排序（快排）
      * 其次就是使用快速选择 或者 使用小顶堆/优先队列解题
+     * 小顶堆就是堆数组的升序排序，大顶堆就是堆数组的降序排序
+     * compareTo(int a,int b)  a-b：升序排序  b-a：降序排序
      */
     public static void main(String[] args) {
         int []nums={3,1,2,4};
@@ -86,6 +88,7 @@ public class FindKthLargest215 {
     /**
      * 一次加载所有元素进队列
      * java的优先队列  优先队列不传排序器则默认使用小顶堆--从小到大排序
+     * 注意PriorityQueue的声明的前后都要打上范型的方括号，不然内部使用Comparator比较的数据类型需要自己去指定
      */
     public static int findKthLargest(int[] nums, int k) {
         /**
@@ -96,7 +99,7 @@ public class FindKthLargest215 {
          *         return o2-o1;
          *      }
          * });
-*/
+         */
         PriorityQueue<Integer> queue = new PriorityQueue<>((a, b) -> b-a);  //队列顶部从大到小排列  a-b代表从小到大
         for(int num : nums) {
             queue.add(num);

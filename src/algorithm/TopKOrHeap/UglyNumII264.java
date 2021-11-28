@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  * 264. 丑数 II
  * 给你一个整数 n ，请你找出并返回第 n 个 丑数 。
- * 丑数 就是只包含质因数 2、3 和/或 5 的正整数。
+ * 丑数 就是只包含质因数 2、3 和 5 的正整数。
  * 示例 1：
  * 输入：n = 10
  * 输出：12
@@ -29,31 +29,22 @@ public class UglyNumII264 {
     }
 
     /**
-     * 优先队列+哈希去重表
-     * 1.起始先将最小丑数1放入队列
-     * 2.每次从队列取出最小值x，然后将x所对应的丑数2x、3x和5x进行入队。
-     * 3.对步骤2循环多次，第n次出队的值即是答案。
-     * 4.为了防止同一丑数多次进队，我们需要使用数据结构Set来记录入过队列的丑数。
-     * 注意使用long类型防止数据溢出
-     * 时间复杂度：O（NlogN）
-     * 空间复杂度：O（N）
+     * 什么是质因子：
+     * 质因子（或质因数）在数论里是指能整除给定正整数的质数
+     * 题目给定的质因子集合为2、3、5,所以丑数的质数集合不能来自除了这三个数以外的质因子（如7、13）
      */
-    public int nthUglyNumber(int n) {
-        long []nums={2,3,5};
-        PriorityQueue<Long> queue=new PriorityQueue<>();
-        Set<Long> set=new HashSet<>();
-        queue.offer(1L);
-        set.add(1L);
-        for(int i=1;i<=n;++i){
-            long num=queue.poll();
-            if(i==n) return (int)num;
-            for(long x:nums){
-                if(set.add(num*x)){
-                    queue.offer(num*x);
-                }
-            }
+    public int nthUglyNumberNew(int n) {
+        int []dp=new int[n];
+        dp[0]=1;
+        int a=0,b=0,c=0;
+        for(int i=1;i<n;++i){
+            int a1=dp[a]*2,b1=dp[b]*3,c1=dp[c]*5;
+            dp[i]=Math.min(a1,Math.min(b1,c1));
+            if(dp[i]==a1) ++a;
+            if(dp[i]==b1) ++b;
+            if(dp[i]==c1) ++c;
         }
-        return -1;
+        return dp[n-1];
     }
 
     /**
@@ -88,5 +79,33 @@ public class UglyNumII264 {
             dp[i] = min;
         }
         return dp[n];
+    }
+
+    /**
+     * 优先队列+哈希去重表
+     * 1.起始先将最小丑数1放入队列
+     * 2.每次从队列取出最小值x，然后将x所对应的丑数2x、3x和5x进行入队。
+     * 3.对步骤2循环多次，第n次出队的值即是答案。
+     * 4.为了防止同一丑数多次进队，我们需要使用数据结构Set来记录入过队列的丑数。
+     * 注意使用long类型防止数据溢出
+     * 时间复杂度：O（NlogN）
+     * 空间复杂度：O（N）
+     */
+    public int nthUglyNumber(int n) {
+        long []nums={2,3,5};
+        PriorityQueue<Long> queue=new PriorityQueue<>();
+        Set<Long> set=new HashSet<>();
+        queue.offer(1L);
+        set.add(1L);
+        for(int i=1;i<=n;++i){
+            long num=queue.poll();
+            if(i==n) return (int)num;
+            for(long x:nums){
+                if(set.add(num*x)){
+                    queue.offer(num*x);
+                }
+            }
+        }
+        return -1;
     }
 }

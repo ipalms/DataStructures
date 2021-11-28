@@ -25,6 +25,9 @@ import java.util.*;
  * 尝试以 O(n log k) 时间复杂度和 O(n) 空间复杂度解决。
  */
 public class TopKFrequentWord692 {
+    /**
+     * 这题掌握优先队列写法就可以了
+     */
 
     @Test
     public void test(){
@@ -32,6 +35,34 @@ public class TopKFrequentWord692 {
         System.out.println(topKFrequent3(words,1));
     }
 
+    /**
+     * 对于比较规则较为复杂的情况（在if语句中比较难写下，应该维护k+1个长度的优先队列让优先队列自己来比较）
+     */
+    public List<String> topKFrequent1(String[] words, int k) {
+        Map<String,Integer>map=new HashMap<>();
+        for(String s:words){
+            map.put(s,map.getOrDefault(s,0)+1);
+        }
+        PriorityQueue<String> queue=new PriorityQueue<>(k+1, (a,b)->{
+            if(map.get(a)==map.get(b)){
+                return b.compareTo(a);
+            }
+            return map.get(a)>map.get(b)?1:-1;
+        });
+        PriorityQueue<Integer> queue2 = new PriorityQueue<>((a, b) -> b-a);
+        PriorityQueue<Integer> queue1=new PriorityQueue<>( (a,b) -> a-b);
+        for(String s:map.keySet()){
+            queue.offer(s);
+            if(queue.size()>k){
+                queue.poll();
+            }
+        }
+        List<String> res=new LinkedList<>();
+        while(!queue.isEmpty()){
+            res.add(0,queue.poll());
+        }
+        return res;
+    }
 
     /**
      * 对于比较规则较为复杂的情况（在if语句中比较难写下，应该维护k+1个长度的优先队列让优先队列自己来比较）
@@ -42,22 +73,20 @@ public class TopKFrequentWord692 {
         for(String word:words){
             map.put(word,map.getOrDefault(word,0)+1);
         }
-        PriorityQueue<String> queue=new PriorityQueue(k+1,new Comparator<String>(){
-            public int compare(String o1,String o2){
-                int n1=map.get(o1);
-                int n2=map.get(o2);
-                if(n1!=n2){
-                    return n1-n2;
-                }
-                //比较两个字符串的字典序（可以使用String类自带的 o2.compareTo(o1)）完成
-                int min=Math.min(o1.length(),o2.length());
-                for(int i=0;i<min;i++){
-                    int differ=o2.charAt(i)-o1.charAt(i);
-                    if(differ==0) continue;
-                    return differ;
-                }
-                return o2.length()-o1.length();
+        PriorityQueue<String> queue=new PriorityQueue(k+1, (Comparator<String>) (o1, o2) -> {
+            int n1=map.get(o1);
+            int n2=map.get(o2);
+            if(n1!=n2){
+                return n1-n2;
             }
+            //比较两个字符串的字典序（可以使用String类自带的 o2.compareTo(o1)）完成
+            int min=Math.min(o1.length(),o2.length());
+            for(int i=0;i<min;i++){
+                int differ=o2.charAt(i)-o1.charAt(i);
+                if(differ==0) continue;
+                return differ;
+            }
+            return o2.length()-o1.length();
         });
         for(Map.Entry<String,Integer> entry:map.entrySet()){
             queue.offer(entry.getKey());
