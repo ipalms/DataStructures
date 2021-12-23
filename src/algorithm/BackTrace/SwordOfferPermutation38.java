@@ -1,5 +1,7 @@
 package algorithm.BackTrace;
 
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +17,14 @@ import java.util.List;
  * 1 <= s 的长度 <= 8
  */
 public class SwordOfferPermutation38 {
+
+    @Test
+    public void test(){
+        String[] strings = permutation("AAC");
+        for(String s:strings){
+            System.out.println(s);
+        }
+    }
 
 
     /**

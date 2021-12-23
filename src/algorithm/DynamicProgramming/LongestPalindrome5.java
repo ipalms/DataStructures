@@ -75,7 +75,7 @@ public class LongestPalindrome5 {
                 } else {
                     //当i到j之间只有两个或者三个元素，且charArray[i] == charArray[j]
                     //那么这一段[i,j]一定是回文的
-                    if (j - i < 3) {
+                    if (L <= 3) {
                         dp[i][j] = true;
                     } else {
                         //区间大于三个元素就取决于左右边界各收缩一格的字串是否回文

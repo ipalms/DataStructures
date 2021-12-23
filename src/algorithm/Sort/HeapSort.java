@@ -7,9 +7,11 @@ public class HeapSort {
      */
     public int[] heapSort(int[] nums) {
         int len=nums.length;
+        //第一遍成堆一定要从底向上
         for(int i=len/2-1;i>=0;--i){
             adjustHeap(nums,i,len);
         }
+        //第二遍是从上到下的调整
         for(int i=len-1;i>=1;--i){
             swap(nums,0,i);
             adjustHeap(nums,0,i);
@@ -19,6 +21,7 @@ public class HeapSort {
 
     private void adjustHeap(int []nums,int j,int end){
         int tmp=nums[j];
+        //这里是2*j+1作为起始
         for(int k=2*j+1;k<end;k=2*k+1){
             if(k+1<end&&nums[k]<nums[k+1]){
                 ++k;

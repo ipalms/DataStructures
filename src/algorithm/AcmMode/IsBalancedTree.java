@@ -58,8 +58,6 @@ public class IsBalancedTree {
             int left_i = Integer.parseInt(ss[1]);
             int right_i = Integer.parseInt(ss[2]);
             TreeNode node = new TreeNode(val_i);
-            node.left = tree[left_i];
-            node.right = tree[right_i];
             leaf[i][0] = left_i;
             leaf[i][1] = right_i;
             tree[i] = node;

@@ -20,7 +20,7 @@ public class FindSqrt69 {
 
     @Test
     public void test(){
-        System.out.println(mySqrtx(8));
+        System.out.println(mySqrt3(8));
     }
 
     //值二分--起始right位于x/2
@@ -69,6 +69,7 @@ public class FindSqrt69 {
     }
 
     /**
+     * 牛顿迭代法是求精确到某一位的有效方法（最容易实现的方法）
      * 牛顿迭代法  --时间复杂度 O（logX）
      * 不断取Xi+1=(Xi+C/Xi)2  --Xi+1会无限迫近于根号C
      * 为什么选择 x为什么选择x0=C作为初始值？
@@ -80,19 +81,19 @@ public class FindSqrt69 {
      * 此时的结果已经足够我们得到答案了。一般来说，可以判断相邻两次迭代的结果的差值是否小于一个极小的非负数
      * 一般可以取 10^{-6}或 10^{-7}
      */
-    public int mySqrt3(int x) {
+    public double mySqrt3(int x) {
         if (x == 0) {
             return 0;
         }
         double C = x, x0 = x;
         while (true) {
             double xi = 0.5 * (x0 + C / x0);
-            if (Math.abs(x0 - xi) < 1e-7) {
+            if (Math.abs(x0 - xi) < 1e-3) {
                 break;
             }
             x0 = xi;
         }
-        return (int) x0;
+        return  ((int)(x0*100))/100.0;
     }
 
     /**

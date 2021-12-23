@@ -32,6 +32,39 @@ public class StringMultiply43 {
      */
 
     /**
+     * 利用乘法规律
+     * 乘数num1位数为 M，被乘数num2位数为N，num1 * num2 结果 res 最大总位数为 M+N
+     * num1[i] x num2[j] 的结果为 tmp(位数为两位，"0x","xy"的形式)
+     * 其第一位位于 res[i+j]，第二位位于 res[i+j+1]。
+     */
+    public String multiply2(String num1, String num2) {
+        //特殊情况
+        if (num1.equals("0") || num2.equals("0")) {
+            return "0";
+        }
+        int[] res = new int[num1.length() + num2.length()];
+        for (int i = num1.length() - 1; i >= 0; i--) {
+            int n1 = num1.charAt(i) - '0';
+            for (int j = num2.length() - 1; j >= 0; j--) {
+                int n2 = num2.charAt(j) - '0';
+                //相乘也要加上进位数
+                //i j是从大到小的 所以数组存储的位是按进制递增的
+                int sum = (res[i + j + 1] + n1 * n2);
+                res[i + j + 1] = sum % 10;
+                res[i + j] += sum / 10;
+            }
+        }
+        //将结果转化位字符串
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < res.length; i++) {
+            //判断最高位是否为0
+            if (i == 0 && res[i] == 0) continue;
+            result.append(res[i]);
+        }
+        return result.toString();
+    }
+
+    /**
      * 复杂一点的 拆分+字符串相加
      * 借用了415题的字符串相加
      * 即一个字符串数的每一位与另一个字符串数的一位相乘结果类积--对与相应位的数要进行补0
@@ -81,39 +114,6 @@ public class StringMultiply43 {
         return sb.reverse().toString();
     }
 
-
-    /**
-     * 利用乘法规律
-     * 乘数num1位数为 M，被乘数num2位数为N，num1 * num2 结果 res 最大总位数为 M+N
-     * num1[i] x num2[j] 的结果为 tmp(位数为两位，"0x","xy"的形式)
-     * 其第一位位于 res[i+j]，第二位位于 res[i+j+1]。
-     */
-    public String multiply2(String num1, String num2) {
-        //特殊情况
-        if (num1.equals("0") || num2.equals("0")) {
-            return "0";
-        }
-        int[] res = new int[num1.length() + num2.length()];
-        for (int i = num1.length() - 1; i >= 0; i--) {
-            int n1 = num1.charAt(i) - '0';
-            for (int j = num2.length() - 1; j >= 0; j--) {
-                int n2 = num2.charAt(j) - '0';
-                //相乘也要加上进位数
-                //i j是从大到小的 所以数组存储的位是按进制递增的
-                int sum = (res[i + j + 1] + n1 * n2);
-                res[i + j + 1] = sum % 10;
-                res[i + j] += sum / 10;
-            }
-        }
-        //将结果转化位字符串
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < res.length; i++) {
-            //判断最高位是否为0
-            if (i == 0 && res[i] == 0) continue;
-            result.append(res[i]);
-        }
-        return result.toString();
-    }
 
     /**
      * 错误做法  不能直接通过转化成数字相乘，数据较大时会溢出（超过long最大范围）

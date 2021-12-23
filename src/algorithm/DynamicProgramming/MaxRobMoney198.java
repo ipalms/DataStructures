@@ -42,6 +42,10 @@ public class MaxRobMoney198 {
      * 偷窃第k间房屋，那么就不能偷窃第k−1间房屋，偷窃总金额为前k−2间房屋的最高总金额与第k间房屋的金额之和。
      * 不偷窃第k间房屋，偷窃总金额为前k−1间房屋的最高总金额。
      */
+
+    /**
+     * 无优化空间版本
+     */
     public int rob1(int[] nums) {
         if(nums.length==1) return  nums[0];
         int []dp=new int[nums.length];
@@ -68,6 +72,7 @@ public class MaxRobMoney198 {
         }
         String path="";
         for(int i=len-1;i>=0;){
+            //需要while 而非if 来排除没偷的
             while(i>0&&dp[i-1]==dp[i]){
                 --i;
             }

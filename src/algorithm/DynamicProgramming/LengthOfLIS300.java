@@ -2,6 +2,8 @@ package algorithm.DynamicProgramming;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
 /**
  * 300. 最长递增子序列
  * 给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。
@@ -41,6 +43,7 @@ public class LengthOfLIS300 {
      * 时间复杂度：O(n^2)
      * 空间复杂度：O(n)，需要额外使用长度为n的dp数组。
      */
+
      public int lengthOfLIS(int[] nums) {
         int max=0;
         int []dp=new int[nums.length];
@@ -60,7 +63,68 @@ public class LengthOfLIS300 {
     }
 
     /**
+     * 输出递增的序列
+     * 只要在更新dp数组的时候同时记录路径，最后找LIS长度的时候同时找到终点，经过终点逆向就能找到LIS路径了
+     */
+    public String lengthOfLISPath(int[] nums) {
+        //index为最长序列的最后一位数的位置
+        int max=0,index=0;
+        int []dp=new int[nums.length];
+        //记录路径（上一个节点位置）
+        int []path=new int[nums.length];
+        //初始化dp为1
+        Arrays.fill(dp,1);
+        //路径初始化为-1，表示这是最长路径的开始
+        Arrays.fill(path,-1);
+        for(int i=1;i<nums.length;i++){
+            for(int j=0;j<i;j++){
+                if(nums[j]<nums[i]){
+                    //状态转移关系，dp取当前dp[i]和已存在的dp[j]+1的较大值
+                    dp[i]=Math.max(dp[i],dp[j]+1);
+                    path[i]=j;
+                }
+            }
+            //更新最长序列，以及序列的最后一位
+            if(dp[i]>max){
+                max=dp[i];
+                index=i;
+            }
+        }
+        StringBuilder s= new StringBuilder();
+        //退出的条件是index==-1,即这个坐标是最长递增序列的第一个数
+        while(index!=-1){
+            s.insert(0,nums[index] + "  ");
+            index=path[index];
+        }
+        return s.toString();
+    }
+
+    /**
+     * 动态规划，遍历的顺序改变一下
+     */
+    public int lengthOfLIS3(int[] nums) {
+        int n=nums.length;
+        int max=1;
+        int []dp=new int[n];
+        Arrays.fill(dp,1);
+        for(int i=0;i<n-1;++i){
+            for(int j=i+1;j<n;++j){
+                if(nums[j]>nums[i]){
+                    dp[j]=Math.max(dp[j],dp[i]+1);
+                }
+            }
+            max=Math.max(max,dp[i]);
+        }
+        return max;
+    }
+
+    /**
      * 贪心+二分
+     * 依然着眼于某个上升子序列的结尾的元素，如果已经得到的上升子序列的结尾的数越小，
+     * 那么遍历的时候后面接上一个数，会有更大的可能构成一个长度更长的上升子序列。
+     * 既然结尾越小越好，我们可以记录 在长度固定的情况下，结尾最小的那个元素的数值
+     * 这样定义以后容易得到「状态转移方程」。
+     *
      * 时间复杂度：O(NlogN)，遍历数组使用了O(N)，二分查找法使用了O(logN)。
      * 空间复杂度：O(N)，开辟有序数组 tail 的空间至多和原始数组一样。
      * 题解链接：
@@ -71,7 +135,7 @@ public class LengthOfLIS300 {
         if (len <= 1) {
             return len;
         }
-        //tail数组的定义：长度为i+1的上升子序列的末尾最小是几
+        //tail[i]数组的定义：长度为i+1的上升子序列的末尾最小是几
         //数组tail也是一个严格上升数组
         int[] tail = new int[len];
         // 遍历第 1 个数，直接放在有序数组 tail 的开头
@@ -130,7 +194,8 @@ public class LengthOfLIS300 {
     @Test
     public void test() {
         int[] nums = new int[]{3, 5, 6, 2, 5, 4, 19, 5, 6, 7, 12};
-        int lengthOfLIS =lengthOfLIS2(nums);
-        System.out.println("最长上升子序列的长度：" + lengthOfLIS);
+        int[] nums1 = new int[]{10,9,2,5,3,7,103,101,18};
+        //int lengthOfLIS =lengthOfLIS2(nums);
+        System.out.println("最长上升子序列的长度：" + lengthOfLISPath(nums1));
     }
 }

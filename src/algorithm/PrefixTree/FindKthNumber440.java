@@ -17,7 +17,7 @@ import org.junit.Test;
 public class FindKthNumber440 {
     @Test
     public  void test(){
-        findKthNumber(13,4);
+        System.out.println(findKthNumber(22,12));
     }
 
 
@@ -27,10 +27,13 @@ public class FindKthNumber440 {
     public int findKthNumber(int n, int k) {
         int pre = 1;
         //扣除数字1
+        //这个扣除是和下面的判断以及getCount函数相关的，当k==now时，由于先扣除了一个数，那么要找的第k小应该正好是pre++的数
         k--;
         while (k > 0) {
             int now = getCount(n, pre, pre + 1);
             //说明第k个数不在这个前缀区间里 注意有等号
+            //取等说明，当k==now时，由于先扣除了一个数，那么要找的第k小应该正好是pre++的数
+            //如果没有扣除最初的1，那么k==now时，要取的数是 pre 分支下最右的节点而非pre++这个数，这样求得那个数比较麻烦
             if (k >= now) {
                 pre++;  // 找下一个字典序前缀
                 k -= now;  // 扣除这个前缀的所有数

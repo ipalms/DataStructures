@@ -43,8 +43,10 @@ public class WordBreak139 {
             //遍历数组比遍历hash表快
             for (String word : wordDict) {
                 int pre = i - word.length();
+                //if(pre>=0&&s.substring(pre,i).equals(word)&&dp[pre]){   //也可以
                 if (pre >= 0 && dp[pre] && dict.contains(s.substring(pre, i))) {
                     dp[i] = true;
+                    //注意这里要break
                     break;
                 }
             }

@@ -49,6 +49,7 @@ public class FindPeakElement162 {
         int left = 0, right = nums.length - 1;
         while(left < right) {
             int mid = left + (right - left) / 2;
+            //此题由mid向上还是向下取舍而有两种解法
             if (nums[mid] > nums[mid+1]) {
                 right = mid;
             } else {

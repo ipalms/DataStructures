@@ -20,6 +20,7 @@ public class SwordOfferExchange21 {
 
     /**
      * 快慢指针---思路和283题移动零一致
+     * 快慢指针可以实现奇数与奇数  偶数与偶数之间的相对顺序,如果采用的是直接拷贝[before,i-1]拷贝到[before+1,i]处实现
      */
     public int[] exchange(int[] nums) {
         int n=nums.length;

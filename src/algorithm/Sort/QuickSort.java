@@ -80,7 +80,7 @@ public class QuickSort {
                 ++counter;
             }
         }
-        nums[start]=nums[counter];
+        nums[end]=nums[counter];
         nums[counter]=pivotNum;
         return counter;
     }

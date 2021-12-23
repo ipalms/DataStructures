@@ -84,6 +84,54 @@ public class FindKthLargest215 {
         }
     }
 
+    /**
+     * 这个版本是将快排改成降序的
+     */
+    class MyQuickSelect2{
+        public int findKthLargest(int[] nums, int k) {
+            int left=0,right=nums.length-1;
+            return find(nums,left,right,k);
+        }
+
+        //这里就是从前往后找第k个了
+        private int find(int[] nums,int left,int right,int k){
+            if(left==right) return nums[left];
+            int pivot=findPivot(nums,left,right);
+            if(pivot+1<k){
+                return find(nums,pivot+1,right,k);
+            }else if(pivot+1==k){
+                return nums[pivot];
+            }else{
+                return find(nums,left,pivot-1,k);
+            }
+        }
+
+        //降序找pivot
+        Random r=new Random();
+        private int findPivot(int[] nums,int left,int right){
+            int ran=r.nextInt(right-left+1)+left;
+            swap(nums,right,ran);
+            int target=nums[right],curr=left;
+            for(int i=left;i<right;++i){
+                if(nums[i]>target){
+                    if(i!=curr){
+                        swap(nums,i,curr);
+                    }
+                    ++curr;
+                }
+            }
+            nums[right]=nums[curr];
+            nums[curr]=target;
+            return curr;
+        }
+
+        private void swap(int[] nums,int i,int j){
+            int tmp=nums[i];
+            nums[i]=nums[j];
+            nums[j]=tmp;
+        }
+    }
+
 
     /**
      * 一次加载所有元素进队列
