@@ -26,78 +26,40 @@ public class ReverseKGroup25 {
 
 
     /**
-     * 后面自己写的
+     * 比较简介的写法
      */
-    public ListNode reverseKGroup4(ListNode head, int k) {
+    public ListNode reverseKGroup1(ListNode head, int k) {
+        int tmp=k;
         ListNode dummy=new ListNode(0,head);
         ListNode pre=dummy,curr=head;
-        int count=0;
         while(curr!=null){
-            if(++count==k){
-                ListNode after=curr.next;
-                ListNode before=pre.next;
-                reverse(before,after);
-                pre.next.next=after;
-                pre.next=curr;
-                pre=before;
-                curr=before;
-                count=0;
+            while(k>0&&curr!=null){
+                curr=curr.next;
+                --k;
             }
-            curr=curr.next;
+            //去掉这个判断就可以实现不满足K个也反转的情况了
+            if(k!=0) break;
+            ListNode t=pre.next;
+            ListNode h=reverseK(t,curr);
+            pre.next=h;
+            t.next=curr;
+            pre=t;
+            k=tmp;
         }
         return dummy.next;
     }
 
-    public void reverse(ListNode head,ListNode tail){
-        ListNode pre=null,next;
-        while(head!=tail){
-            next=head.next;
-            head.next=pre;
-            pre=head;
-            head=next;
-        }
-    }
-
-    /**
-     * 每k个节点一次性的反转
-     */
-    public ListNode reverseKGroupMy(ListNode head, int k) {
-        ListNode dummy=new ListNode(0,head);
-        ListNode curr=dummy,nextNode=dummy;
-        int count=0;
-        while(nextNode.next!=null){
-            //换成for循环
-            //for(int i=0;i<k&&nextNode!=null;i++) nextNode=nextNode.next;
-            while(nextNode!=null&&count<k){
-                nextNode=nextNode.next;
-                count++;
-            }
-            if(nextNode==null){
-                return dummy.next;
-            }
-            ListNode next=nextNode.next;
-            ListNode pre=reverseLinkedList(curr.next,next);
-            ListNode front=curr.next;
-            front.next=next;
-            curr.next=pre;
-            curr=front;
-            nextNode=front;
-            count=0;
-        }
-        return dummy.next;
-    }
-
-    public ListNode reverseLinkedList(ListNode head,ListNode end){
+    private ListNode reverseK(ListNode curr,ListNode tail){
         ListNode pre=null;
-        ListNode next;
-        while(head!=end){
-            next=head.next;
-            head.next=pre;
-            pre=head;
-            head=next;
+        while(curr!=tail){
+            ListNode next=curr.next;
+            curr.next=pre;
+            pre=curr;
+            curr=next;
         }
         return pre;
     }
+
 
     /**
      * 迭代实现  使用递归会使得空间复杂度变高不满足常数级别时间复杂度
@@ -213,6 +175,8 @@ public class ReverseKGroup25 {
             return head;
         }
     }
+
+
     private static class ListNode {
         int val;
         ListNode next;

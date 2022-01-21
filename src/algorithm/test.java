@@ -21,6 +21,25 @@ public class test {
         for(int i=0;i<a.length;++i){
             System.out.print(a[i]+"\t");
         }
+        List<List<Integer>> res=new ArrayList<>();
+        //这样初始化不能使用变量i,j等等 必须添加常量
+        res.add(new ArrayList<>(){{add(1);add(2);add(3);}});
+    }
+
+    public int countBinarySubstrings(String s) {
+        int all=0;
+        for(int i=0;i<s.length();++i){
+            int count=0;
+            for(int j=i;j<s.length();++j){
+                if(s.charAt(j)=='1'){
+                    ++count;
+                }
+                if(j-i+1==2*count){
+                    ++all;
+                }
+            }
+        }
+        return all;
     }
 
     @Test

@@ -20,7 +20,7 @@ public class FindSqrt69 {
 
     @Test
     public void test(){
-        System.out.println(mySqrt3(8));
+        System.out.println(myCube(100));
     }
 
     //值二分--起始right位于x/2
@@ -94,6 +94,23 @@ public class FindSqrt69 {
             x0 = xi;
         }
         return  ((int)(x0*100))/100.0;
+    }
+
+
+    /**
+     * 变形题--可以用牛顿迭代法求各种零点
+     * 如 y=x^3
+     * 得：Xi+1=(2Xi+C/Xi^2)3
+     */
+    public int myCube(int x) {
+        if(x==0) return 0;
+        double x0=0;
+        double x1=x;
+        while(Math.abs(x0-x1)>1e-9){
+            x0=x1;
+            x1=(2*x0+x/x0/x0)/3;
+        }
+        return (int)x0;
     }
 
     /**

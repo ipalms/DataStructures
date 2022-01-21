@@ -84,7 +84,7 @@ public class MaxSlidingWindow239 {
             }
             // 添加当前值对应的数组下标
             queue.addLast(i);
-            // 判断当前队列中队首的值是否有效
+            // 判断当前队列中队首的值是否有效---注意这里最多只有一个元素无效用if语句
             if(queue.peek() <= i-k){
                 queue.poll();
             }

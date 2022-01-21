@@ -2,6 +2,17 @@ package algorithm.Sort;
 
 public class Heap {
 
+
+    /**
+     * 大顶堆的编写--优先队列
+     * 注意数组元素下标是否从 0 开始对具体编码单调实现具有影响
+     * 如果0下标存元素 那么对于下标i的左子节点对应下标为2*i+1,右子节点下标为2*i+2
+     * 如果0下标不存元素 那么对于下标i的左子节点对应下标为2*i,右子节点下标为2*i+1
+     *
+     * 小顶堆将数值比较中的 < 都换成 >  就行了
+     *
+     * 补全了更多方法的优先队列--包括数组扩容情况
+     */
     public static void main(String[] args) {
 //        Heap a=new Heap(100);
         int []nums=new int[]{10,9,8,16,15};
@@ -69,6 +80,10 @@ public class Heap {
 
     public boolean isEmpty(){
         return size<0;
+    }
+
+    public int size(){
+        return size+1;
     }
 
     public int poll(){

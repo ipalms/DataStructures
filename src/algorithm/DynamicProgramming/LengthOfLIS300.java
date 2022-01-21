@@ -177,6 +177,91 @@ public class LengthOfLIS300 {
         return end;
     }
 
+    /**
+     * 二分找递增序列
+     * 如果有多个答案，请输出其中 按数值(注：区别于按单个字符的ASCII码值)进行比较的 字典序最小的那个
+     */
+    public int[] LIS (int[] arr) {
+        int n = arr.length;
+        // 列表的最大子序列 下标从1开始   下标从0开始是另一种写法
+        int[] end = new int[n + 1];
+        // 存储每个元素的最大子序列个数
+        int[] dp = new int[n];
+        int len = 1;
+        //子序列的第一个元素默认为数组第一个元素
+        end[1] = arr[0];
+        //第一个元素的最大子序列个数肯定是1
+        dp[0] = 1;
+        for (int i = 0; i < n; i++) {
+            if (end[len] < arr[i]) {
+                //当arr[i] > end[len] 时 arr[i]添加到 end后面
+                end[++len] = arr[i];
+                dp[i] = len;
+            } else {
+                // 当前元素小于end中的最后一个元素 利用二分法寻找第一个大于arr[i]的元素
+                // end[l] 替换为当前元素 dp[]
+                int l = 0;
+                int r = len;
+                // 注意这里 left <= right 而不是 left < right，我们要替换的是第一个比 arr[i] 大的元素
+                while (l <= r) {
+                    int mid = (l + r) >> 1;
+                    if (end[mid] >= arr[i]) {
+                        r = mid - 1;
+                    } else {
+                        l = mid + 1;
+                    }
+                }
+                end[l] = arr[i];
+                dp[i] = l;
+            }
+        }
+        int[] res = new int[len];
+        for (int i = n - 1; i >= 0; i--) {
+            if (dp[i] == len) {
+                res[--len] = arr[i];
+            }
+        }
+        return res;
+    }
+
+    //dp数组从0开始版本
+    public int[] LIS1(int[] arr) {
+        //从0开始
+        int[] dp = new int[arr.length];
+        int[] tail = new int[arr.length];
+        dp[0] = 1;
+        int tempIndex = 0;
+        tail[tempIndex] = arr[0];
+        for (int i = 1; i < arr.length; ++i) {
+            int left = 0, right = tempIndex;
+            if (arr[i] > tail[tempIndex]) {
+                ++tempIndex;
+                dp[i] = tempIndex + 1;
+                tail[tempIndex] = arr[i];
+            } else {
+                while (left <= right) {        // 注意这里 left <= right 而不是 left < right，我们要替换的是第一个比 arr[i] 大的元素
+                    int mid = (right + left) / 2;
+                    if (tail[mid] > arr[i]) {
+                        right = mid - 1;
+                    } else {
+                        left = mid + 1;
+                    }
+                }
+                tail[left] = arr[i];
+                dp[i] = left + 1;
+            }
+        }
+
+        int[] res = new int[tempIndex + 1];
+        for (int i = dp.length - 1; i >= 0; --i) {
+            if (dp[i] == tempIndex + 1) {
+                res[tempIndex] = arr[i];
+                --tempIndex;
+            }
+        }
+        return res;
+    }
+
     // 调试方法，以观察是否运行正确
     private void printArray(int num, int[] tail) {
         System.out.print("当前数字：" + num);
@@ -196,6 +281,6 @@ public class LengthOfLIS300 {
         int[] nums = new int[]{3, 5, 6, 2, 5, 4, 19, 5, 6, 7, 12};
         int[] nums1 = new int[]{10,9,2,5,3,7,103,101,18};
         //int lengthOfLIS =lengthOfLIS2(nums);
-        System.out.println("最长上升子序列的长度：" + lengthOfLISPath(nums1));
+        System.out.println("最长上升子序列的长度：" + Arrays.toString(LIS(nums)));
     }
 }

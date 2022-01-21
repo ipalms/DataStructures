@@ -27,7 +27,8 @@ public class IsCompleteTree958 {
      * dfs版本
      * 核心关键点：树的size是否等于最后一个节点的indexCode
      * 树的size在便利到每个不为null的节点的时候不断维护，indexCode是在递归时作为参数传入的
-     * （对于完全二叉树层序遍历展开为数组而言，假如root索引为x,则root的左节点是2*x,右节点为2*x+1）
+     * （对于完全二叉树层序遍历展开为数组而言，在起始索引为1的情况下
+     * 假如递归时的root索引为x,则root的左节点是2*x,右节点为2*x+1）
      */
     int size = 0;
     int maxCode = 0;

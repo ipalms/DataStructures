@@ -5,7 +5,7 @@ package algorithm.DivideAndConquer;
  */
 public class HanoiTower {
     public static void main(String[] args) {
-        hanoiTower(2, 'A', 'B', 'C');
+        hanoiTower(4, 'A', 'B', 'C');
     }
         //    先把 最上面的盘 A->B
         //    把最下边的盘 A->C

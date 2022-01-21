@@ -55,7 +55,7 @@ public class FindCircleNum547 {
         // 对当前顶点 i 进行访问标记
         visited[i] = true;
         // 继续遍历与顶点 i 相邻的顶点（使用 visited 数组防止重复访问）
-        for (int j = 0; j < isConnected.length; j++) {
+        for (int j = 0; j < isConnected[0].length; j++) {
             if (isConnected[i][j] == 1 && !visited[j]) {
                 dfs(j, isConnected, visited);
             }

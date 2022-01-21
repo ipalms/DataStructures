@@ -73,9 +73,11 @@ public class SortColors75 {
             }else if(nums[i]==0){
                 swap(nums,i,p0);
                 //如果p0小于p1，说明刚刚交换出一个1到后面，需要再将这个位置与p1指针交换
+                //if(nums[k]==1){  这个条件也行
                 if(p0<p1){
                     swap(nums,i,p1);
                 }
+                //遇到0时，这两个指针要一起加1
                 p0++;
                 p1++;
             }

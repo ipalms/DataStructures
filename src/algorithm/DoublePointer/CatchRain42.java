@@ -1,5 +1,7 @@
 package algorithm.DoublePointer;
 
+import org.junit.Test;
+
 import java.util.Deque;
 import java.util.LinkedList;
 
@@ -26,6 +28,7 @@ public class CatchRain42 {
      * 该题最优解法是双指针--其次可以使用单调栈--再然后是动态规划--最后是暴力题解
      * https://leetcode-cn.com/problems/trapping-rain-water/solution/jie-yu-shui-by-leetcode-solution-tuvc/
      */
+
 
     /**
      * 暴力解法
@@ -160,6 +163,71 @@ public class CatchRain42 {
             }
         }
         return ans;
+    }
+
+    @Test
+    public void test(){
+        int []height=new int[]{3,2,6,5,4,10,11};
+        //int []height=new int[]{12,10,8,6,5,1};
+        //int []height=new int[]{1,5,6,8,10,12};
+        System.out.println(getWater1(height));
+    }
+
+    /**
+     * 变形题---柱子变为隔板，隔板可以视为没有体积仅仅能阻隔装水--即隔板没有宽度，只有高度
+     * 3，2，6，5，4，10，11
+     * 能装水 3*2+3*6+10*1
+     * 单调栈解决
+     */
+    public int getWater(int[] height) {
+        int sum=0;
+        Deque<Integer> stack=new LinkedList<>();
+        for(int i=0;i<height.length;++i){
+            while (!stack.isEmpty()&&height[stack.peekLast()]<height[i]){
+                int last =stack.pollLast();
+//                //比当前遍历到的隔板高度小的都可以略过不影响结果
+//                while (!stack.isEmpty()&&height[stack.peekLast()]<height[i]){
+//                    last=stack.pollLast();
+//                }
+                //如果所有栈中元素都小于当前隔板高度，那就要计算栈中前面隔板接水量了
+                if(stack.isEmpty()){
+                    sum+=(i-last)*height[last];
+                }
+            }
+            stack.addLast(i);
+        }
+        //单调（递减）栈中还存在元素
+        //12,10,8,6,5,1
+        if(!stack.isEmpty()){
+            int peek=stack.pollLast();
+            while(!stack.isEmpty()){
+                int pre=stack.pollLast();
+                sum+=(peek-pre)*height[peek];
+                peek=pre;
+            }
+        }
+        return sum;
+    }
+
+    /**
+     * 变形题的双指针解法---更简单
+     */
+    public int getWater1(int[] height) {
+        int left=0,right=height.length-1;
+        int leftMax=0,rightMax=0;
+        int sum=0;
+        while(left<right){
+            leftMax=Math.max(height[left],leftMax);
+            rightMax=Math.max(height[right],rightMax);
+            if(leftMax<rightMax){
+                sum+=leftMax;
+                ++left;
+            }else{
+                sum+=rightMax;
+                --right;
+            }
+        }
+        return  sum;
     }
 
     /**

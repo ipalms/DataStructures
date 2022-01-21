@@ -36,6 +36,7 @@ public class MaximumSwap670 {
             maxIndex[j] = max;
         }
         //正序遍历，找到第一个不是最大的数，将该位置和右边最大数换位置
+        //贪心的进行最大交换
         for(int i = 0;i<chars.length;i++){
             int iValue = chars[i] - '0';
             int maxValue = chars[maxIndex[i]] - '0';

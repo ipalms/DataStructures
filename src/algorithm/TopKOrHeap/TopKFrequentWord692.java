@@ -44,13 +44,11 @@ public class TopKFrequentWord692 {
             map.put(s,map.getOrDefault(s,0)+1);
         }
         PriorityQueue<String> queue=new PriorityQueue<>(k+1, (a,b)->{
-            if(map.get(a)==map.get(b)){
+            if(map.get(a).equals(map.get(b))){
                 return b.compareTo(a);
             }
             return map.get(a)>map.get(b)?1:-1;
         });
-        PriorityQueue<Integer> queue2 = new PriorityQueue<>((a, b) -> b-a);
-        PriorityQueue<Integer> queue1=new PriorityQueue<>( (a,b) -> a-b);
         for(String s:map.keySet()){
             queue.offer(s);
             if(queue.size()>k){

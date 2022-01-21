@@ -95,13 +95,14 @@ public class LongestPalindrome5 {
 
     /**
      * 自己后面仿写的中心扩散法
+     * 中心扩散法的中心点要考虑要考虑一个和两个组成的情况
      */
     int len;
     public String longestPalindromeMy(String s) {
         len=s.length();
         int max=1,left=0;
         char []tmp=s.toCharArray();
-        for(int i=0;i<len-1;++i){
+        for(int i=0;i<len;++i){
             int []a=findMax(tmp,i,i);
             int []b=findMax(tmp,i,i+1);
             int []res=a[1]>b[1]?a:b;
@@ -120,6 +121,44 @@ public class LongestPalindrome5 {
             ++right;
         }
         return new int[]{left+1,right-left-1};
+    }
+
+    /**
+     * 中心扩散法 --遍历每一个下标，以这个下标为中心，利用「回文串」中心对称的特点，往两边扩散，看最多能扩散多远
+     * 枚举「中心位置」时间复杂度为 O(N)O(N)，从「中心位置」扩散得到「回文子串」的时间复杂度为O(N^2)
+     */
+    public String longestPalindrome2(String s) {
+        int len = s.length();
+        if(len < 2) return s;
+        int maxLen = 0;
+        // 数组第一位记录起始位置，第二位记录长度
+        int[] res = new int[2];
+        for (int i = 0; i < s.length() - 1; i++) {
+            //统计奇偶下的结果--取较大值
+            int[] odd = centerSpread(s, i, i);
+            int[] even = centerSpread(s, i, i + 1);
+            int[] max = odd[1] > even[1] ? odd : even;
+            if (max[1] > maxLen) {
+                res = max;
+                maxLen = max[1];
+            }
+        }
+        return s.substring(res[0], res[0] + res[1]);
+    }
+
+    //中心扩散
+    private int[] centerSpread(String s, int left, int right) {
+        int len = s.length();
+        while (left >= 0 && right < len) {
+            if (s.charAt(left) == s.charAt(right)) {
+                left--;
+                right++;
+            } else {
+                break;
+            }
+        }
+        //这里的left 和 right都是在合法回文子串下的左右边界各偏离1，返回时要把这个偏差算在内
+        return new int[]{left + 1, right - left - 1};
     }
 
 
@@ -163,43 +202,5 @@ public class LongestPalindrome5 {
             right--;
         }
         return true;
-    }
-
-    /**
-     * 中心扩散法 --遍历每一个下标，以这个下标为中心，利用「回文串」中心对称的特点，往两边扩散，看最多能扩散多远
-     * 枚举「中心位置」时间复杂度为 O(N)O(N)，从「中心位置」扩散得到「回文子串」的时间复杂度为O(N^2)
-     */
-    public String longestPalindrome2(String s) {
-        int len = s.length();
-        if(len < 2) return s;
-        int maxLen = 0;
-        // 数组第一位记录起始位置，第二位记录长度
-        int[] res = new int[2];
-        for (int i = 0; i < s.length() - 1; i++) {
-            //统计奇偶下的结果--取较大值
-            int[] odd = centerSpread(s, i, i);
-            int[] even = centerSpread(s, i, i + 1);
-            int[] max = odd[1] > even[1] ? odd : even;
-            if (max[1] > maxLen) {
-                res = max;
-                maxLen = max[1];
-            }
-        }
-        return s.substring(res[0], res[0] + res[1]);
-    }
-
-    //中心扩散
-    private int[] centerSpread(String s, int left, int right) {
-        int len = s.length();
-        while (left >= 0 && right < len) {
-            if (s.charAt(left) == s.charAt(right)) {
-                left--;
-                right++;
-            } else {
-                break;
-            }
-        }
-        //这里的left 和 right都是在合法回文子串下的左右边界各偏离1，返回时要把这个偏差算在内
-        return new int[]{left + 1, right - left - 1};
     }
 }

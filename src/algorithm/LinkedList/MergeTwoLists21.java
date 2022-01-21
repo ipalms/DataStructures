@@ -18,11 +18,10 @@ public class MergeTwoLists21 {
         ListNode node8=new ListNode(4,node9);
         ListNode node7=new ListNode(3,node8);
         ListNode head2=new ListNode(1,node7);
-        System.out.println(mergeTwoLists(head1,head2));
+        System.out.println(mergeTwoListsNoRepeat(head1,head2));
     }
 
-
-    public ListNode mergeTwoListsMy(ListNode l1, ListNode l2) {
+    public static ListNode mergeTwoListsMy(ListNode l1, ListNode l2) {
         ListNode dummy=new ListNode();
         ListNode curr=dummy;
         while(l1!=null&&l2!=null){
@@ -40,6 +39,31 @@ public class MergeTwoLists21 {
     }
 
     /**
+     * 合并链表并去重做法
+     */
+    public static ListNode mergeTwoListsNoRepeat(ListNode l1, ListNode l2) {
+        ListNode dummy=new ListNode();
+        ListNode curr=dummy;
+        while(l1!=null&&l2!=null){
+            if(l1.val<l2.val){
+                if(curr==dummy||l1.val!=curr.val){
+                    curr.next=l1;
+                    curr=curr.next;
+                }
+                l1=l1.next;
+            }else{
+                if(curr==dummy||l2.val!=curr.val) {
+                    curr.next = l2;
+                    curr=curr.next;
+                }
+                l2=l2.next;
+            }
+        }
+        curr.next=l1==null?l2:l1;
+        return dummy.next;
+    }
+
+    /**
      * 递归做法
      */
     public ListNode mergeTwoListsRecurse(ListNode l1, ListNode l2) {
@@ -48,30 +72,14 @@ public class MergeTwoLists21 {
         } else if (l2 == null) {
             return l1;
         } else if (l1.val < l2.val) {
-            l1.next = mergeTwoLists(l1.next, l2);
+            l1.next = mergeTwoListsRecurse(l1.next, l2);
             return l1;
         } else {
-            l2.next = mergeTwoLists(l1, l2.next);
+            l2.next = mergeTwoListsRecurse(l1, l2.next);
             return l2;
         }
     }
 
-    public static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        ListNode prehead=new ListNode(0);
-        ListNode pre=prehead;
-        while (l1!=null&&l2!=null){
-            if(l1.val<l2.val){
-                pre.next=l1;
-                l1=l1.next;
-            }else {
-                pre.next=l2;
-                l2=l2.next;
-            }
-            pre=pre.next;
-        }
-        pre.next=(l1==null?l2:l1);
-        return prehead.next;
-    }
 
     public static class ListNode {
       int val;
