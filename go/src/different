@@ -1,0 +1,19 @@
+就刷题中Go与Java的不同点：
+
+map构造或初始化：
+cache:=make(map[string]string)  var cache map[string]string=map[string]string{}
+cache:=map[string]string{"1":1,"2":2}
+slice构造或初始化：
+slice:=make([]int,5)  slice:=make([]int,5,10)  slice := []int{1, 2, 3}
+数组构造或初始化：
+var a [3] int   //3个整数型的数组，初始值是3个0
+arr:=[5]int{1,2,3,4,5}
+var array2 = [...]int{6, 7, 8} //不声明长度
+
+1.Go的if for语句都不用带括号，任意行都不需要 ; 结尾
+2.Go没有while 统一用for关键字，没有do while的语法
+3.Go函数可以定义在函数体内部，并在函数体内调用
+4.Go的字符串如果是仅含数字和字母的，可以直接使用数组索引的方式定位某个字符。Java需要s.charAt()
+5.Go的二维数组要两遍初始化，先定义二维数组，再初始化二维数组的每一行具体长度
+6.Go的Math.max()的两个参数为 float64类型，没有提供int类型的比较
+7.Go没有 ++i ,只有i++的写法,条件判断语句中不能有 ++i>0这种参与数值运算的判断条件

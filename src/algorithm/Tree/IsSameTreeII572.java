@@ -18,6 +18,10 @@ public class IsSameTreeII572 {
     /**
      * 普通解法就是套用100题相同的树 的函数
      * 复杂度较高O（s*t） s、t分别为树s和t上的节点总数
+     *
+     * 一道非常相似的题，剑指Offer26.树的子结构
+     * 不同点是判断是子树 还是 子结构
+     * 这两题实质都是对 树s 做先序遍历同时比较当前遍历到的节点下的树与t的结构是否相符
      */
     public boolean isSubtree(TreeNode s, TreeNode t) {
         // 我s都遍历完了。你居然还没匹配上。那就返回false

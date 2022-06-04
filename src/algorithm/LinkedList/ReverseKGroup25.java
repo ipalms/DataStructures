@@ -40,8 +40,7 @@ public class ReverseKGroup25 {
             //去掉这个判断就可以实现不满足K个也反转的情况了
             if(k!=0) break;
             ListNode t=pre.next;
-            ListNode h=reverseK(t,curr);
-            pre.next=h;
+            pre.next= reverseK(t,curr);
             t.next=curr;
             pre=t;
             k=tmp;

@@ -36,11 +36,6 @@ public class Heap {
         while(!a.isEmpty()){
             System.out.println(a.poll());
         }
-//        System.out.println(a.poll());
-//        System.out.println(a.poll());
-//        System.out.println(a.poll());
-//        System.out.println(a.poll());
-//        System.out.println(a.poll());
     }
 
     static int capacity;
@@ -56,7 +51,7 @@ public class Heap {
         arr=new int[capacity];
         size=nums.length-1;
         System.arraycopy(nums,0,arr,0,nums.length);
-        adjustHeap();
+        heapify();
     }
 
     public void add(int num){
@@ -94,7 +89,7 @@ public class Heap {
         return val;
     }
 
-    private void adjustHeap(){
+    private void heapify(){
         for(int i=size/2-1;i>=0;--i){
             siftDown(i);
         }

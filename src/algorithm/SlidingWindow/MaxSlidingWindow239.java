@@ -141,6 +141,22 @@ public class MaxSlidingWindow239 {
         return result;
     }
 
+    public int[] maxSlidingWindow5(int[] nums, int k) {
+        int n=nums.length;
+        PriorityQueue<Integer>queue=new PriorityQueue<>((a,b)->nums[b]-nums[a]);
+        int []res=new int[n-k+1];
+        for (int i=0;i<n;i++){
+            queue.offer(i);
+            if(i>=k-1){
+                while(!queue.isEmpty()&&i-queue.peek()+1>k){
+                    queue.poll();
+                }
+                res[i-k+1]=nums[queue.peek()];
+            }
+        }
+        return res;
+    }
+
 
     /**
      * TreeMap  用时最长

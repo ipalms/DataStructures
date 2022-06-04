@@ -132,6 +132,67 @@ public class FindKthLargest215 {
         }
     }
 
+    // 基于堆排序的选择方法
+    // 因为只需要维护K个长度的最小堆
+    // 所以这种解法只需要编写 堆化 和 下沉两个操作就行
+    class HeapSort{
+        public int findKthLargest(int[] nums, int k) {
+            buildMinHeap(nums, k);
+            for (int i = k; i < nums.length ; ++i) {
+                if (nums[0]>=nums[i]){
+                    continue;
+                }
+                swap(nums, 0, i);
+                minHeapify(nums, 0, k);
+            }
+            return nums[0];
+        }
+
+        public void buildMinHeap(int[] a, int heapSize) {
+            for (int i = heapSize / 2; i >= 0; --i) {
+                minHeapify(a, i, heapSize);
+            }
+        }
+
+        // 下沉操作直接发现符合条件直接交换数值更简单
+        public void minHeapify1(int[] a, int i, int heapSize) {
+            for(int k=2*i+1;k<heapSize;k=2*k+1){
+                if ((k+1)<heapSize&&a[k]>a[k+1]){
+                    ++k;
+                }
+                if (a[k]>=a[i]){
+                    break;
+                }else{
+                    swap(a,i,k);
+                    i=k;
+                }
+            }
+        }
+
+        public void minHeapify(int[] a, int i, int heapSize) {
+            int tmp=a[i];
+            for(int k=2*i+1;k<heapSize;k=2*k+1){
+                if ((k+1)<heapSize&&a[k]>a[k+1]){
+                    ++k;
+                }
+                if (a[k]>=tmp){
+                    break;
+                }else{
+                    a[i]=a[k];
+                    i=k;
+                }
+            }
+            a[i]=tmp;
+        }
+
+
+        public void swap(int[] a, int i, int j) {
+            int temp = a[i];
+            a[i] = a[j];
+            a[j] = temp;
+        }
+    }
+
 
     /**
      * 一次加载所有元素进队列
