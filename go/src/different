@@ -17,3 +17,5 @@ var array2 = [...]int{6, 7, 8} //不声明长度
 5.Go的二维数组要两遍初始化，先定义二维数组，再初始化二维数组的每一行具体长度
 6.Go的Math.max()的两个参数为 float64类型，没有提供int类型的比较
 7.Go没有 ++i ,只有i++的写法,条件判断语句中不能有 ++i>0这种参与数值运算的判断条件
+8.Go中的比较函数的两个参数在堆中代表的位置与Java正好相反，所以比较的内容正好与Java相反
+Go提供的比较的函数是Less(i,j)，Java是Comparator.compare(i,j)以及Comparable.compareTo(i)
