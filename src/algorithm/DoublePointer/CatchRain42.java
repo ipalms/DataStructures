@@ -186,8 +186,8 @@ public class CatchRain42 {
             while (!stack.isEmpty()&&height[stack.peekLast()]<height[i]){
                 int last =stack.pollLast();
 //                //比当前遍历到的隔板高度小的都可以略过不影响结果
-//                while (!stack.isEmpty()&&height[stack.peekLast()]<height[i]){
-//                    last=stack.pollLast();
+//                while (!Stack.isEmpty()&&height[Stack.peekLast()]<height[i]){
+//                    last=Stack.pollLast();
 //                }
                 //如果所有栈中元素都小于当前隔板高度，那就要计算栈中前面隔板接水量了
                 if(stack.isEmpty()){

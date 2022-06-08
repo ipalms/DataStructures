@@ -53,7 +53,7 @@ public class MyStack225 {
         queue2=new LinkedList<>();
     }
 
-    /** Push element x onto stack. */
+    /** Push element x onto Stack. */
     /**
      * 使用两个队列的版本
      */
@@ -79,7 +79,7 @@ public class MyStack225 {
         }
     }
 
-    /** Removes the element on top of the stack and returns that element. */
+    /** Removes the element on top of the Stack and returns that element. */
     public int pop() {
         return queue1.pollFirst();
     }
@@ -89,7 +89,7 @@ public class MyStack225 {
         return queue1.peekFirst();
     }
 
-    /** Returns whether the stack is empty. */
+    /** Returns whether the Stack is empty. */
     public boolean empty() {
         return queue1.isEmpty();
     }

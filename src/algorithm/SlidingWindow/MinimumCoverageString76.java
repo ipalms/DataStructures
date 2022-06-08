@@ -43,6 +43,8 @@ public class MinimumCoverageString76 {
         System.out.println(minWindow(s,"ABC"));
     }
 
+    //是否符合条件（包含T所有字符的最小子串）的标量可以用t.length()也可以用t中不同字母的个数
+    //不同的标量实现略有不同
     public String minWindow4(String s, String t) {
         int len1=s.length(),len2=t.length();
         if(len1<len2) return "";

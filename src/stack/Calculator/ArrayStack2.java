@@ -55,7 +55,7 @@ public class ArrayStack2 {
         }
         //需要从栈顶开始显示数据
         for(int i = top; i >= 0 ; i--) {
-            System.out.printf("stack[%d]=%d\n", i, stack[i]);
+            System.out.printf("Stack[%d]=%d\n", i, stack[i]);
         }
     }
     //返回运算符的优先级，优先级是程序员来确定, 优先级使用数字表示

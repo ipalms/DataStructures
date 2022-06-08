@@ -61,7 +61,7 @@ public class RemoveDuplicateLetters316 {
             stack.addLast(currentChar);
             visited[currentChar - 'a'] = true;
         }
-        // 第 3 步：此时 stack 就是题目要求字典序最小的字符串
+        // 第 3 步：此时 Stack 就是题目要求字典序最小的字符串
         StringBuilder stringBuilder = new StringBuilder();
         for (char c : stack) {
             stringBuilder.append(c);
@@ -104,7 +104,7 @@ public class RemoveDuplicateLetters316 {
             stack.addLast(currentChar);
             visited[currentChar - 'a'] = true;
         }
-        // 第 3 步：此时 stack 就是题目要求字典序最小的字符串
+        // 第 3 步：此时 Stack 就是题目要求字典序最小的字符串
         StringBuilder stringBuilder = new StringBuilder();
         for (char c : stack) {
             stringBuilder.append(c);

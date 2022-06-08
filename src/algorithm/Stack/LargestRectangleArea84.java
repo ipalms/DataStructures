@@ -55,7 +55,7 @@ public class LargestRectangleArea84 {
                     curWidth = i;
                 } else {
                     //计算宽度的时候，一定是需要先弹栈，然后取的是stack.peekLast()的值
-                    //不能直接不弹栈取curWidth = i -stack.peekLast() 再弹栈
+                    //不能直接不弹栈取curWidth = i -Stack.peekLast() 再弹栈
                     //举个例子对数组[2,1,5,6,2,3,1]当计算到倒数第三个数对应最大矩阵时
                     //stack存放的索引情况 [1，4],以上面两种计算方式计算的宽度实际会有所不同
                     curWidth = i - stack.peekLast() - 1;
