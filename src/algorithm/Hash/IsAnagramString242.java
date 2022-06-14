@@ -20,6 +20,10 @@ import java.util.Map;
  * 进阶: 如果输入字符串包含 unicode 字符怎么办？你能否调整你的解法来应对这种情况？
  */
 public class IsAnagramString242 {
+    public static void main(String[] args) {
+        String a="万分感激";
+        System.out.println(a.charAt(1));
+    }
 
 
     /**
@@ -72,6 +76,7 @@ public class IsAnagramString242 {
         char[] str2 = t.toCharArray();
         Arrays.sort(str1);
         Arrays.sort(str2);
+        // String.valueOf(str1).equals(String.valueOf(str2))
         return Arrays.equals(str1, str2);
     }
 

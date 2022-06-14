@@ -29,13 +29,11 @@ public class TopKFrequent347 {
             map.put(num,map.getOrDefault(num,0)+1);
         }
         //定义优先队列的插入元素规则
-        PriorityQueue<Integer> pq=new PriorityQueue<Integer>(k,(o1, o2) -> map.get(o1)-map.get(o2));
+        PriorityQueue<Integer> pq=new PriorityQueue<Integer>((o1, o2) -> map.get(o1)-map.get(o2));
         for(Map.Entry<Integer,Integer> entry:map.entrySet()){
-            if(pq.size()<k){
-                pq.offer(entry.getKey());
-            }else if(entry.getValue()>map.get(pq.peek())){
+            pq.offer(entry.getKey());
+            if(pq.size()>k){
                 pq.poll();
-                pq.offer(entry.getKey());
             }
         }
         //pq.toArray() 返回的是Object[]数组

@@ -1,4 +1,4 @@
-package DP
+package main
 
 func findLength(nums1 []int, nums2 []int) int {
 	n1, n2 := len(nums1), len(nums2)

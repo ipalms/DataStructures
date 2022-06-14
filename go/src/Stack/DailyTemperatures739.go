@@ -1,4 +1,4 @@
-package Stack
+package main
 
 func dailyTemperatures(temperatures []int) []int {
 	stack, res := []int{}, make([]int, len(temperatures))

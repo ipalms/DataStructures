@@ -1,72 +1,29 @@
 package algorithm;
 
-import org.junit.Test;
-
-import java.util.*;
+import java.io.IOException;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class test {
-
-    static int []a=new int[]{10,9,5,199,0,-1,5,15,3,35};
-    static Random ran=new Random();
-    public static void main(String []args){
-//        Scanner sc=new Scanner(System.in);
-//        String []first=sc.nextLine().split(" ");
-//        int []nums=new int[first.length];
-//        for(int i=0;i<nums.length;++i){
-//            nums[i]=Integer.parseInt(first[i]);
-//        }
-        //int []temp=new int[a.length];
-        //mergeSort(a,0,a.length-1,temp);
-        heapSort(a);
-        for(int i=0;i<a.length;++i){
-            System.out.print(a[i]+"\t");
-        }
-        List<List<Integer>> res=new ArrayList<>();
-        //这样初始化不能使用变量i,j等等 必须添加常量
-        res.add(new ArrayList<>(){{add(1);add(2);add(3);}});
+    public static void main(String[] args) throws Exception {
+        System.out.println(countFiles("D:\\IdeaProject\\DataStructures\\src\\algorithm"));
     }
 
-    public int countBinarySubstrings(String s) {
-        int all=0;
-        for(int i=0;i<s.length();++i){
-            int count=0;
-            for(int j=i;j<s.length();++j){
-                if(s.charAt(j)=='1'){
-                    ++count;
+    public static int countFiles(String pathStr) throws Exception {
+        AtomicInteger count = new AtomicInteger(0);
+        Path root = Paths.get(pathStr);
+        Files.walkFileTree(root,new SimpleFileVisitor<>(){
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                if(file.toString().endsWith(".java")&&!file.toString().contains("test")){
+                    count.incrementAndGet();
                 }
-                if(j-i+1==2*count){
-                    ++all;
-                }
+                System.out.println(file);
+                return FileVisitResult.CONTINUE;
             }
-        }
-        return all;
-    }
-
-    @Test
-    public void test(){
-        System.out.println("a".compareTo("b"));
-    }
-
-    private static void quickSort(int []nums,int left,int right){
-        if(left>=right) return;
-        int pivot=findPivot(nums,left,right);
-        quickSort(nums,left,pivot-1);
-        quickSort(nums,pivot+1,right);
-    }
-
-
-    private static int findPivot(int []nums,int left,int right){
-        int s=left+ran.nextInt(right-left)+1;
-        swap(nums,right,s);
-        int pivotNum=nums[right],curr=left;
-        for(int i=left;i<right;++i){
-            if(nums[i]<pivotNum){
-                swap(nums,curr,i);
-                ++curr;
-            }
-        }
-        swap(nums,right,curr);
-        return curr;
+        });
+        return count.get();
     }
 
     private static void swap(int []nums,int a,int b){

@@ -1,4 +1,4 @@
-package BinarySearch
+package main
 
 func singleNonDuplicate(nums []int) int {
 	left, right := 0, len(nums)-1

@@ -5,10 +5,18 @@ cache:=make(map[string]string)  var cache map[string]string=map[string]string{}
 cache:=map[string]string{"1":1,"2":2}
 slice构造或初始化：
 slice:=make([]int,5)  slice:=make([]int,5,10)  slice := []int{1, 2, 3}
+空slice: var slice []int    slice=[]int{}
 数组构造或初始化：
 var a [3] int   //3个整数型的数组，初始值是3个0
 arr:=[5]int{1,2,3,4,5}
 var array2 = [...]int{6, 7, 8} //不声明长度
+二维数组创建：
+var dp [n1+1][n2+1]int 在golang中是不合法的
+正确创建二维数组的姿势是如下：
+dp := make([][]int, n1+1)
+for i := 0; i <= n1; i++ {
+    dp[i] = make([]int, n2+1)
+}
 
 1.Go的if for语句都不用带括号，任意行都不需要 ; 结尾
 2.Go没有while 统一用for关键字，没有do while的语法
@@ -19,3 +27,22 @@ var array2 = [...]int{6, 7, 8} //不声明长度
 7.Go没有 ++i ,只有i++的写法,条件判断语句中不能有 ++i>0这种参与数值运算的判断条件
 8.Go中的比较函数的两个参数在堆中代表的位置与Java正好相反，所以比较的内容正好与Java相反
 Go提供的比较的函数是Less(i,j)，Java是Comparator.compare(i,j)以及Comparable.compareTo(i)
+9.Go switch默认情况下case最后自带break语句，匹配成功后就不会执行其他case，如果我们需要执行后面的case，可以使用 fallthrough
+而Java switch的case语句后要带上break语句，如果不带break语句，则默认执行后面的case
+10.对于数组(切片|集合)排序来说，Go是sort.Ints()|sort.IntSlice(nums).sort()，Java是Arrays或者Collections.sort()
+Java相当于多了一个数组和集合互相转换的操作,Arrays.toList()从数组到集合。而Collections包没有直接的从集合到数组转化的方法
+11.数组（切片）拷贝，Java是Arrays.copy()和Arrays.copyRange()两个函数。
+而Go是用内置的copy函数来实现拷贝，这个拷贝得搭配切片的分割操作加上append()函数才能实现任意序列的拷贝
+
+
+
+关于sort接口与heap接口：
+sort.interface接口：len()、less()、swap()三个方法
+heap.interface接口：sort接口三个方法+push()、pop()两个方法
+sort.IntSlice自己实现了sort.Interface接口的方法（len()、less()、swap()）
+对于单一的一维数据类型，如[]int,[]string,[]float64等实现堆排序或者优先队列覆写less()[定义大顶堆或者小顶堆的比较规则]、pop()、push()方法即可实现
+如果需要多维数据类型或者自定义的结构体，需要自己实现sort.Interface接口的所有方法+heap.interface接口的所有方法来实现优先队列
+
+sort.IntSlice也是可以直接调用排序方法的切片，生成时赋予初始值，可以调用sort.IntSlice.sort()方法对Int类型切皮纳排序
+同样的，还有sort.Float64Slice.sort()方法对Float64类型切片排序以及sort.StringSlice.sort()方法对String类型切片排序
+同理对于普通的排序实现，如果是一维数据类型的已有类型可以使用sort中已经实现的数据结构，否则需要自己去实现sort.Interface接口的所有方法

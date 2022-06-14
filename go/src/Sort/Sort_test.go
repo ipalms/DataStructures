@@ -1,4 +1,4 @@
-package Sort
+package main
 
 import (
 	"fmt"
@@ -87,13 +87,30 @@ func (p s1) Less(i, j int) bool {
 	return p.IntSlice[i] > p.IntSlice[j]
 }
 
+// 三种实现降序排序的方法，其中第一种是可以定义任意的排序规则
 func TestSort4(t *testing.T) {
+	// 方法1：
+	// 最容易自定义的切片排序方法 传入自定义的Less函数
+	// 还有一个稳定版本的Api,sort.SliceStable(s, less)
+	nums3 := []int{1, 4, 2, 6, 4, 3}
+	sort.Slice(nums3, func(i, j int) bool {
+		return nums3[i] > nums3[j]
+	})
+	fmt.Println(nums3) // 打印 [6 4 4 3 2 1]
+	matrix := [][]int{{1, 6}, {4, 53}, {7, 3}, {-2, 8}}
+	sort.Slice(matrix, func(i, j int) bool {
+		return matrix[i][1] > matrix[j][1]
+	})
+	fmt.Println(matrix) // 打印
+
+	//方法2：使用自带的sort包的Reverse方法
 	nums := []int{1, 4, 2, 6, 4, 3}
 	b := sort.IntSlice(nums)
 	sort.Sort(sort.Reverse(b))
 	fmt.Println(nums) //[6 4 4 3 2 1]
 
-	//第二种,构造结构体覆写Less方法实现降序排列
+	//方法3：
+	//构造结构体覆写Less方法实现降序排列
 	nums2 := []int{1, 4, 2, 6, 4, 3}
 	b2 := s1{nums2}
 	sort.Sort(b2)

@@ -1,4 +1,4 @@
-package Hash
+package main
 
 func intersection(nums1 []int, nums2 []int) []int {
 	cache := make(map[int]bool)

@@ -7,7 +7,7 @@
     String[] res=a.spilt(".") 按照分隔符分割String字符串
     String join=String.join(".",res) 按照分隔符合并字符串，
       第二个参数可以是String数组也可以是Collection的子类(实现了Iterable接口的都可)
-    String.valueOf()可以将各个类型的数据转化为String类型(char、int、char[])
+    String.valueOf()可以将各个类型的数据转化为String类型(char、int、char[]、char[start:end]、double)
     a.toLowerCase()可以将字符转为小写
     a.toUpperCase()可以将字符转为大写
     str1.compareTo(str2)比较字两个字符串的字典序
@@ -15,12 +15,16 @@
     a.startsWith(str1)判断字符串是否以str1前缀开头的
     a.endsWith(str1)判断字符串是否以str1后缀结尾的
     a.substring(start,end)截取字符串start到end序列的，且截取原则是左闭右开（右边界对应索引不算在返回值里）
+    a.indexOf(ch or str) 字符串检索其内部是否含有字符 或 某个字符串
 StringBuilder的一些方法
     构造方法可以以字符串或字符数组作为入参
-    sb.append() 可以添加各种类型数据(char、int、double、char[]、string)
+    sb.append() 可以在末尾添加各种类型数据(char、int、double、char[]、string)
+    sb.substring(start,end) sb对象可以直接调用substring()方法
+    sb.reverse()  转置sb内的字节数组内容
     sb.deleteCharAt(i)删除指定索引处的字符
     sb.delete(start,end)删除start到end之间字符（删除原则是左闭右开）
     sb.insert(start,i)在start索引处添加数据
+    sb.indexOf(ch or str) 检索其内部是否含有字符 或 某个字符串
 Character类
     Character.toUpperCase()可以将字符转为大写
     Character.toLowerCase()可以将字符转为小写
