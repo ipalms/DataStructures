@@ -17,6 +17,9 @@ dp := make([][]int, n1+1)
 for i := 0; i <= n1; i++ {
     dp[i] = make([]int, n2+1)
 }
+matrix:=[4][2]int{}
+var dir =[][]int{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}
+dir := [][]int{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}
 
 1.Go的if for语句都不用带括号，任意行都不需要 ; 结尾
 2.Go没有while 统一用for关键字，没有do while的语法
@@ -24,7 +27,8 @@ for i := 0; i <= n1; i++ {
 4.Go的字符串如果是仅含数字和字母的，可以直接使用数组索引的方式定位某个字符。Java需要s.charAt()
 5.Go的二维数组要两遍初始化，先定义二维数组，再初始化二维数组的每一行具体长度
 6.Go的Math.max()的两个参数为 float64类型，没有提供int类型的比较
-7.Go没有 ++i ,只有i++的写法,条件判断语句中不能有 ++i>0这种参与数值运算的判断条件
+7.Go没有 ++i ,只有i++的写法,条件判断语句中不能有 i++>0这种参与数值运算的判断条件
+数组索引赋值也不能以nums[i++]=1的形势去自增i
 8.Go中的比较函数的两个参数在堆中代表的位置与Java正好相反，所以比较的内容正好与Java相反
 Go提供的比较的函数是Less(i,j)，Java是Comparator.compare(i,j)以及Comparable.compareTo(i)
 9.Go switch默认情况下case最后自带break语句，匹配成功后就不会执行其他case，如果我们需要执行后面的case，可以使用 fallthrough
@@ -33,6 +37,8 @@ Go提供的比较的函数是Less(i,j)，Java是Comparator.compare(i,j)以及Com
 Java相当于多了一个数组和集合互相转换的操作,Arrays.toList()从数组到集合。而Collections包没有直接的从集合到数组转化的方法
 11.数组（切片）拷贝，Java是Arrays.copy()和Arrays.copyRange()两个函数。
 而Go是用内置的copy函数来实现拷贝，这个拷贝得搭配切片的分割操作加上append()函数才能实现任意序列的拷贝
+12.Go可以在函数内部定义函数签名+方法体内容，并且可以调用这个定义的方法。但是这个在函数内部定义的方法是
+不能递归调用自己的。而Java不可以在一个函数体内部定义其他函数
 
 
 
