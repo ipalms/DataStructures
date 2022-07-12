@@ -27,6 +27,24 @@ package algorithm.DoublePointer;
  */
 public class SortColors75 {
 
+    public void sortColors4(int[] nums) {
+        int len=nums.length;
+        int i=0,j=0;
+        for(int k=0;k<len;k++){
+            if(nums[k]==1){
+                swap(nums,j,k);
+                j++;
+            }else if(nums[k]==0){
+                swap(nums,i,k);
+                if(nums[k]==1){
+                    swap(nums,j,k);
+                }
+                i++;
+                j++;
+            }
+        }
+    }
+
 
     /**
      * 75. 颜色分类

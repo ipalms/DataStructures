@@ -72,9 +72,7 @@ public class DeleteDuplicatesII82 {
         //递归终止情况
         if(head==null||head.next==null) return head;
         //如果不等值则删除，如果等值则要进行判断
-        if(head.next.val!=head.val)
-            head.next=deleteDuplicates(head.next);
-        else{
+        if(head.val==head.next.val){
             //此时本身要进行删除，但是下一个结点也要进行判断，来判断是否进行删除
             ListNode temp=head.next;
             //判断之后是否有相等的结点，没有则ok,有的话一直跳过这些节点
@@ -84,6 +82,7 @@ public class DeleteDuplicatesII82 {
             //之后再对temp之后的结点进行预测
             return deleteDuplicates(temp);
         }
+        head.next=deleteDuplicates(head.next);
         return head;
     }
 

@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"strings"
 	"testing"
+	"unicode"
 )
 
 //字符串拼接
@@ -118,4 +119,17 @@ func TestString3(t *testing.T) {
 	b3 := []byte("adbcce")
 	b4 := bytes.Join([][]byte{b3[0:2], b3[2:4], b3[4:]}, []byte(","))
 	t.Log(string(b4)) //b4 = "ad,bc,ce"
+}
+
+// 字符｜字符串 变成大小写
+func TestString4(t *testing.T) {
+	s := "AcDB"
+	fmt.Println(strings.ToLower(s))
+	fmt.Println(strings.ToUpper(s))
+	c := 'd'
+	c2 := 'D'
+	fmt.Println(unicode.ToLower(c2))
+	fmt.Println(unicode.ToUpper(c))
+	c3 := ' '
+	fmt.Println(unicode.IsDigit(c3) || unicode.IsLetter(c3))
 }

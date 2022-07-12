@@ -34,6 +34,20 @@ public class DeleteDuplicates83 {
         return head;
     }
 
+    public ListNode deleteDuplicates4(ListNode head) {
+        if(head==null||head.next==null) return head;
+        ListNode curr=head,next=head.next;
+        while(next!=null){
+            if(next.val!=curr.val){
+                curr.next=next;
+                curr=next;
+            }
+            next=next.next;
+        }
+        curr.next=null;
+        return head;
+    }
+
     //使用了辅助指针
     public ListNode deleteDuplicates1(ListNode head) {
         if(head==null) return null;
