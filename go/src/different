@@ -10,8 +10,10 @@ slice:=make([]int,5)  slice:=make([]int,5,10)  slice := []int{1, 2, 3}
 var a [3] int   //3个整数型的数组，初始值是3个0
 arr:=[5]int{1,2,3,4,5}
 var array2 = [...]int{6, 7, 8} //不声明长度
+注意：var arr [x-j]int| arr:=[x-j]int{}  这种编译时不能确定数组长度的是不能通过编译的
 二维数组创建：
 var dp [n1+1][n2+1]int 在golang中是不合法的
+数组申明要指定好长度：var dp [3][4]int
 正确创建二维数组的姿势是如下：
 dp := make([][]int, n1+1)
 for i := 0; i <= n1; i++ {

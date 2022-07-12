@@ -25,6 +25,10 @@ package algorithm.SlidingWindow;
 public class MinSubArrayLen209 {
 
     /**
+     * 变形题：862. 和至少为 K 的最短子数组 ，即本题数据会有负数的情况。--单调双端队列解法
+     */
+
+    /**
      * 滑动窗口
      * 时间O（N）
      * 空间O（1）

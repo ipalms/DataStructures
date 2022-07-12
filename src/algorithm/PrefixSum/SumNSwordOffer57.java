@@ -1,12 +1,11 @@
-package algorithm.Array;
+package algorithm.PrefixSum;
 
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 /**
+ * 剑指 Offer 57 - II. 和为s的连续正数序列
  * 补充题
  * 问题描述
  * 　　78这个数可以表示为连续正整数的和，1+2+3，18+19+20+21，25+26+27。
@@ -20,10 +19,12 @@ import java.util.Scanner;
  * 18 21
  * 25 27
  */
-public class SumN {
+public class SumNSwordOffer57 {
 
     /**
-     * 前缀和+哈希表   最优解
+     * 前缀和+哈希表
+     * 这题除了前缀和，还可以使用滑动窗口解
+     * 这两种解的输入可以是任意递增正整数序列，前缀和解法不是递增的也行
      */
     @Test
     public void main2() {
@@ -57,6 +58,36 @@ public class SumN {
                 System.out.println(i + " " + --j); //取首位和末位输出
             }
         }
+    }
+
+    public int[][] findContinuousSequence(int target) {
+        int i = 1; // 滑动窗口的左边界
+        int j = 1; // 滑动窗口的右边界
+        int sum = 0; // 滑动窗口中数字的和
+        List<int[]> res = new ArrayList<>();
+
+        while (i <= target / 2) {
+            if (sum < target) {
+                // 右边界向右移动
+                sum += j;
+                j++;
+            } else if (sum > target) {
+                // 左边界向右移动
+                sum -= i;
+                i++;
+            } else {
+                // 记录结果
+                int[] arr = new int[j-i];
+                for (int k = i; k < j; k++) {
+                    arr[k-i] = k;
+                }
+                res.add(arr);
+                // 左边界向右移动
+                sum -= i;
+                i++;
+            }
+        }
+        return res.toArray(new int[res.size()][]);
     }
 
 
