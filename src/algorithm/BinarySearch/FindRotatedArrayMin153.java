@@ -29,6 +29,21 @@ import org.junit.Test;
  * nums 原来是一个升序排序的数组，并进行了 1 至 n 次旋转
  */
 public class FindRotatedArrayMin153 {
+
+    public int findMin5(int[] nums) {
+        int left=0,right=nums.length-1;
+        while(left<right){
+            int mid=left+(right-left)/2;
+            if(nums[mid]<=nums[right]){
+                right=mid;
+            }else{
+                left=mid+1;
+            }
+        }
+        return nums[left];
+    }
+
+
     @Test
     public void test(){
         int []r={3,1,2};

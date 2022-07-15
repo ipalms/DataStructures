@@ -32,6 +32,7 @@ public class NearestSumOfThree16 {
                 }else {
                     j++;
                 }
+                //注意找的结果值不是diff，而是sum。所以比较时用abs(diff)，保留的值依旧为sum
                 min=Math.abs(con-target)<Math.abs(min-target)?con:min;
             }
         }

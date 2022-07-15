@@ -28,6 +28,72 @@ import org.junit.Test;
  */
 public class SearchRotatedArray33 {
 
+    /**
+     * 无论旋转几次，数组中有序的序列始终只有两个（正好旋转到一周可以看作一个长度为0和旋转后到数组）
+     *
+     * 直接在旋转数组中搜索目标值
+     * 对于该数组，可以观察到对半分成两个子数组的情况下，必有一个子数组是呈现有序的
+     * 那么就可以通过通过不断的划分子数组来找到目标target值
+     * 如果target处于有序的部分就可以直接找到，处于无序的部分就等待下一次递归查询
+     * 实质就是无限分割永远都在有序的序列里面找。
+     */
+    public int search2(int[] nums, int target) {
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
+        int start = 0;
+        int end = nums.length - 1;
+        int mid;
+        while (start <= end) {
+            mid = start + (end - start) / 2;
+            //中值就是
+            if (nums[mid] == target) {
+                return mid;
+            }
+            //前半部分有序---这里要取等号nums[start] <= nums[mid]
+            //取等号即start==mid(因为题目要求不能有重复元素，那么一定在 [mid+1,end]范围内找下一个数)
+            if (nums[start] <= nums[mid]) {
+                //target在前半部分
+                if (target >= nums[start] && target < nums[mid]) {
+                    end = mid - 1;
+                } else {//target在后半无须部分（这时移动start就行），等待下次循环再次分成有序无序两部分
+                    start = mid + 1;
+                }
+            } else {//后半部分有序
+                if (target <= nums[end] && target > nums[mid]) {
+                    start = mid + 1;
+                } else {
+                    end = mid - 1;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public int search3(int[] nums, int target) {
+        int n=nums.length,left=0,right=n-1;
+        while(left<=right){
+            int mid=left+(right-left)/2;
+            if(nums[mid]==target){
+                return mid;
+            }
+            if(nums[mid]>=nums[left]){
+                if(nums[mid]>target&&target>=nums[left]){
+                    right=mid-1;
+                }else{
+                    left=mid+1;
+                }
+            }else{
+                if(nums[mid]<target&&target<=nums[right]){
+                    left=mid+1;
+                }else{
+                    right=mid-1;
+                }
+            }
+        }
+        return -1;
+    }
+
     @Test
     public void test(){
         int []r={3,1,2};
@@ -113,43 +179,4 @@ public class SearchRotatedArray33 {
         return -1;
     }
 
-    /**
-     * 直接在旋转数组中搜索目标值
-     * 对于该数组，可以观察到对半分成两个子数组的情况下，必有一个子数组是呈现有序的
-     * 那么就可以通过通过不断的划分子数组来找到目标target值
-     * 如果target处于有序的部分就可以直接找到，处于无序的部分就等待下一次递归查询
-     * 实质就是无限分割永远都在有序的序列里面找。
-     */
-    public int search2(int[] nums, int target) {
-        if (nums == null || nums.length == 0) {
-            return -1;
-        }
-        int start = 0;
-        int end = nums.length - 1;
-        int mid;
-        while (start <= end) {
-            mid = start + (end - start) / 2;
-            //中值就是
-            if (nums[mid] == target) {
-                return mid;
-            }
-            //前半部分有序---这里要取等号nums[start] <= nums[mid]
-            //取等号即start==mid(因为题目要求不能有重复元素，那么一定在 [start+1,end]范围内找下一个数)
-            if (nums[start] <= nums[mid]) {
-                //target在前半部分
-                if (target >= nums[start] && target < nums[mid]) {
-                    end = mid - 1;
-                } else {//target在后半无须部分（这时移动start就行），等待下次循环再次分成有序无序两部分
-                    start = mid + 1;
-                }
-            } else {//后半部分有序
-                if (target <= nums[end] && target > nums[mid]) {
-                    start = mid + 1;
-                } else {
-                    end = mid - 1;
-                }
-            }
-        }
-        return -1;
-    }
 }
