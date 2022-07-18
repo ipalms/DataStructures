@@ -27,6 +27,108 @@ import java.util.Arrays;
  * 你能将算法的时间复杂度降低到 O(n log(n)) 吗?
  */
 public class LengthOfLIS300 {
+    @Test
+    public void test2() {
+        int[] nums = new int[]{3, 5, 6, 2, 5, 4, 19, 5, 6, 7, 12};
+        int[] nums1 = new int[]{10,9,2,5,3,7,103,101,18};
+        //int lengthOfLIS =lengthOfLIS2(nums);
+        System.out.println(lengthOfLISMy1(nums));
+        System.out.println(Arrays.toString(LIS1(nums)));
+    }
+
+    public int lengthOfLISMy(int[] nums) {
+        int len=nums.length;
+        int []dp=new int[len];
+        int max=1;
+        Arrays.fill(dp,1);
+        for(int i=0;i<len;i++){
+            for(int j=i+1;j<len;j++){
+                if(nums[j]>nums[i]){
+                    dp[j]=Math.max(dp[j],dp[i]+1);
+                    max=Math.max(max,dp[j]);
+                }
+            }
+            //在外层比较max也行
+            max=Math.max(max,dp[i]);
+        }
+        return max;
+    }
+
+    /**
+     * 找path
+     * */
+    public String lengthOfLISMy1(int[] nums) {
+        int len=nums.length;
+        int []dp=new int[len];
+        int []path=new int[len];
+        int max=1;
+        Arrays.fill(dp,1);
+        Arrays.fill(path,-1);
+        for(int i=0;i<len;i++){
+            for(int j=i+1;j<len;j++){
+                if(nums[j]>nums[i]){
+                    if(dp[j]<dp[i]+1){
+                        dp[j]=dp[i]+1;
+                        path[j]=i;
+                    }
+                    //dp[j]=Math.max(dp[j],dp[i]+1);
+                    max=Math.max(max,dp[j]);
+                }
+            }
+        }
+        StringBuilder sb=new StringBuilder();
+        for(int i=len-1;i>=0;i--){
+            if(dp[i]==max){
+                sb.append(nums[i]);
+                while (path[i]!=-1){
+                    sb.insert(0, nums[path[i]]+"\t");
+                    i=path[i];
+                }
+                break;
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 贪心+二分 搜路径
+     * */
+    public int[] lengthOfLISMy2(int[] nums) {
+        int len= nums.length,end=0;
+        int []dp=new int[len];
+        int []tail=new int[len];
+        //dp[0]=1可以视作 一个元素递增数量为1，如果dp[0]初始为1，那么后面的dp赋值都要找到相应index再加一
+        dp[0]=1;
+        tail[0]=nums[0];
+        for(int i=1;i<len;i++){
+            if(nums[i]>tail[end]){
+                ++end;
+                dp[i]=end+1;
+                tail[end]=nums[i];
+            }else{
+                int left=0,right=end-1;
+                while(left<right){
+                    int mid=left+(right-left)/2;
+                    if(tail[mid]<nums[i]){
+                        left=mid+1;
+                    }else{
+                        right=mid;
+                    }
+                }
+                tail[left]=nums[i];
+                dp[i]=left+1;
+            }
+        }
+        int []res=new int[end+1];
+        for(int i=len-1;i>=0;i--){
+            if(dp[i]==end+1){
+                res[end]=nums[i];
+                end--;
+            }
+        }
+        return res;
+    }
+
     /**
      * 该题有个相似的题  674. 最长连续递增序列（求连续的顺序），其实也可以运用动态规划思想解题
      * 动态规划：
@@ -180,7 +282,50 @@ public class LengthOfLIS300 {
     /**
      * 二分找递增序列
      * 如果有多个答案，请输出其中 按数值(注：区别于按单个字符的ASCII码值)进行比较的 字典序最小的那个
+     * 保证是字典序最小的两个因素：
+     * 一个是二分查找tail数组找正好大于（等于）遍历当前值的数进行替换，这样标记的就是字典序列较小的
+     * 其次在遍历路径的时候倒序进行，从dp数组末尾开始的路径就是字典序最小的
      */
+    //dp数组从0开始版本
+    public int[] LIS1(int[] arr) {
+        //从0开始
+        int[] dp = new int[arr.length];
+        int[] tail = new int[arr.length];
+        dp[0] = 1;
+        int end = 0;
+        tail[end] = arr[0];
+        for (int i = 1; i < arr.length; ++i) {
+            int left = 0, right = end;
+            if (arr[i] > tail[end]) {
+                ++end;
+                dp[i] = end + 1;
+                tail[end] = arr[i];
+            } else {
+                // while(left<right)形式更好理解
+                while (left<right){
+                    int mid=left+(right-left)/2;
+                    if(tail[mid]<arr[i]){
+                        left=mid+1;
+                    }else{
+                        right=mid;
+                    }
+                }
+                tail[left] = arr[i];
+                dp[i] = left + 1;
+            }
+        }
+
+        int[] res = new int[end + 1];
+        for (int i = dp.length - 1; i >= 0; --i) {
+            if (dp[i] == end + 1) {
+                res[end] = arr[i];
+                --end;
+            }
+        }
+        return res;
+    }
+
+
     public int[] LIS (int[] arr) {
         int n = arr.length;
         // 列表的最大子序列 下标从1开始   下标从0开始是另一种写法
@@ -219,44 +364,6 @@ public class LengthOfLIS300 {
         for (int i = n - 1; i >= 0; i--) {
             if (dp[i] == len) {
                 res[--len] = arr[i];
-            }
-        }
-        return res;
-    }
-
-    //dp数组从0开始版本
-    public int[] LIS1(int[] arr) {
-        //从0开始
-        int[] dp = new int[arr.length];
-        int[] tail = new int[arr.length];
-        dp[0] = 1;
-        int tempIndex = 0;
-        tail[tempIndex] = arr[0];
-        for (int i = 1; i < arr.length; ++i) {
-            int left = 0, right = tempIndex;
-            if (arr[i] > tail[tempIndex]) {
-                ++tempIndex;
-                dp[i] = tempIndex + 1;
-                tail[tempIndex] = arr[i];
-            } else {
-                while (left <= right) {        // 注意这里 left <= right 而不是 left < right，我们要替换的是第一个比 arr[i] 大的元素
-                    int mid = (right + left) / 2;
-                    if (tail[mid] > arr[i]) {
-                        right = mid - 1;
-                    } else {
-                        left = mid + 1;
-                    }
-                }
-                tail[left] = arr[i];
-                dp[i] = left + 1;
-            }
-        }
-
-        int[] res = new int[tempIndex + 1];
-        for (int i = dp.length - 1; i >= 0; --i) {
-            if (dp[i] == tempIndex + 1) {
-                res[tempIndex] = arr[i];
-                --tempIndex;
             }
         }
         return res;

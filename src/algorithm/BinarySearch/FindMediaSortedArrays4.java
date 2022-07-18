@@ -1,5 +1,7 @@
 package algorithm.BinarySearch;
 
+import org.testng.annotations.Test;
+
 /**
  *4. 寻找两个正序数组的中位数
  * 给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的 中位数 。
@@ -30,6 +32,87 @@ package algorithm.BinarySearch;
  * 进阶：你能设计一个时间复杂度为 O(log (m+n)) 的算法解决此问题吗？
  */
 public class FindMediaSortedArrays4 {
+    //补充题17. 两个有序数组第k小的数
+    //不能直接将k设为need，会存在k过大导致数据索引溢出情况
+    //第二种二分方法可解
+    public double findMedianSortedArraysMy(int[] nums1, int[] nums2) {
+        int n1= nums1.length,n2= nums2.length;
+        //将较短的数组放在第一个参数
+        if(n1>n2){
+            return findMedianSortedArraysMy(nums2,nums1);
+        }
+        int need=(n1+n2+1)/2;
+        int l=0,r=n1;
+        //只需要一个数组的 l,r来圈定二分实现
+        while (l<r){
+            //p1,p2代表分割线两数组右侧的第一个数
+            //这一步的向上｜或者向下取舍主要看后面的比较中l,r指针移动的情况
+            //这一题向上取舍，向下也行
+            int p1=l+(r-l)/2;
+            int p2=need-p1;
+            //这里注意，如果向下取舍p1是可能为0的，所以不能使用p1-1
+            //向下取舍p2是可能取到n2的
+            //反过来向上取舍，这里就可以相反操作一波
+            if(nums1[p1]<nums2[p2-1]){
+                l=p1+1;
+            }else{
+                r=p1;
+            }
+        }
+        int i=l,j=need-i;
+        //这里要注意指针越界的情况，0和len(nums)两侧都有可能不能直接取值
+        int nums1L=i==0?Integer.MIN_VALUE:nums1[i-1];
+        int nums2L=j==0?Integer.MIN_VALUE:nums2[j-1];
+        int nums1R=i==n1?Integer.MAX_VALUE:nums1[i];
+        int nums2R=j==n2?Integer.MAX_VALUE:nums2[j];
+        if((n1+n2)%2==1){
+            return Math.max(nums1L,nums2L);
+        }else{
+            return (Math.max(nums1L,nums2L)+Math.min(nums1R,nums2R))/2.0;
+        }
+    }
+
+    //这种可以解决 两个有序数组第k小的数
+    public double findMedianSortedArraysMy2(int[] nums1, int[] nums2) {
+        int len1=nums1.length,len2=nums2.length;
+        int sum=len1+len2;
+        if((sum&1)==1){
+            return findKth(nums1,nums2,(sum+1)/2);
+        }
+        return (findKth(nums1,nums2,sum/2)+findKth(nums1,nums2,sum/2+1))/2.0;
+    }
+
+    private double findKth(int[] nums1, int[] nums2, int k) {
+        int len1=nums1.length,len2=nums2.length;
+        int i=0,j=0;
+        while(true){
+            if(i==len1){
+                return nums2[j+k-1];
+            }
+            if(j==len2){
+                return nums1[i+k-1];
+            }
+            if(k==1){
+                return Math.min(nums1[i],nums2[j]);
+            }
+            int n1=Math.min(len1,i+k/2)-1,n2=Math.min(len2,j+k/2)-1;
+            if(nums1[n1]<nums2[n2]){
+                k-=n1-i+1;
+                i=n1+1;
+            }else{
+                k-=n2-j+1;
+                j=n2+1;
+            }
+        }
+    }
+
+    @Test
+    public void test(){
+        int []n1=new int[]{1,3,5,7,8,9,10,22};
+        int []n2=new int[]{2,3,4,8,11,14,18,22};
+        System.out.println(findMedianSortedArrays4(n1,n2));
+    }
+
 
     /**
      * 本题用到的：
@@ -176,6 +259,17 @@ public class FindMediaSortedArrays4 {
     /**
      * 二分2：两个有序数组第k小的数--特殊版两个有序数组的中位数（len1+len2）/2
      * 假设两个有序数组分别是A和B。要找到第k个元素，我们可以比较A[k/2−1]和B[k/2−1]
+     * 
+     * 假设两个有序数组分别是 A 和 B。要找到第 k 个元素，我们可以比较 A[k/2−1] 和 B[k/2−1]，
+     * 其中 / 表示整数除法。由于A[k/2−1] 和B[k/2−1]的前面分别有 A[0..k/2−2] 和 B[0..k/2−2]
+     * 即 k/2−1 个元素，对于A[k/2−1] 和B[k/2−1] 中的较小值，
+     * 最多只会有 (k/2−1)+(k/2−1)≤k−2 个元素比它小，那么它就不能是第 k 小的数了。
+     * 因此我们可以归纳出三种情况：
+     *   1.如果A[k/2−1]<B[k/2−1]，则比A[k/2−1] 小的数最多只有 A 的前 k/2−1 个数和 B 的前k/2−1 个数
+     *    即比A[k/2−1] 小的数最多只有k−2 个，因此A[k/2−1] 不可能是第 k 个数，A[0] 到A[k/2−1] 也都不可能是第 k 个数，可以全部排除。
+     *   2.如果A[k/2−1]>B[k/2−1]，则可以排除 B[0] 到 B[k/2−1]。
+     *   3.如果A[k/2−1]=B[k/2−1]，则可以归入第一种情况处理。
+     * 链接：https://leetcode.cn/problems/median-of-two-sorted-arrays/solution/xun-zhao-liang-ge-you-xu-shu-zu-de-zhong-wei-s-114/
      */
     public double findMedianSortedArrays4(int[] nums1, int[] nums2) {
         int length1 = nums1.length, length2 = nums2.length;
