@@ -33,6 +33,17 @@ import org.junit.Test;
  */
 public class ExchangeMoneyII518 {
 
+    public int coinChangeMy(int[] coins, int amount) {
+        int []dp=new int[amount+1];
+        dp[0]=1;
+        for(int c:coins){
+            for(int j=c;j<=amount;j++){
+                dp[j]+=dp[j-c];
+            }
+        }
+        return dp[amount];
+    }
+
     @Test
     public void test() {
         int []coins={1,2,5};

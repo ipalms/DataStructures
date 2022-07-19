@@ -29,7 +29,7 @@ public class LongestSubStringLength1143 {
     @Test
     public void test() {
         //最长子序列长度例子
-        System.out.println(longestCommonSubsequence("android", "random"));
+        System.out.println(longestCommonSubsequencePath("android", "random"));
     }
 
     /**
@@ -67,6 +67,39 @@ public class LongestSubStringLength1143 {
             }
         }
         return dp[n][m];
+    }
+
+    /**
+     * 找到这个具体的子序列
+     * */
+    public String longestCommonSubsequencePath(String text1, String text2) {
+        int n=text1.length(),m=text2.length();
+        int[][] dp =new int[n+1][m+1];
+        for(int i=1;i<=n;++i){
+            char c1=text1.charAt(i-1);
+            for(int j=1;j<=m;++j){
+                if(c1==text2.charAt(j-1)){
+                    dp[i][j]=dp[i-1][j-1]+1;
+                }else{
+                    dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1]);
+                }
+            }
+        }
+        int i=n,j=m;
+        StringBuilder sb=new StringBuilder();
+        while(i!=0&&j!=0){
+            //这个条件也可以替换成（dp[i][j] > dp[i-1][j] && dp[i][j] > dp[i][j-1])
+            if(text1.charAt(i-1)==text2.charAt(j-1)){
+                sb.insert(0,text1.charAt(i-1));
+                i--;
+                j--;
+            }else if(dp[i-1][j]>dp[i][j-1]){
+                i--;
+            }else{
+                j--;
+            }
+        }
+        return sb.toString();
     }
 
     /**

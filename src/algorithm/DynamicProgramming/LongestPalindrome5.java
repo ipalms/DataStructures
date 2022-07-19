@@ -22,6 +22,32 @@ package algorithm.DynamicProgramming;
  */
 public class LongestPalindrome5 {
 
+    public String longestPalindromeMy1(String s) {
+        int len=s.length();
+        int res=1,left=0;
+        boolean [][]dp=new boolean[len][len];
+        for(int i=0;i<len;i++){
+            dp[i][i]=true;
+        }
+        for(int L=2;L<=len;L++){
+            for(int i=0;i<len-L+1;i++){
+                int j=i+L-1;
+                if(s.charAt(i)==s.charAt(j)){
+                    if(L==2){
+                        dp[i][j]=true;
+                    }else{
+                        dp[i][j]=dp[i+1][j-1];
+                    }
+                }
+                if(dp[i][j]&&L>res){
+                    left=i;
+                    res=L;
+                }
+            }
+        }
+        return s.substring(left,left+res);
+    }
+
     /**
      * 区间dp的一些套路：
      * 区间dp在给定一个回文串的基础上，如果在回文串的边缘分别添加两个新的字符，可以通过判断两字符是否相等来得知新串是否回文
@@ -35,7 +61,7 @@ public class LongestPalindrome5 {
     /**
      * 516. 最长回文子序列 --也是区间dp,做法相似
      * 动态规划：大提思路是枚举回文串长度，嵌套枚举左节点---相应的就确定了右节点位置，在利用状态转移方程不断填充dp数组并更新最大回文子串位置
-     * 维护二维dp数组就能利用到回文的性质：一个长度严格大于 22 的回文去掉头尾字符以后，剩下的部分依然是回文。反之，如果一个字符串头尾两个字符都不相等，那么这个字符串一定不是回文。
+     * 维护二维dp数组就能利用到回文的性质：一个长度严格大于 2 的回文去掉头尾字符以后，剩下的部分依然是回文。反之，如果一个字符串头尾两个字符都不相等，那么这个字符串一定不是回文。
      * dp[i][j] 表示：子串 s[i..j] 是否为回文子串
      * dp[i][j] = (s[i] == s[j]) and dp[i + 1][j - 1]
      * 填表应该遵守这样的原则：总是先得到小子串是否是回文的结果，然后大子串才能参考小子串的判断结果，所以填表顺序很重要

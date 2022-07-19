@@ -22,6 +22,7 @@ func TestString1(t *testing.T) {
 	s4 := []byte("abcccddd")
 	s4 = append(s4, 'e')
 	s4 = append(s4, '.')
+	s4 = append(s4, "..."...)
 	t.Log(string(s4)) //s4 = "abccccddde."
 
 	// 方法三使用fmt.Sprintf()
@@ -132,4 +133,7 @@ func TestString4(t *testing.T) {
 	fmt.Println(unicode.ToUpper(c))
 	c3 := ' '
 	fmt.Println(unicode.IsDigit(c3) || unicode.IsLetter(c3))
+
+	s2 := "ABSC"
+	fmt.Println(s2[0:2])
 }
