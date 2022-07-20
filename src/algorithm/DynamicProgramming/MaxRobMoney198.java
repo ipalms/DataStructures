@@ -27,7 +27,7 @@ public class MaxRobMoney198 {
 
     @Test
     public void test(){
-        System.out.println(rob4(new int[]{1,9,6,4}));
+        System.out.println(rob4(new int[]{7,6,1,9,6,5}));
     }
 
 

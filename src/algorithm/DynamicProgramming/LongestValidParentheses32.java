@@ -23,6 +23,26 @@ import java.util.LinkedList;
  */
 public class LongestValidParentheses32 {
 
+
+    public int longestValidParenthesesMy(String s) {
+        int []dp=new int[s.length()];
+        char []cs=s.toCharArray();
+        int max=0;
+        for(int i=1;i<cs.length;i++){
+            if(cs[i]==')'){
+                if(cs[i-1]=='('){
+                    dp[i]=i<2?2:dp[i-2]+2;
+                }else{
+                    if(i-1-dp[i-1]>=0&&cs[i-1-dp[i-1]]=='('){
+                        dp[i]=i-2-dp[i-1]>=0?dp[i-2-dp[i-1]]+dp[i-1]+2:dp[i-1]+2;
+                    }
+                }
+                max=Math.max(dp[i],max);
+            }
+        }
+        return max;
+    }
+
     /**
      * 解法有dp  或  栈
      * 求的连续的最长有效的字串3
@@ -76,6 +96,7 @@ public class LongestValidParentheses32 {
 
 
     /**
+     * 这种解法的关键是明确栈中存放元素的定义：最后一个没有被匹配的右括号的下标」
      * 具体做法是我们始终保持栈底元素为当前已经遍历过的元素中「最后一个没有被匹配的右括号的下标」
      * 按照这个定义这个「最后一个没有被匹配的右括号的下标」后面的都应该是能匹配的
      * 这样的做法主要是考虑了边界条件的处理，栈里其他元素维护左括号的下标:

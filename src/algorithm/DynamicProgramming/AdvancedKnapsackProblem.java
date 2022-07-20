@@ -12,7 +12,7 @@ public class AdvancedKnapsackProblem {
 
         //完全书包的例子
         int[] weight = {1, 4, 3, 2};//物品的重量
-        int[] value = {1500, 3000, 2000,1800}; //物品的价值 这里val[i] 就是前面讲的v[i]
+        int[] value = {1500, 6200, 2000,1800}; //物品的价值 这里val[i] 就是前面讲的v[i]
         int V = 10; //背包的容量
         int N = value.length; //物品的价值的数组长度
         System.out.println( completePack(V,N,weight,value));
@@ -97,7 +97,6 @@ public class AdvancedKnapsackProblem {
                 if (weight[i - 1] > j)
                     dp[i][j] = dp[i - 1][j];
                 else {
-                    //不甚理解
                     dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - weight[i - 1]] + value[i - 1]);
                 }
             }

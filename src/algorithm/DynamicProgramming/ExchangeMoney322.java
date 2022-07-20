@@ -56,6 +56,7 @@ public class ExchangeMoney322 {
             //正序遍历：完全背包每个硬币可以选择多次
             for (int j = coins[i]; j <= amount; j++) {
                 //只有dp[j-coins[i]]不是初始最大值时，该位才有选择的必要
+                //如果是非0位初始为Integer.MAX_VALUE,就要这样写防止int类型溢出所以初始化为amount+1好
                 if (dp[j - coins[i]] != max) {
                     //选择硬币数目最小的情况
                     dp[j] = Math.min(dp[j], dp[j - coins[i]] + 1);
