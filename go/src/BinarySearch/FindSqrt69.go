@@ -1,5 +1,11 @@
 package main
 
+import "math"
+
+func main() {
+	mySqrt1(8)
+}
+
 // 二分，其他way 待定write
 func mySqrt(x int) int {
 	if x == 0 || x == 1 {
@@ -17,4 +23,17 @@ func mySqrt(x int) int {
 		}
 	}
 	return l
+}
+
+func mySqrt1(x int) int {
+	if x == 0 || x == 1 {
+		return x
+	}
+	t, con, diff := float64(x), float64(x), 1e-6
+	next := float64((t + 1) / 2)
+	for math.Abs(t-next) > diff {
+		t = next
+		next = (t + con/t) / 2
+	}
+	return int(t)
 }

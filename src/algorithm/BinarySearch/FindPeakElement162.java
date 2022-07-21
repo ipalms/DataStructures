@@ -27,7 +27,7 @@ public class FindPeakElement162 {
      * 首先要注意题目条件，在题目描述中出现了 nums[-1]=nums[n] = -∞，
      * 这就代表着只要数组中存在一个元素比相邻元素大，那么沿着它一定可以找到一个峰值
      */
-    public int findPeakElement(int[] nums) {
+    public int findPeakElementMy(int[] nums) {
         int left=0,right=nums.length-1;
         while(left<=right){
             int mid=left+(right-left)/2;

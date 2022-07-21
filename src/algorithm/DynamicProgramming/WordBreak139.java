@@ -1,9 +1,6 @@
 package algorithm.DynamicProgramming;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 139. 单词拆分
@@ -73,4 +70,30 @@ public class WordBreak139 {
         return dp[s.length()];
     }
 
+    /**
+     * 这题还可以使用  DFS+记忆化搜索
+     * 不是回溯（因为没有撤销选择的过程）
+     * */
+    public boolean wordBreak2(String s, List<String> wordDict) {
+        Set<String> dict = new HashSet<>(wordDict);
+        Map<String,Boolean> memo=new HashMap<>();
+        return canBreak(s,dict,memo,0);
+    }
+
+    public boolean canBreak(String s,Set<String> dict,Map<String,Boolean> memo,int i){
+        if(i==s.length()){
+            return true;
+        }
+        if(memo.containsKey(s.substring(0,i))&&memo.get(s.substring(0,i))){
+            return true;
+        }
+        for(int j=i+1;j<s.length();j++){
+            if(dict.contains(s.substring(i,j))&&canBreak(s,dict,memo,j)){
+                memo.put(s.substring(0,i),true);
+                return true;
+            }
+        }
+        memo.put(s.substring(0,i),false);
+        return false;
+    }
 }

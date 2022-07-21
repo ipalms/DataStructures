@@ -1,5 +1,7 @@
 package algorithm.Math;
 
+import org.testng.annotations.Test;
+
 /**
  * 50. Pow(x, n)
  * 实现 pow(x, n) ，即计算 x 的 n 次幂函数（即，xn）。
@@ -23,6 +25,10 @@ public class MyPow50 {
      * 一些可以用到数学思想的题
      * 50（快速幂--数字拆成二进制）、69、367(牛顿迭代--找方程的零点)
      */
+    @Test
+    public void test(){
+        myPow2(2,10);
+    }
 
     /**
      * 快速幂思想
