@@ -1,5 +1,7 @@
 package algorithm.DynamicProgramming;
 
+import org.testng.annotations.Test;
+
 /**
  * 647. 回文子串
  * 给你一个字符串 s ，请你统计并返回这个字符串中 回文子串 的数目。
@@ -87,5 +89,10 @@ public class CountSubstrings647 {
             }
         }
         return count;
+    }
+
+    @Test
+    public void test(){
+        System.out.println(countSubstrings1("abc"));
     }
 }

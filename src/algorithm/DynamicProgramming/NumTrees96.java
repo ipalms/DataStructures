@@ -35,8 +35,8 @@ public class NumTrees96 {
      * G(n)=∑F(i,n)（1<=i<=n）
      * F(i,n)=G(i−1)⋅G(n−i)
      *    -->G(n)=∑G(i−1)⋅G(n−i)（1<=i<=n）
-     * 对于边界情况，当序列长度为1（只有根）或为0（空树）时，只有一种情况，即：
-     * G(0)=1,G(1)=1
+     * 初始化：对于边界情况，当序列长度为1（只有根）或为0（空树）时，只有一种情况，即：
+     *        G(0)=1,G(1)=1
      * https://leetcode-cn.com/problems/unique-binary-search-trees/solution/bu-tong-de-er-cha-sou-suo-shu-by-leetcode-solution/
      */
     public int numTrees(int n) {

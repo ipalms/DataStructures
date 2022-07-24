@@ -36,6 +36,40 @@ public class LongestIncreasingPath329 {
      * 遍历完矩阵中的所有单元格之后，即可得到矩阵中的最长递增路径的长度。
      */
 
+    //int n,m;
+    /**
+     * 忘了使用方向数组，这样编码会稍显复杂，而且传入dfs函数多了一个origin参数
+     * */
+    public int longestIncreasingPathMy(int[][] matrix) {
+        int max=0;
+        n=matrix.length;
+        m=matrix[0].length;
+        Integer[][]memo=new Integer[n][m];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                max=Math.max(max,findLongest(matrix,i,j,memo,-1));
+            }
+        }
+        return max;
+    }
+
+    public int findLongest(int[][] matrix,int x,int y,Integer[][]memo,int origin){
+        if(x<0||x>=n||y<0||y>=m||matrix[x][y]<=origin){
+            return 0;
+        }
+        if(memo[x][y]!=null){
+            return memo[x][y];
+        }
+        int count=1;
+        int a=findLongest(matrix,x+1,y,memo,matrix[x][y]);
+        int b=findLongest(matrix,x,y+1,memo,matrix[x][y]);
+        int c=findLongest(matrix,x-1,y,memo,matrix[x][y]);
+        int d=findLongest(matrix,x,y-1,memo,matrix[x][y]);
+        count+=Math.max(a,Math.max(b,Math.max(c,d)));
+        memo[x][y]=count;
+        return count;
+    }
+
 
     /**
      * dfs和记忆化

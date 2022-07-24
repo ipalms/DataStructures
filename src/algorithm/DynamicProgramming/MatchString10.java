@@ -1,5 +1,7 @@
 package algorithm.DynamicProgramming;
 
+import org.testng.annotations.Test;
+
 /**
  * 10. 正则表达式匹配
  * 给你一个字符串 s 和一个字符规律 p，请你来实现一个支持 '.' 和 '*' 的正则表达式匹配。
@@ -27,8 +29,13 @@ package algorithm.DynamicProgramming;
  * 保证每次出现字符 * 时，前面都匹配到有效的字符
  * */
 public class MatchString10 {
+    @Test
+    public void test(){
+        isMatch("aaa","a*");
+    }
 
     /**
+     * 十分相似的一题：44. 通配符匹配（初始化逻辑，转移方程的逻辑都大致一样）
      * 我们用f[i][j]示s的前i个字符与p中的前j个字符是否能够匹配。在进行状态转移时
      * 我们考虑p的第j个字符的匹配情况:
      * ● 如果p的第j个字符是一个小写字母，那么我们必须在s中匹配一个相同的小写字母，即
@@ -48,11 +55,40 @@ public class MatchString10 {
      *     匹配s机的一个字符，将该字符扔掉，而该组合还可以继续进行匹配;
      *     不匹配字符，将该组合扔掉,不再进行匹配。
      * 如果按照这个角度进行思考，我们可以写出很精巧的状态转移方程:
-     * f[i][j]=   f[i- 1][i] or f[i][j-2]， s[i]=p[i-1]
-     *            f[i]j - 2],s[i]≠p[j- 1]
+     * f[i][j]=   f[i- 1][j] or f[i][j-2]， s[i]=p[i-1]
+     *            f[i][j - 2],s[i]≠p[j- 1]
      * ●在任意情况下，只要p[j]是.，那么p[j]一定成功匹配s中的任意一个小写字母。
      * https://leetcode.cn/problems/regular-expression-matching/solution/zheng-ze-biao-da-shi-pi-pei-by-leetcode-solution/
      */
+
+    //初始化情况不同的解法
+    public boolean isMatch1(String s, String p) {
+        int n=s.length(),m=p.length();
+        boolean [][]match=new boolean[n+1][m+1];
+        match[0][0]=true;
+        //当p的长度为0，s长度不为0，那么一定是false
+        //当s的长度为0，p的长度不为0，需要判断有无 * 进行初始化
+        for(int i=2;i<=m;i++){
+            if (p.charAt(i-1)=='*'){
+                match[0][i]=match[0][i-2];
+            }
+        }
+        for (int i=1;i<=n;i++){
+            for (int j=1;j<=m;j++){
+                if (s.charAt(i-1)==p.charAt(j-1)||p.charAt(j-1)=='.'){
+                    match[i][j]=match[i-1][j-1];
+                }else if (p.charAt(j-1)=='*'){
+                    // * 前字符取0个的情况
+                    // j-2不会小于零，因为测试用例保证了  *号前必有字符
+                    match[i][j]=match[i][j-2];
+                    if (s.charAt(i-1)==p.charAt(j-2)||p.charAt(j-2)=='.'){
+                        match[i][j]=match[i][j]||match[i-1][j];
+                    }
+                }
+            }
+        }
+        return match[n][m];
+    }
 
 
     public boolean isMatch(String s, String p) {
@@ -82,37 +118,12 @@ public class MatchString10 {
     }
 
     public boolean judge(String s, String p, int i, int j){
-        //考虑i=0的特殊情况
+        //考虑i=0的特殊情况  j不会取到零，因为测试用例保证了  *号前必有字符
         if (i==0) return false;
         if (p.charAt(j-1)=='.') return true;
         return s.charAt(i-1)==p.charAt(j-1);
     }
 
 
-    //初始化情况不同的解法
-    public boolean isMatch1(String s, String p) {
-        int n=s.length(),m=p.length();
-        boolean [][]match=new boolean[n+1][m+1];
-        match[0][0]=true;
-        //当p的长度为0，s长度不为0，那么一定是false
-        //当s的长度为0，p的长度不为0，需要判断有无 * 进行初始化
-        for(int i=2;i<=m;i++){
-            if (p.charAt(i-1)=='*'){
-                match[0][i]=match[0][i-2];
-            }
-        }
-        for (int i=1;i<=n;i++){
-            for (int j=1;j<=m;j++){
-                if (s.charAt(i-1)==p.charAt(j-1)||p.charAt(j-1)=='.'){
-                    match[i][j]=match[i-1][j-1];
-                }else if (p.charAt(j-1)=='*'){
-                    match[i][j]=match[i][j-2];
-                    if (s.charAt(i-1)==p.charAt(j-2)||p.charAt(j-2)=='.'){
-                        match[i][j]=match[i][j]||match[i-1][j];
-                    }
-                }
-            }
-        }
-        return match[n][m];
-    }
+
 }

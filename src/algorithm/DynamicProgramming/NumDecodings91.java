@@ -35,7 +35,7 @@ package algorithm.DynamicProgramming;
  * 1 <= s.length <= 100
  * s 只包含数字，并且可能包含前导零。
  * */
-public class NumDecodings96 {
+public class NumDecodings91 {
 
     /**
      爬楼梯类似

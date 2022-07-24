@@ -60,4 +60,8 @@ public class LongestPalindromeSubseq516 {
         }
         return dp[0][n - 1];
     }
+
+    /**
+     * 思路二：反转s字符串得到字符串t，求s和t最长公共子序列（1143.最长公共子序列）
+     * */
 }
