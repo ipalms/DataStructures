@@ -1,5 +1,9 @@
 package algorithm.Tree;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * 124. 二叉树中的最大路径和
  * 路径 被定义为一条从树中任意节点出发，沿父节点-子节点连接，达到任意节点的序列。
@@ -28,7 +32,7 @@ public class MaxPathSum124 {
      * dfs版本
      * 有点类似动态规划第53题求连续数组最大和（本题求得是二叉树的最大路径和）
      * 非自顶向下：就是从任意节点到任意节点的路径，不需要自顶向下
-     * 类似的题543二叉树的直径
+     * 类似的题543二叉树的直径、687. 最长同值路径
      */
 
     //max值初始化为最小值
@@ -43,7 +47,7 @@ public class MaxPathSum124 {
     }
 
     /**
-     * 返回经过root的单边分支最大和， 即Math.max(root, root+left, root+right)
+     * 返回经过root的单边分支最大和， 即Math.max(left, right)+root
      */
     public int dfs(TreeNode root) {
         if (root == null) {
@@ -71,6 +75,162 @@ public class MaxPathSum124 {
             this.val = val;
             this.left = left;
             this.right = right;
+        }
+    }
+
+    /**
+     * 找到最优解的Path---不要求掌握，目前没有问过
+     * 测试不一定都能通过
+     * */
+    class WithPath{
+        private int ans = Integer.MIN_VALUE;
+        private List<Integer> path = new ArrayList<>();
+
+        public int maxPathSum(TreeNode root) {
+            dfs(root);
+            System.out.println(path);
+            return ans;
+        }
+
+        private Pair dfs(TreeNode root) {
+            if (root == null) return new Pair(0, new ArrayList<>());
+
+            Pair l = dfs(root.left);
+            Pair r = dfs(root.right);
+            int res = root.val;
+            List<Integer> path = new ArrayList<>();
+            if (l.sum > 0 && l.sum > r.sum) {
+                res += l.sum;
+                path.addAll(l.path);
+                path.add(root.val);
+            } else if (r.sum > 0 && r.sum > l.sum) {
+                res += r.sum;
+                path.add(root.val);
+                path.addAll(r.path);
+            } else {
+                path.add(root.val);
+            }
+
+            if (res > ans) {
+                this.ans = res;
+                this.path = path;
+            }
+
+            if (l.sum + r.sum + root.val > ans) {
+                this.ans = l.sum + r.sum + root.val;
+                List<Integer> tmp = new ArrayList<>();
+                tmp.addAll(l.path);
+                tmp.add(root.val);
+                tmp.addAll(r.path);
+                this.path = tmp;
+            }
+
+            return new Pair(res, path);
+        }
+
+        static class Pair {
+            int sum;
+            List<Integer> path;
+            public Pair(int sum, List<Integer> path) {
+                this.sum = sum;
+                this.path = path;
+            }
+        }
+    }
+
+    //way2
+    class NodePath {
+        public TreeNode leftPath;
+        public TreeNode rightPath;
+        public int pathSumValue;
+        public int leftPathValue;
+        public int rightPathValue;
+    }
+
+    private int ans;
+    private HashMap<TreeNode, NodePath> hashMap;
+    private List<Integer> list;
+
+    public int maxPathSum1(TreeNode root) {
+        ans = Integer.MIN_VALUE;
+        hashMap = new HashMap<>();
+        list = new ArrayList<>();
+        dfs(root);
+
+        TreeNode node = findPath(root);
+        printPath(node, ans, true);
+        System.out.println(list);
+        System.out.println("-----");
+        return ans;
+    }
+
+    // dfs找答案
+    private int dfs1(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = dfs1(root.left);
+        int right = dfs1(root.right);
+
+        // 记录左右路径和
+        NodePath nodePath = new NodePath();
+        if (left > 0) {
+            nodePath.leftPath = root.left;
+            nodePath.leftPathValue = left;
+        }
+        if (right > 0) {
+            nodePath.rightPath = root.right;
+            nodePath.rightPathValue = right;
+        }
+        int cur = root.val + Math.max(0, left) + Math.max(0, right);
+        nodePath.pathSumValue = cur;
+        hashMap.put(root, nodePath);
+
+        ans = Math.max(ans, cur);
+        return Math.max(Math.max(left, right), 0) + root.val;
+    }
+
+    private TreeNode findPath(TreeNode root) {
+        // 找和为结果的顶点
+        if (root == null) {
+            return null;
+        }
+        // 处理特殊case
+        if (hashMap.get(root).pathSumValue == ans && !(root.val == 0 &&
+                (hashMap.get(root).leftPathValue == ans || hashMap.get(root).rightPathValue == ans))) {
+            return root;
+        }
+        TreeNode left = findPath(root.left);
+        if (left != null) {
+            return left;
+        }
+        return findPath(root.right);
+    }
+
+    private void printPath(TreeNode root, int pathSumValue, boolean inOrder) {
+        // 打印路径
+        if (root == null) {
+            return;
+        }
+        if (hashMap.get(root).pathSumValue == pathSumValue) {
+            printPath(hashMap.get(root).leftPath, hashMap.get(root).leftPathValue, true);
+            // System.out.println(root.val);
+            list.add(root.val);
+            printPath(hashMap.get(root).rightPath, hashMap.get(root).rightPathValue, false);
+        } else if (hashMap.get(root).leftPathValue + root.val == pathSumValue) {
+            if (inOrder) {
+                printPath(hashMap.get(root).leftPath, hashMap.get(root).leftPathValue, true);
+                // System.out.println(root.val);
+                list.add(root.val);
+            } else {
+                // System.out.println(root.val);
+                list.add(root.val);
+                printPath(hashMap.get(root).leftPath, hashMap.get(root).leftPathValue, false);
+            }
+        } else if (hashMap.get(root).rightPathValue + root.val == pathSumValue) {
+            // System.out.println(root.val);
+            list.add(root.val);
+            printPath(hashMap.get(root).rightPath, hashMap.get(root).rightPathValue, inOrder);
         }
     }
 }

@@ -2,7 +2,6 @@ package algorithm.Tree;
 
 import org.junit.Test;
 
-import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class TreeTraversal {
@@ -149,6 +148,33 @@ public class TreeTraversal {
      * 后序遍历的迭代解法稍微不同于前序|中序的非迭代那么直接
      */
     class PostOrderTraversal{
+        public List<Integer> postorderTraversalMy(TreeNode root) {
+            List<Integer> res=new ArrayList<>();
+            if(root==null){
+                return res;
+            }
+            Deque<TreeNode>stack=new LinkedList<>();
+            //pre 用来保存指向当前节点的右指针节点
+            TreeNode pre=null;
+            while(!stack.isEmpty()||root!=null){
+                while(root!=null){
+                    stack.add(root);
+                    root=root.left;
+                }
+                root=stack.pollLast();
+                if(root.right==null||root.right==pre){
+                    res.add(root.val);
+                    pre=root;
+                    root=null;
+                }else{
+                    stack.add(root);
+                    root=root.right;
+                }
+            }
+            return res;
+        }
+
+
         //递归形式
         List<Integer> res=new ArrayList<>();
         public List<Integer> postorderTraversal(TreeNode root) {
@@ -170,6 +196,7 @@ public class TreeTraversal {
                 return res;
             }
             Deque<TreeNode> stack=new LinkedList<>();
+            //使用Set比较容易理解和实现
             Set<TreeNode> set=new HashSet<>();
             while(!stack.isEmpty()||root!=null){
                 while(root!=null){
@@ -220,16 +247,15 @@ public class TreeTraversal {
             LinkedList<Integer> result = new LinkedList<>();
             Stack<TreeNode> stack = new Stack<>();
             while (root != null || !stack.isEmpty()) {
-                if (root != null) {
+                while (root != null) {
                     stack.push(root);
                     //头插
                     result.addFirst(root.val);
                     //往右遍历
                     root = root.right;
-                } else {
-                    root = stack.pop();
-                    root = root.left;
                 }
+                root = stack.pop();
+                root = root.left;
             }
             return result;
         }
@@ -241,38 +267,7 @@ public class TreeTraversal {
      */
     class LevelOrder{
 
-        public List<List<Integer>> levelOrderMy(TreeNode root) {
-            List<List<Integer>> res=new ArrayList<>();
-            if(root==null){
-                return res;
-            }
-            Queue<TreeNode> queue=new LinkedList<>();
-            queue.offer(root);
-            List<Integer> tmp=new ArrayList<>();
-            int count=1,next=0;
-            while(queue.size()>0){
-                TreeNode node=queue.poll();
-                tmp.add(node.val);
-                --count;
-                if(node.left!=null){
-                    queue.offer(node.left);
-                    ++next;
-                }
-                if(node.right!=null){
-                    queue.offer(node.right);
-                    ++next;
-                }
-                if(count==0){
-                    res.add(new ArrayList(tmp));
-                    tmp.clear();
-                    count=next;
-                    next=0;
-                }
-            }
-            return res;
-        }
-
-
+        // 迭代
         public List<List<Integer>> levelOrder2(TreeNode root) {
             if(root==null) {
                 return new ArrayList<List<Integer>>();
@@ -322,6 +317,37 @@ public class TreeTraversal {
             res.get(level).add(root.val);
             traversal(root.left, res, level + 1);
             traversal(root.right, res, level + 1);
+        }
+
+        public List<List<Integer>> levelOrderMy(TreeNode root) {
+            List<List<Integer>> res=new ArrayList<>();
+            if(root==null){
+                return res;
+            }
+            Queue<TreeNode> queue=new LinkedList<>();
+            queue.offer(root);
+            List<Integer> tmp=new ArrayList<>();
+            int count=1,next=0;
+            while(queue.size()>0){
+                TreeNode node=queue.poll();
+                tmp.add(node.val);
+                --count;
+                if(node.left!=null){
+                    queue.offer(node.left);
+                    ++next;
+                }
+                if(node.right!=null){
+                    queue.offer(node.right);
+                    ++next;
+                }
+                if(count==0){
+                    res.add(new ArrayList(tmp));
+                    tmp.clear();
+                    count=next;
+                    next=0;
+                }
+            }
+            return res;
         }
     }
 
