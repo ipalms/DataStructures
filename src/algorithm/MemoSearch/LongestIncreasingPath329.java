@@ -23,6 +23,11 @@ package algorithm.MemoSearch;
  * 0 <= matrix[i][j] <= 231 - 1
  */
 public class LongestIncreasingPath329 {
+    public static void main(String[] args) {
+        System.out.println(0.1*3);
+        System.out.println(0.1*3==0.3);
+    }
+    
 
     /**
      * 此题最朴素的思想是对每个节点进行一次dfs，但是这样会导致超时现象

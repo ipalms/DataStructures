@@ -1,6 +1,7 @@
 package algorithm.Design;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -49,6 +50,12 @@ public class LRUCache146 {
 
 
     /**
+     * 这题还有变形题，每个节点有个过期时间，到了过期时间节点是要删除的
+     * 这里的思路是改动Node节点类和Put()方法，采用被动删除的方法，当size==capacity时遍历双向链表
+     * 删除应该过期的元素，遍历完链表后再判断size是否还是等于capacity，如果等于就删除last前的元素
+     * get()方法使用时也要校验一下get到的节点是否时过期的，过期的要删除节点维护双向链表
+     *
+     *
      * 少量代码实现版本
      * 两个要提的点：
      *   1.不能自己去实现HashMap的逻辑，因为既要维护双向链表又要维护数组+链表的哈希结构是复杂的
@@ -123,6 +130,132 @@ public class LRUCache146 {
         Node(int k, int v) {
             this.k =k;
             this.v = v;
+        }
+    }
+
+
+    //使用Java自带的 LinkedHashMap
+    class LinkedHashMapCode{
+        class LRUCache extends LinkedHashMap<Integer, Integer> {
+            private int capacity;
+
+            public LRUCache(int capacity) {
+                super(capacity, 0.75F, true);
+                this.capacity = capacity;
+            }
+
+            public int get(int key) {
+                return super.getOrDefault(key, -1);
+            }
+
+            // 这个可不写
+            public void put(int key, int value) {
+                super.put(key, value);
+            }
+
+            @Override
+            protected boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest) {
+                return size() > capacity;
+            }
+        }
+    }
+
+    class CopyWriteWithTime{
+
+        class Node{
+            int key;
+            int value;
+            //加了两个额外的属性，纪录加入时间戳和过期时间
+            long addTime;
+            long expireTime;
+            Node pre;
+            Node after;
+            public Node(int key,int value){
+                this.key=key;
+                this.value=value;
+            }
+            public Node(int key,int value,long addTime,long expireTime){
+                this.key=key;
+                this.value=value;
+                this.addTime=addTime;
+                this.expireTime=expireTime;
+            }
+        }
+
+        Node head;
+        Node tail;
+        Map<Integer,Node> map=new HashMap<>();
+        int n;
+        public CopyWriteWithTime(int capacity) {
+            n=capacity;
+            head=new Node(0,0);
+            tail=new Node(0,0);
+            head.after=tail;
+            tail.pre=head;
+        }
+
+        public int get(int key) {
+            if(map.containsKey(key)){
+                Node curr=map.get(key);
+                // get到元素也要check时间是否过期
+                if(System.currentTimeMillis()-curr.addTime> curr.expireTime){
+                    deleteNode(curr);
+                    return -1;
+                }
+                afterGet(curr);
+                return curr.value;
+            }
+            return -1;
+        }
+
+        // 这里的time我们假设传入的时间单位是 秒
+        public void put(int key, int value,int time) {
+            Node curr;
+            if(map.containsKey(key)){
+                curr=map.get(key);
+                curr.value=value;
+            }else{
+                curr=new Node(key,value,System.currentTimeMillis(),(long)time*1000);
+                map.put(key,curr);
+            }
+            afterGet(curr);
+        }
+
+        private void afterGet(Node curr){
+            if(map.size()>n){
+                //当size>capacity时遍历双向链表
+                //删除应该过期的元素，遍历完链表后再判断size是否还是等于capacity
+                checkTime(head.after);
+                //如果没有元素过期就只能删除最近最不常使用的节点
+                if(map.size()>n){
+                    deleteNode(tail.pre);
+                }
+            }
+            if(curr.pre!=null){
+                curr.pre.after=curr.after;
+                curr.after.pre=curr.pre;
+            }
+            curr.after=head.after;
+            head.after.pre=curr;
+            curr.pre=head;
+            head.after=curr;
+        }
+
+        // check一遍链表是否有过期元素
+        private void checkTime(Node curr){
+            while(curr!=tail){
+                if(System.currentTimeMillis()-curr.addTime> curr.expireTime){
+                    deleteNode(curr);
+                }
+                curr=curr.after;
+            }
+        }
+
+        private void deleteNode(Node del){
+            Node left=del.pre;
+            left.after=tail;
+            tail.pre=left;
+            map.remove(del.key);
         }
     }
 
