@@ -32,14 +32,16 @@ public class LongestUnivaluePath687 {
     int max=Integer.MIN_VALUE;
     public int longestUnivaluePath(TreeNode root) {
         if(root==null) return 0;
-        traverse(root);
+        dfs(root);
         return max;
     }
 
-    public int traverse(TreeNode root){
+    // 也可以设计一个dfs函数,入参除了root外还有父节点的val值，但是这样做没有如下后序遍历的形式清晰
+    public int dfs(TreeNode root){
         if(root==null) return 0;
-        int leftNum=traverse(root.left);
-        int rightNum=traverse(root.right);
+        int leftNum=dfs(root.left);
+        int rightNum=dfs(root.right);
+        //相当于修正leftNum和rightNum值，和124一样
         if(root.left!=null)
             leftNum=root.val==root.left.val?leftNum:0;
         if(root.right!=null)
