@@ -39,6 +39,7 @@ public class QuickSort {
         nums[randomIndex]=nums[start];
         nums[start]=pivotNum;
         //counter维护小于标杆值所在的索引值，在counter索引前的数均小于标杆值
+        //这个找counter类似移动零元素到末尾，283  移动的过程中，counter索引所在元素的含义是大于标杆值的元素
         int counter=start+1;
         for(int i=start+1;i<=end;++i){
             //降序只需要将< 改为 >

@@ -40,7 +40,16 @@ Java相当于多了一个数组和集合互相转换的操作,Arrays.toList()从
 11.数组（切片）拷贝，Java是Arrays.copy()和Arrays.copyRange()两个函数。
 而Go是用内置的copy函数来实现拷贝，这个拷贝得搭配切片的分割操作加上append()函数才能实现任意序列的拷贝
 12.Go可以在函数内部定义函数签名+方法体内容，并且可以调用这个定义的方法。但是这个在函数内部定义的方法是
-不能递归调用自己的。而Java不可以在一个函数体内部定义其他函数
+不能递归调用自己的（除非是先申明了这个方法的函数类型再对方法句柄赋值）。而Java不可以在一个函数体内部定义其他函数
+即：var dfs func(a Node)int
+才能进行方法自递归调用
+dfs=func(a Node)int{
+    return dfs(a.Left)+dfs(a.Right)+1
+}
+如下例子是编译不了的
+dfs2:=func(a Node)int{
+    return dfs2(a.Left)+dfs2(a.Right)+1
+}
 
 
 

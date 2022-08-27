@@ -29,6 +29,9 @@ public class JumpGameII45 {
      * 时间复杂度：O(n)
      * 空间复杂度：O(1)。
      */
+    public static void main(String[] args) {
+        System.out.println(jump(new int[]{1,1,1,1}));
+    }
 
     public int jump3(int[] nums) {
         int step=0,start=0,maxReach=nums[0],len=nums.length;
@@ -46,7 +49,7 @@ public class JumpGameII45 {
         return step;
     }
 
-    public int jump(int[] nums) {
+    public static int jump(int[] nums) {
         int length = nums.length;
         //上次跳跃可达范围右边界（下次的最右起跳点）
         int end = 0;
@@ -58,6 +61,7 @@ public class JumpGameII45 {
         //如果访问最后一个元素，在边界正好为最后一个位置的情况下，我们会增加一次「不必要的跳跃次数」，因此我们不必访问最后一个元素。
         for (int i = 0; i < length - 1; i++) {
             //维护当前这一跳范围内下一跳可到达的最大位置
+            //更新，当前跳的最大范围要在后面判断i==end操作之前，这样才能确保end能被正确赋值
             maxPosition = Math.max(maxPosition, i + nums[i]);
             //到达这次跳跃能到达的右边界了
             //如果i==n-2时能进入这个分支，说明前面n-3步最大只能跳至n-2这个位置，那么自然结果还需要+1

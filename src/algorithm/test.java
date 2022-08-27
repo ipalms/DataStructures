@@ -6,8 +6,13 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class test {
-    public static void main(String[] args) throws Exception {
-        System.out.println(countFiles("D:\\IdeaProject\\DataStructures\\src\\algorithm"));
+//    public static void main(String[] args) throws Exception {
+//        Math.sqrt()
+//        System.out.println(countFiles("D:\\IdeaProject\\DataStructures\\src\\algorithm"));
+//    }
+
+    public static void main(String[] args) {
+
     }
 
     public static int countFiles(String pathStr) throws Exception {

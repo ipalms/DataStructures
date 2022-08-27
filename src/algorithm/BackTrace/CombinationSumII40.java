@@ -59,6 +59,7 @@ public class CombinationSumII40 {
             if(i>start&&nums[i]==nums[i-1]) continue;
             sum+=nums[i];
             path.add(nums[i]);
+            //这里 start 是变成i+1
             backtrace(nums,path,i+1,sum);
             path.removeLast();
             sum-=nums[i];

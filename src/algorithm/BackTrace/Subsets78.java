@@ -37,6 +37,7 @@ public class Subsets78 {
         //非叶子节点也可以输出结果的类型（组合、全排列都是叶子节点才输出结果）
         res.add(new ArrayList(tmp));
         if(start==n) return;
+        //如果循环都是从0开始就是包含重复的子集组合
         for(int i=start;i<n;++i){
             tmp.add(nums[i]);
             backtrace(nums,tmp,i+1);

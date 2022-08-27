@@ -58,7 +58,7 @@ public class IsValidBST98 {
      */
     public boolean isValidBST2(TreeNode root) {
         Deque<TreeNode> stack = new LinkedList<TreeNode>();
-        double inorder = -Double.MAX_VALUE;
+        long inorder = Long.MIN_VALUE;
 
         while (!stack.isEmpty() || root != null) {
             while (root != null) {

@@ -68,11 +68,11 @@ public class FullArray46 {
         n=nums.length;
         List<List<Integer>> res = new ArrayList<>();
         Boolean[] visited = new Boolean[nums.length];
-        backtrack(res, nums, new ArrayList<Integer>(), visited);
+        backtrack(res, nums, new LinkedList<>(), visited);
         return res;
     }
 
-    private void backtrack(List<List<Integer>> res, int[] nums, List<Integer> tmp, Boolean[] visited) {
+    private void backtrack(List<List<Integer>> res, int[] nums, Deque<Integer> tmp, Boolean[] visited) {
         if (tmp.size()==n) {
             //在Java中，参数传递是值传递，对象类型变量在传参的过程中，复制的是变量的地址。这些地址被添加到 res 变量，但实际上指向的是同一块内存地址。所以在res.add(path)这里做一次拷贝即可
             res.add(new ArrayList<>(tmp));
@@ -89,7 +89,7 @@ public class FullArray46 {
             backtrack(res, nums, tmp, visited);
             visited[i] = false;
             // 取消选择
-            tmp.remove(tmp.size() - 1);
+            tmp.removeLast();
         }
     }
 }
